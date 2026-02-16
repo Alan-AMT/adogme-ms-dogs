@@ -1,0 +1,48 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches:
+      - main  # Se dispara al hacer push a la rama principal
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: ${{ secrets.REGION }}
+  REPO_NAME: ${{ secrets.ARTIFACT_REPOSITORY_NAME }}
+  SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+  IMAGE_NAME: ${{ secrets.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPOSITORY_NAME }}/${{ secrets.SERVICE_NAME }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 1. Autenticación en GCP
+    - name: Google Auth
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    # 2. Configurar Docker para Artifact Registry
+    - name: Docker Auth
+      run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+    # 3. Build y Push de la imagen
+    - name: Build and Push Container
+      run: |
+        docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.IMAGE_NAME }}:${{ github.sha }}
+        docker push ${{ env.IMAGE_NAME }}:latest
+
+    # 4. Despliegue (Ejemplo en Cloud Run)
+    - name: Deploy to Cloud Run
+      uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+        service: ${{ env.SERVICE_NAME }}
+        region: ${{ env.REGION }}
+        image: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+        flags: '--allow-unauthenticated' # Ajustar según necesidades de seguridad
