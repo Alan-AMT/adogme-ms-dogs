@@ -1,34 +1,37 @@
-# Base image
+# --- Etapa 1: Build ---
 FROM node:20-alpine AS builder
-
 WORKDIR /app
 
-# Copy dependency definitions
+# Copia los archivos de dependencias
 COPY package*.json ./
-COPY prisma ./prisma/
+COPY prisma ./prisma/ 
 
-# Install dependencies and generate Prisma Client
-RUN npm ci
+# Instala dependencias e incluye prisma
+RUN npm install
+
+# ¡ESTE ES EL PASO QUE FALTA!
+# Genera el cliente de Prisma basado en tu schema.prisma
 RUN npx prisma generate
 
-# Copy source code and build
+# Copia el resto del código y compila NestJS
 COPY . .
 RUN npm run build
 
-# Production image
+# --- Etapa 2: Runner ---
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
+ENV NODE_ENV production
+
+# Copiamos solo lo necesario desde el builder
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
-# Important: Copy the generated Prisma client
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+# Copiamos las dependencias de producción y el cliente generado
+COPY --from=builder /app/node_modules ./node_modules
 
-# Expose the port (Cloud Run defaults to 8080)
-EXPOSE 8080
-ENV PORT 8080
+# Si tu estrategia requiere copiar específicamente la carpeta .prisma:
+# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+EXPOSE 3000
 
 CMD ["node", "dist/main"]

@@ -45,4 +45,7 @@ jobs:
         service: ${{ env.SERVICE_NAME }}
         region: ${{ env.REGION }}
         image: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+        # Aquí mapeas el secreto de GCP a la variable que espera NestJS
+        secrets: |
+          DATABASE_URL=MS_DOGS_DATABASE_URL:latest
         flags: '--allow-unauthenticated' # Ajustar según necesidades de seguridad
