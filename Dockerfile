@@ -32,6 +32,6 @@ COPY --from=builder /app/node_modules ./node_modules
 # Si tu estrategia requiere copiar específicamente la carpeta .prisma:
 # COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["node", "dist/main"]
