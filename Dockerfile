@@ -33,5 +33,6 @@ COPY --from=builder /app/node_modules ./node_modules
 # COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 8080
+ENV PORT 8080
 
 CMD ["node", "dist/main"]
