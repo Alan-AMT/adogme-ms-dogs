@@ -35,4 +35,4 @@ COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 8080
 ENV PORT 8080
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main.js"]
