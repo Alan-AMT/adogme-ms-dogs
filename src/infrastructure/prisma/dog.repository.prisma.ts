@@ -1,5 +1,5 @@
-import { DogRepository } from "../domain/dog.repository.js";
-import { Dog } from "../domain/dog.entity.js";
+import { DogRepository } from "../../domain/dog.repository.js";
+import { Dog } from "../../domain/dog.entity.js";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.service.js";
 

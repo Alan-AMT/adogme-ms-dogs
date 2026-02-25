@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller.js';
 import { DogService } from './application/dog.service.js';
-import { PrismaService } from './infrastructure/prisma.service.js';
-import { PrismaDogRepository } from './infrastructure/dog.repository.prisma.js';
+import { PrismaService } from './infrastructure/prisma/prisma.service.js';
+import { PrismaDogRepository } from './infrastructure/prisma/dog.repository.prisma.js';
 import { DogRepository } from './domain/dog.repository.js';
 
 @Module({

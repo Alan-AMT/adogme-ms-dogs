@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class DogService {
     constructor(private readonly repository: DogRepository) {}
 
-    async createDog(createDogDto: CreateDogDto): Promise<Dog> {
+    async createDog(createDogDto: CreateDogDto, shelterId: string): Promise<Dog> {
         const date = new Date();
         const dogToCreate = new Dog(
             uuidv4(),

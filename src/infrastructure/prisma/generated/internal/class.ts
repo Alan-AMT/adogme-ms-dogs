@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.4.0",
   "engineVersion": "ab56fe763f921d033a6c195e7ddeb3e255bdbb57",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/infrastructure/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  schemas  = [\"dogs_service\"]\n}\n\nmodel Dog {\n  id        String   @id // @default(uuid())\n  name      String\n  breed     String\n  age       Int\n  createdAt DateTime // @default(now())\n  updatedAt DateTime // @updatedAt\n\n  @@schema(\"dogs_service\")\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/infrastructure/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  schemas  = [\"dogs_service\"]\n}\n\nmodel Dog {\n  id        String   @id // @default(uuid())\n  name      String\n  breed     String\n  age       Int\n  createdAt DateTime // @default(now())\n  updatedAt DateTime // @updatedAt\n\n  @@schema(\"dogs_service\")\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
