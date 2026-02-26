@@ -13,6 +13,7 @@ export class PrismaDogRepository implements DogRepository {
                 name: dog.name,
                 breed: dog.breed,
                 age: dog.age,
+                shelterId: dog.shelterId,
                 createdAt: dog.createdAt,
                 updatedAt: dog.updatedAt,
             }
@@ -20,6 +21,19 @@ export class PrismaDogRepository implements DogRepository {
     }
     async findAll(): Promise<Dog[]> {
         const dogs = await this.prisma.dog.findMany();
-        return dogs.map(dog => new Dog(dog.id, dog.name, dog.breed, dog.age, dog.createdAt, dog.updatedAt));
+        return dogs.map(dog => Dog.createDog({id: dog.id, name: dog.name, breed: dog.breed, age: dog.age, shelterId: dog.shelterId, createdAt: dog.createdAt, updatedAt: dog.updatedAt}));
+    }
+
+    async findDogById(id: string): Promise<Dog> {
+        const dog = await this.prisma.dog.findUnique({ where: { id } });
+        if (!dog) throw new Error("Dog not found");
+        return Dog.createDog({id: dog.id, name: dog.name, breed: dog.breed, age: dog.age, shelterId: dog.shelterId, createdAt: dog.createdAt, updatedAt: dog.updatedAt});
+    }
+
+    async updateDog(dog: Dog): Promise<void> {
+        await this.prisma.dog.update({ where: { id: dog.id }, 
+            data: { name: dog.name, breed: dog.breed,
+                shelterId: dog.shelterId,
+                age: dog.age, updatedAt: dog.updatedAt } });
     }
 }

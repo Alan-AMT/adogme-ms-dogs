@@ -39,6 +39,7 @@ export type DogMinAggregateOutputType = {
   name: string | null
   breed: string | null
   age: number | null
+  shelterId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +49,7 @@ export type DogMaxAggregateOutputType = {
   name: string | null
   breed: string | null
   age: number | null
+  shelterId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,6 +59,7 @@ export type DogCountAggregateOutputType = {
   name: number
   breed: number
   age: number
+  shelterId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -76,6 +79,7 @@ export type DogMinAggregateInputType = {
   name?: true
   breed?: true
   age?: true
+  shelterId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -85,6 +89,7 @@ export type DogMaxAggregateInputType = {
   name?: true
   breed?: true
   age?: true
+  shelterId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +99,7 @@ export type DogCountAggregateInputType = {
   name?: true
   breed?: true
   age?: true
+  shelterId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -190,6 +196,7 @@ export type DogGroupByOutputType = {
   name: string
   breed: string
   age: number
+  shelterId: string
   createdAt: Date
   updatedAt: Date
   _count: DogCountAggregateOutputType | null
@@ -222,6 +229,7 @@ export type DogWhereInput = {
   name?: Prisma.StringFilter<"Dog"> | string
   breed?: Prisma.StringFilter<"Dog"> | string
   age?: Prisma.IntFilter<"Dog"> | number
+  shelterId?: Prisma.StringFilter<"Dog"> | string
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
 }
@@ -231,6 +239,7 @@ export type DogOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
   age?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -243,6 +252,7 @@ export type DogWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Dog"> | string
   breed?: Prisma.StringFilter<"Dog"> | string
   age?: Prisma.IntFilter<"Dog"> | number
+  shelterId?: Prisma.StringFilter<"Dog"> | string
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
 }, "id">
@@ -252,6 +262,7 @@ export type DogOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
   age?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DogCountOrderByAggregateInput
@@ -269,6 +280,7 @@ export type DogScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Dog"> | string
   breed?: Prisma.StringWithAggregatesFilter<"Dog"> | string
   age?: Prisma.IntWithAggregatesFilter<"Dog"> | number
+  shelterId?: Prisma.StringWithAggregatesFilter<"Dog"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
 }
@@ -278,6 +290,7 @@ export type DogCreateInput = {
   name: string
   breed: string
   age: number
+  shelterId: string
   createdAt: Date | string
   updatedAt: Date | string
 }
@@ -287,6 +300,7 @@ export type DogUncheckedCreateInput = {
   name: string
   breed: string
   age: number
+  shelterId: string
   createdAt: Date | string
   updatedAt: Date | string
 }
@@ -296,6 +310,7 @@ export type DogUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
   age?: Prisma.IntFieldUpdateOperationsInput | number
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -305,6 +320,7 @@ export type DogUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
   age?: Prisma.IntFieldUpdateOperationsInput | number
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -314,6 +330,7 @@ export type DogCreateManyInput = {
   name: string
   breed: string
   age: number
+  shelterId: string
   createdAt: Date | string
   updatedAt: Date | string
 }
@@ -323,6 +340,7 @@ export type DogUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
   age?: Prisma.IntFieldUpdateOperationsInput | number
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -332,6 +350,7 @@ export type DogUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
   age?: Prisma.IntFieldUpdateOperationsInput | number
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -341,6 +360,7 @@ export type DogCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
   age?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -354,6 +374,7 @@ export type DogMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
   age?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -363,6 +384,7 @@ export type DogMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
   age?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -394,6 +416,7 @@ export type DogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   name?: boolean
   breed?: boolean
   age?: boolean
+  shelterId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
@@ -403,6 +426,7 @@ export type DogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   name?: boolean
   breed?: boolean
   age?: boolean
+  shelterId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
@@ -412,6 +436,7 @@ export type DogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   name?: boolean
   breed?: boolean
   age?: boolean
+  shelterId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
@@ -421,11 +446,12 @@ export type DogSelectScalar = {
   name?: boolean
   breed?: boolean
   age?: boolean
+  shelterId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
+export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "shelterId" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
 
 export type $DogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Dog"
@@ -435,6 +461,7 @@ export type $DogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     name: string
     breed: string
     age: number
+    shelterId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["dog"]>
@@ -864,6 +891,7 @@ export interface DogFieldRefs {
   readonly name: Prisma.FieldRef<"Dog", 'String'>
   readonly breed: Prisma.FieldRef<"Dog", 'String'>
   readonly age: Prisma.FieldRef<"Dog", 'Int'>
+  readonly shelterId: Prisma.FieldRef<"Dog", 'String'>
   readonly createdAt: Prisma.FieldRef<"Dog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Dog", 'DateTime'>
 }

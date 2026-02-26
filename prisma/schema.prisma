@@ -15,10 +15,12 @@ datasource db {
 }
 
 model Dog {
-  id        String   @id // @default(uuid())
+  id        String @id // @default(uuid())
   name      String
   breed     String
   age       Int
+  shelterId String
+
   createdAt DateTime // @default(now())
   updatedAt DateTime // @updatedAt
 
