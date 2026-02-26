@@ -6,9 +6,10 @@ import { User } from './infrastructure/security/user.decorator.js';
 import { Roles } from './infrastructure/security/roles.decorator.js';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from './infrastructure/security/roles.guard.js';
+import { UserGuard } from './infrastructure/security/user.guard.js';
 
 @Controller()
-@UseGuards(RolesGuard)
+@UseGuards(UserGuard, RolesGuard)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class AppController {
   constructor(private readonly dogService: DogService) {}
