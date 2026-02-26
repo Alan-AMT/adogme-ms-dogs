@@ -23,7 +23,8 @@ export class AppController {
   ): Promise<DogModel> {
     return this.dogService.createDog(createDogDto, shelterId);
   }
-
+  
+  @UseGuards(UserAuthorizationGuard)
   @Put("dog/:id")
   @Roles('SHELTER')
   async updateDog(
@@ -32,12 +33,13 @@ export class AppController {
   ): Promise<DogModel> {
     return this.dogService.updateDog(updateDogDto, dogId);
   }
-
+  
   @Get("dogs")
   async findAll(): Promise<DogModel[]> {
     return this.dogService.findAll();
   }
-
+  
+  @UseGuards(UserAuthorizationGuard)
   @Get("guard")
   @Roles('ADOPTER')
   async guardTest(
