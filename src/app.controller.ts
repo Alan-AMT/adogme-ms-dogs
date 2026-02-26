@@ -28,7 +28,7 @@ export class AppController {
   }
 
   @Get("guard")
-  @Roles('SHELTER')
+  @Roles('ADOPTER')
   async guardTest(
     @User("sub") userId: string,
     @User("role") userRole: string,
