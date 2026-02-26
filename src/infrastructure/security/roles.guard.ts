@@ -14,7 +14,6 @@ export class RolesGuard implements CanActivate {
     ]);
 
     // If no roles are defined on the route, allow access
-    console.log(requiredRoles)
     if (!requiredRoles) {
       return true;
     }

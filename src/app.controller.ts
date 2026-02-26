@@ -4,8 +4,11 @@ import { CreateDogDto } from './application/create-dog.dto.js';
 import { DogService } from './application/dog.service.js';
 import { User } from './infrastructure/security/user.decorator.js';
 import { Roles } from './infrastructure/security/roles.decorator.js';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from './infrastructure/security/roles.guard.js';
 
 @Controller()
+@UseGuards(RolesGuard)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class AppController {
   constructor(private readonly dogService: DogService) {}
