@@ -1,41 +1,36 @@
 # --- Etapa 1: Build ---
 FROM node:20-alpine AS builder
-# Instalar openssl es necesario para que Prisma funcione en Alpine
-RUN apk add --no-cache openssl
 WORKDIR /app
 
+# Copia los archivos de dependencias
 COPY package*.json ./
 COPY prisma ./prisma/ 
 
-# Instala todas las dependencias
-RUN npm ci
+# Instala dependencias e incluye prisma
+RUN npm install
 
-# Genera el cliente de Prisma
+# ¡ESTE ES EL PASO QUE FALTA!
+# Genera el cliente de Prisma basado en tu schema.prisma
 RUN npx prisma generate
 
+# Copia el resto del código y compila NestJS
 COPY . .
 RUN npm run build
 
 # --- Etapa 2: Runner ---
 FROM node:20-alpine AS runner
-# El runtime también necesita openssl para Prisma
-RUN apk add --no-cache openssl
 WORKDIR /app
 
 ENV NODE_ENV production
 
-# Solo copiamos los archivos compilados
-COPY --from=builder /app/dist ./dist
+# Copiamos solo lo necesario desde el builder
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+# Copiamos las dependencias de producción y el cliente generado
+COPY --from=builder /app/node_modules ./node_modules
 
-# ESTRATEGIA PARA NODE_MODULES:
-# En lugar de copiar los node_modules gigantes del builder (que tienen TS, Nest CLI, etc),
-# instalamos solo las dependencias de producción.
-RUN npm ci --only=production
-
-# Re-copiamos el cliente de Prisma generado específicamente
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
+# Si tu estrategia requiere copiar específicamente la carpeta .prisma:
+# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 8080
 ENV PORT 8080
