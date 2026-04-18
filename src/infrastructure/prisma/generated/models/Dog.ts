@@ -28,38 +28,100 @@ export type AggregateDog = {
 
 export type DogAvgAggregateOutputType = {
   age: number | null
+  weightKg: number | null
 }
 
 export type DogSumAggregateOutputType = {
   age: number | null
+  weightKg: number | null
 }
 
 export type DogMinAggregateOutputType = {
   id: string | null
+  userOwnerId: string | null
+  shelterId: string | null
+  shelterName: string | null
+  shelterLogo: string | null
+  status: $Enums.DogStatus | null
   name: string | null
   breed: string | null
+  breed2: string | null
   age: number | null
-  shelterId: string | null
+  weightKg: number | null
+  sex: $Enums.DogSex | null
+  size: $Enums.DogSize | null
+  energyLevel: $Enums.EnergyLevel | null
+  description: string | null
+  goodWithKids: boolean | null
+  goodWithDogs: boolean | null
+  goodWithCats: boolean | null
+  sterilized: boolean | null
+  needsYard: boolean | null
+  isVaccinated: boolean | null
+  isDewormed: boolean | null
+  furLength: $Enums.FurLength | null
+  health: string | null
+  photo: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type DogMaxAggregateOutputType = {
   id: string | null
+  userOwnerId: string | null
+  shelterId: string | null
+  shelterName: string | null
+  shelterLogo: string | null
+  status: $Enums.DogStatus | null
   name: string | null
   breed: string | null
+  breed2: string | null
   age: number | null
-  shelterId: string | null
+  weightKg: number | null
+  sex: $Enums.DogSex | null
+  size: $Enums.DogSize | null
+  energyLevel: $Enums.EnergyLevel | null
+  description: string | null
+  goodWithKids: boolean | null
+  goodWithDogs: boolean | null
+  goodWithCats: boolean | null
+  sterilized: boolean | null
+  needsYard: boolean | null
+  isVaccinated: boolean | null
+  isDewormed: boolean | null
+  furLength: $Enums.FurLength | null
+  health: string | null
+  photo: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type DogCountAggregateOutputType = {
   id: number
+  userOwnerId: number
+  shelterId: number
+  shelterName: number
+  shelterLogo: number
+  status: number
   name: number
   breed: number
+  breed2: number
   age: number
-  shelterId: number
+  weightKg: number
+  sex: number
+  size: number
+  energyLevel: number
+  description: number
+  goodWithKids: number
+  goodWithDogs: number
+  goodWithCats: number
+  sterilized: number
+  needsYard: number
+  isVaccinated: number
+  isDewormed: number
+  furLength: number
+  health: number
+  photo: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -68,38 +130,100 @@ export type DogCountAggregateOutputType = {
 
 export type DogAvgAggregateInputType = {
   age?: true
+  weightKg?: true
 }
 
 export type DogSumAggregateInputType = {
   age?: true
+  weightKg?: true
 }
 
 export type DogMinAggregateInputType = {
   id?: true
+  userOwnerId?: true
+  shelterId?: true
+  shelterName?: true
+  shelterLogo?: true
+  status?: true
   name?: true
   breed?: true
+  breed2?: true
   age?: true
-  shelterId?: true
+  weightKg?: true
+  sex?: true
+  size?: true
+  energyLevel?: true
+  description?: true
+  goodWithKids?: true
+  goodWithDogs?: true
+  goodWithCats?: true
+  sterilized?: true
+  needsYard?: true
+  isVaccinated?: true
+  isDewormed?: true
+  furLength?: true
+  health?: true
+  photo?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type DogMaxAggregateInputType = {
   id?: true
+  userOwnerId?: true
+  shelterId?: true
+  shelterName?: true
+  shelterLogo?: true
+  status?: true
   name?: true
   breed?: true
+  breed2?: true
   age?: true
-  shelterId?: true
+  weightKg?: true
+  sex?: true
+  size?: true
+  energyLevel?: true
+  description?: true
+  goodWithKids?: true
+  goodWithDogs?: true
+  goodWithCats?: true
+  sterilized?: true
+  needsYard?: true
+  isVaccinated?: true
+  isDewormed?: true
+  furLength?: true
+  health?: true
+  photo?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type DogCountAggregateInputType = {
   id?: true
+  userOwnerId?: true
+  shelterId?: true
+  shelterName?: true
+  shelterLogo?: true
+  status?: true
   name?: true
   breed?: true
+  breed2?: true
   age?: true
-  shelterId?: true
+  weightKg?: true
+  sex?: true
+  size?: true
+  energyLevel?: true
+  description?: true
+  goodWithKids?: true
+  goodWithDogs?: true
+  goodWithCats?: true
+  sterilized?: true
+  needsYard?: true
+  isVaccinated?: true
+  isDewormed?: true
+  furLength?: true
+  health?: true
+  photo?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -193,10 +317,30 @@ export type DogGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type DogGroupByOutputType = {
   id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName: string | null
+  shelterLogo: string | null
+  status: $Enums.DogStatus
   name: string
   breed: string
+  breed2: string | null
   age: number
-  shelterId: string
+  weightKg: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo: string | null
   createdAt: Date
   updatedAt: Date
   _count: DogCountAggregateOutputType | null
@@ -226,22 +370,66 @@ export type DogWhereInput = {
   OR?: Prisma.DogWhereInput[]
   NOT?: Prisma.DogWhereInput | Prisma.DogWhereInput[]
   id?: Prisma.StringFilter<"Dog"> | string
+  userOwnerId?: Prisma.StringFilter<"Dog"> | string
+  shelterId?: Prisma.StringFilter<"Dog"> | string
+  shelterName?: Prisma.StringNullableFilter<"Dog"> | string | null
+  shelterLogo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  status?: Prisma.EnumDogStatusFilter<"Dog"> | $Enums.DogStatus
   name?: Prisma.StringFilter<"Dog"> | string
   breed?: Prisma.StringFilter<"Dog"> | string
+  breed2?: Prisma.StringNullableFilter<"Dog"> | string | null
   age?: Prisma.IntFilter<"Dog"> | number
-  shelterId?: Prisma.StringFilter<"Dog"> | string
+  weightKg?: Prisma.FloatNullableFilter<"Dog"> | number | null
+  sex?: Prisma.EnumDogSexFilter<"Dog"> | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFilter<"Dog"> | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFilter<"Dog"> | $Enums.EnergyLevel
+  description?: Prisma.StringFilter<"Dog"> | string
+  goodWithKids?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithDogs?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithCats?: Prisma.BoolFilter<"Dog"> | boolean
+  sterilized?: Prisma.BoolFilter<"Dog"> | boolean
+  needsYard?: Prisma.BoolFilter<"Dog"> | boolean
+  isVaccinated?: Prisma.BoolFilter<"Dog"> | boolean
+  isDewormed?: Prisma.BoolFilter<"Dog"> | boolean
+  furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
+  health?: Prisma.StringFilter<"Dog"> | string
+  photo?: Prisma.StringNullableFilter<"Dog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
+  personality?: Prisma.PersonalityTagListRelationFilter
+  vaccinations?: Prisma.VaccinationListRelationFilter
 }
 
 export type DogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  userOwnerId?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
+  shelterName?: Prisma.SortOrderInput | Prisma.SortOrder
+  shelterLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
+  breed2?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrder
-  shelterId?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrderInput | Prisma.SortOrder
+  sex?: Prisma.SortOrder
+  size?: Prisma.SortOrder
+  energyLevel?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  goodWithKids?: Prisma.SortOrder
+  goodWithDogs?: Prisma.SortOrder
+  goodWithCats?: Prisma.SortOrder
+  sterilized?: Prisma.SortOrder
+  needsYard?: Prisma.SortOrder
+  isVaccinated?: Prisma.SortOrder
+  isDewormed?: Prisma.SortOrder
+  furLength?: Prisma.SortOrder
+  health?: Prisma.SortOrder
+  photo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  personality?: Prisma.PersonalityTagOrderByRelationAggregateInput
+  vaccinations?: Prisma.VaccinationOrderByRelationAggregateInput
 }
 
 export type DogWhereUniqueInput = Prisma.AtLeast<{
@@ -249,20 +437,62 @@ export type DogWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DogWhereInput | Prisma.DogWhereInput[]
   OR?: Prisma.DogWhereInput[]
   NOT?: Prisma.DogWhereInput | Prisma.DogWhereInput[]
+  userOwnerId?: Prisma.StringFilter<"Dog"> | string
+  shelterId?: Prisma.StringFilter<"Dog"> | string
+  shelterName?: Prisma.StringNullableFilter<"Dog"> | string | null
+  shelterLogo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  status?: Prisma.EnumDogStatusFilter<"Dog"> | $Enums.DogStatus
   name?: Prisma.StringFilter<"Dog"> | string
   breed?: Prisma.StringFilter<"Dog"> | string
+  breed2?: Prisma.StringNullableFilter<"Dog"> | string | null
   age?: Prisma.IntFilter<"Dog"> | number
-  shelterId?: Prisma.StringFilter<"Dog"> | string
+  weightKg?: Prisma.FloatNullableFilter<"Dog"> | number | null
+  sex?: Prisma.EnumDogSexFilter<"Dog"> | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFilter<"Dog"> | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFilter<"Dog"> | $Enums.EnergyLevel
+  description?: Prisma.StringFilter<"Dog"> | string
+  goodWithKids?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithDogs?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithCats?: Prisma.BoolFilter<"Dog"> | boolean
+  sterilized?: Prisma.BoolFilter<"Dog"> | boolean
+  needsYard?: Prisma.BoolFilter<"Dog"> | boolean
+  isVaccinated?: Prisma.BoolFilter<"Dog"> | boolean
+  isDewormed?: Prisma.BoolFilter<"Dog"> | boolean
+  furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
+  health?: Prisma.StringFilter<"Dog"> | string
+  photo?: Prisma.StringNullableFilter<"Dog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
-}, "id">
+  personality?: Prisma.PersonalityTagListRelationFilter
+  vaccinations?: Prisma.VaccinationListRelationFilter
+}, "id" | "id">
 
 export type DogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  userOwnerId?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
+  shelterName?: Prisma.SortOrderInput | Prisma.SortOrder
+  shelterLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
+  breed2?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrder
-  shelterId?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrderInput | Prisma.SortOrder
+  sex?: Prisma.SortOrder
+  size?: Prisma.SortOrder
+  energyLevel?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  goodWithKids?: Prisma.SortOrder
+  goodWithDogs?: Prisma.SortOrder
+  goodWithCats?: Prisma.SortOrder
+  sterilized?: Prisma.SortOrder
+  needsYard?: Prisma.SortOrder
+  isVaccinated?: Prisma.SortOrder
+  isDewormed?: Prisma.SortOrder
+  furLength?: Prisma.SortOrder
+  health?: Prisma.SortOrder
+  photo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DogCountOrderByAggregateInput
@@ -277,124 +507,425 @@ export type DogScalarWhereWithAggregatesInput = {
   OR?: Prisma.DogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DogScalarWhereWithAggregatesInput | Prisma.DogScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  userOwnerId?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  shelterId?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  shelterName?: Prisma.StringNullableWithAggregatesFilter<"Dog"> | string | null
+  shelterLogo?: Prisma.StringNullableWithAggregatesFilter<"Dog"> | string | null
+  status?: Prisma.EnumDogStatusWithAggregatesFilter<"Dog"> | $Enums.DogStatus
   name?: Prisma.StringWithAggregatesFilter<"Dog"> | string
   breed?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  breed2?: Prisma.StringNullableWithAggregatesFilter<"Dog"> | string | null
   age?: Prisma.IntWithAggregatesFilter<"Dog"> | number
-  shelterId?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  weightKg?: Prisma.FloatNullableWithAggregatesFilter<"Dog"> | number | null
+  sex?: Prisma.EnumDogSexWithAggregatesFilter<"Dog"> | $Enums.DogSex
+  size?: Prisma.EnumDogSizeWithAggregatesFilter<"Dog"> | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelWithAggregatesFilter<"Dog"> | $Enums.EnergyLevel
+  description?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  goodWithKids?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  goodWithDogs?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  goodWithCats?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  sterilized?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  needsYard?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  isVaccinated?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  isDewormed?: Prisma.BoolWithAggregatesFilter<"Dog"> | boolean
+  furLength?: Prisma.EnumFurLengthWithAggregatesFilter<"Dog"> | $Enums.FurLength
+  health?: Prisma.StringWithAggregatesFilter<"Dog"> | string
+  photo?: Prisma.StringNullableWithAggregatesFilter<"Dog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
 }
 
 export type DogCreateInput = {
   id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
   name: string
   breed: string
+  breed2?: string | null
   age: number
-  shelterId: string
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  personality?: Prisma.PersonalityTagCreateNestedManyWithoutDogInput
+  vaccinations?: Prisma.VaccinationCreateNestedManyWithoutDogInput
 }
 
 export type DogUncheckedCreateInput = {
   id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
   name: string
   breed: string
+  breed2?: string | null
   age: number
-  shelterId: string
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  personality?: Prisma.PersonalityTagUncheckedCreateNestedManyWithoutDogInput
+  vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutDogInput
 }
 
 export type DogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.IntFieldUpdateOperationsInput | number
-  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUpdateManyWithoutDogNestedInput
+  vaccinations?: Prisma.VaccinationUpdateManyWithoutDogNestedInput
 }
 
 export type DogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.IntFieldUpdateOperationsInput | number
-  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUncheckedUpdateManyWithoutDogNestedInput
+  vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutDogNestedInput
 }
 
 export type DogCreateManyInput = {
   id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
   name: string
   breed: string
+  breed2?: string | null
   age: number
-  shelterId: string
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
   createdAt: Date | string
   updatedAt: Date | string
 }
 
 export type DogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.IntFieldUpdateOperationsInput | number
-  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
   name?: Prisma.StringFieldUpdateOperationsInput | string
   breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.IntFieldUpdateOperationsInput | number
-  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type DogScalarRelationFilter = {
+  is?: Prisma.DogWhereInput
+  isNot?: Prisma.DogWhereInput
+}
+
+export type DogListRelationFilter = {
+  every?: Prisma.DogWhereInput
+  some?: Prisma.DogWhereInput
+  none?: Prisma.DogWhereInput
+}
+
+export type DogOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type DogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userOwnerId?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
+  shelterName?: Prisma.SortOrder
+  shelterLogo?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
+  breed2?: Prisma.SortOrder
   age?: Prisma.SortOrder
-  shelterId?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrder
+  sex?: Prisma.SortOrder
+  size?: Prisma.SortOrder
+  energyLevel?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  goodWithKids?: Prisma.SortOrder
+  goodWithDogs?: Prisma.SortOrder
+  goodWithCats?: Prisma.SortOrder
+  sterilized?: Prisma.SortOrder
+  needsYard?: Prisma.SortOrder
+  isVaccinated?: Prisma.SortOrder
+  isDewormed?: Prisma.SortOrder
+  furLength?: Prisma.SortOrder
+  health?: Prisma.SortOrder
+  photo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type DogAvgOrderByAggregateInput = {
   age?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrder
 }
 
 export type DogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userOwnerId?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
+  shelterName?: Prisma.SortOrder
+  shelterLogo?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
+  breed2?: Prisma.SortOrder
   age?: Prisma.SortOrder
-  shelterId?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrder
+  sex?: Prisma.SortOrder
+  size?: Prisma.SortOrder
+  energyLevel?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  goodWithKids?: Prisma.SortOrder
+  goodWithDogs?: Prisma.SortOrder
+  goodWithCats?: Prisma.SortOrder
+  sterilized?: Prisma.SortOrder
+  needsYard?: Prisma.SortOrder
+  isVaccinated?: Prisma.SortOrder
+  isDewormed?: Prisma.SortOrder
+  furLength?: Prisma.SortOrder
+  health?: Prisma.SortOrder
+  photo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type DogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userOwnerId?: Prisma.SortOrder
+  shelterId?: Prisma.SortOrder
+  shelterName?: Prisma.SortOrder
+  shelterLogo?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   name?: Prisma.SortOrder
   breed?: Prisma.SortOrder
+  breed2?: Prisma.SortOrder
   age?: Prisma.SortOrder
-  shelterId?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrder
+  sex?: Prisma.SortOrder
+  size?: Prisma.SortOrder
+  energyLevel?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  goodWithKids?: Prisma.SortOrder
+  goodWithDogs?: Prisma.SortOrder
+  goodWithCats?: Prisma.SortOrder
+  sterilized?: Prisma.SortOrder
+  needsYard?: Prisma.SortOrder
+  isVaccinated?: Prisma.SortOrder
+  isDewormed?: Prisma.SortOrder
+  furLength?: Prisma.SortOrder
+  health?: Prisma.SortOrder
+  photo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type DogSumOrderByAggregateInput = {
   age?: Prisma.SortOrder
+  weightKg?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type DogCreateNestedOneWithoutVaccinationsInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutVaccinationsInput, Prisma.DogUncheckedCreateWithoutVaccinationsInput>
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutVaccinationsInput
+  connect?: Prisma.DogWhereUniqueInput
+}
+
+export type DogUpdateOneRequiredWithoutVaccinationsNestedInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutVaccinationsInput, Prisma.DogUncheckedCreateWithoutVaccinationsInput>
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutVaccinationsInput
+  upsert?: Prisma.DogUpsertWithoutVaccinationsInput
+  connect?: Prisma.DogWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DogUpdateToOneWithWhereWithoutVaccinationsInput, Prisma.DogUpdateWithoutVaccinationsInput>, Prisma.DogUncheckedUpdateWithoutVaccinationsInput>
+}
+
+export type DogCreateNestedManyWithoutPersonalityInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput> | Prisma.DogCreateWithoutPersonalityInput[] | Prisma.DogUncheckedCreateWithoutPersonalityInput[]
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutPersonalityInput | Prisma.DogCreateOrConnectWithoutPersonalityInput[]
+  connect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+}
+
+export type DogUncheckedCreateNestedManyWithoutPersonalityInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput> | Prisma.DogCreateWithoutPersonalityInput[] | Prisma.DogUncheckedCreateWithoutPersonalityInput[]
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutPersonalityInput | Prisma.DogCreateOrConnectWithoutPersonalityInput[]
+  connect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+}
+
+export type DogUpdateManyWithoutPersonalityNestedInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput> | Prisma.DogCreateWithoutPersonalityInput[] | Prisma.DogUncheckedCreateWithoutPersonalityInput[]
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutPersonalityInput | Prisma.DogCreateOrConnectWithoutPersonalityInput[]
+  upsert?: Prisma.DogUpsertWithWhereUniqueWithoutPersonalityInput | Prisma.DogUpsertWithWhereUniqueWithoutPersonalityInput[]
+  set?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  disconnect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  delete?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  connect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  update?: Prisma.DogUpdateWithWhereUniqueWithoutPersonalityInput | Prisma.DogUpdateWithWhereUniqueWithoutPersonalityInput[]
+  updateMany?: Prisma.DogUpdateManyWithWhereWithoutPersonalityInput | Prisma.DogUpdateManyWithWhereWithoutPersonalityInput[]
+  deleteMany?: Prisma.DogScalarWhereInput | Prisma.DogScalarWhereInput[]
+}
+
+export type DogUncheckedUpdateManyWithoutPersonalityNestedInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput> | Prisma.DogCreateWithoutPersonalityInput[] | Prisma.DogUncheckedCreateWithoutPersonalityInput[]
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutPersonalityInput | Prisma.DogCreateOrConnectWithoutPersonalityInput[]
+  upsert?: Prisma.DogUpsertWithWhereUniqueWithoutPersonalityInput | Prisma.DogUpsertWithWhereUniqueWithoutPersonalityInput[]
+  set?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  disconnect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  delete?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  connect?: Prisma.DogWhereUniqueInput | Prisma.DogWhereUniqueInput[]
+  update?: Prisma.DogUpdateWithWhereUniqueWithoutPersonalityInput | Prisma.DogUpdateWithWhereUniqueWithoutPersonalityInput[]
+  updateMany?: Prisma.DogUpdateManyWithWhereWithoutPersonalityInput | Prisma.DogUpdateManyWithWhereWithoutPersonalityInput[]
+  deleteMany?: Prisma.DogScalarWhereInput | Prisma.DogScalarWhereInput[]
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type EnumDogStatusFieldUpdateOperationsInput = {
+  set?: $Enums.DogStatus
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -405,63 +936,582 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
+export type EnumDogSexFieldUpdateOperationsInput = {
+  set?: $Enums.DogSex
+}
+
+export type EnumDogSizeFieldUpdateOperationsInput = {
+  set?: $Enums.DogSize
+}
+
+export type EnumEnergyLevelFieldUpdateOperationsInput = {
+  set?: $Enums.EnergyLevel
+}
+
+export type EnumFurLengthFieldUpdateOperationsInput = {
+  set?: $Enums.FurLength
+}
+
+export type DogCreateWithoutVaccinationsInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  personality?: Prisma.PersonalityTagCreateNestedManyWithoutDogInput
+}
+
+export type DogUncheckedCreateWithoutVaccinationsInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  personality?: Prisma.PersonalityTagUncheckedCreateNestedManyWithoutDogInput
+}
+
+export type DogCreateOrConnectWithoutVaccinationsInput = {
+  where: Prisma.DogWhereUniqueInput
+  create: Prisma.XOR<Prisma.DogCreateWithoutVaccinationsInput, Prisma.DogUncheckedCreateWithoutVaccinationsInput>
+}
+
+export type DogUpsertWithoutVaccinationsInput = {
+  update: Prisma.XOR<Prisma.DogUpdateWithoutVaccinationsInput, Prisma.DogUncheckedUpdateWithoutVaccinationsInput>
+  create: Prisma.XOR<Prisma.DogCreateWithoutVaccinationsInput, Prisma.DogUncheckedCreateWithoutVaccinationsInput>
+  where?: Prisma.DogWhereInput
+}
+
+export type DogUpdateToOneWithWhereWithoutVaccinationsInput = {
+  where?: Prisma.DogWhereInput
+  data: Prisma.XOR<Prisma.DogUpdateWithoutVaccinationsInput, Prisma.DogUncheckedUpdateWithoutVaccinationsInput>
+}
+
+export type DogUpdateWithoutVaccinationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUpdateManyWithoutDogNestedInput
+}
+
+export type DogUncheckedUpdateWithoutVaccinationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUncheckedUpdateManyWithoutDogNestedInput
+}
+
+export type DogCreateWithoutPersonalityInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  vaccinations?: Prisma.VaccinationCreateNestedManyWithoutDogInput
+}
+
+export type DogUncheckedCreateWithoutPersonalityInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutDogInput
+}
+
+export type DogCreateOrConnectWithoutPersonalityInput = {
+  where: Prisma.DogWhereUniqueInput
+  create: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput>
+}
+
+export type DogUpsertWithWhereUniqueWithoutPersonalityInput = {
+  where: Prisma.DogWhereUniqueInput
+  update: Prisma.XOR<Prisma.DogUpdateWithoutPersonalityInput, Prisma.DogUncheckedUpdateWithoutPersonalityInput>
+  create: Prisma.XOR<Prisma.DogCreateWithoutPersonalityInput, Prisma.DogUncheckedCreateWithoutPersonalityInput>
+}
+
+export type DogUpdateWithWhereUniqueWithoutPersonalityInput = {
+  where: Prisma.DogWhereUniqueInput
+  data: Prisma.XOR<Prisma.DogUpdateWithoutPersonalityInput, Prisma.DogUncheckedUpdateWithoutPersonalityInput>
+}
+
+export type DogUpdateManyWithWhereWithoutPersonalityInput = {
+  where: Prisma.DogScalarWhereInput
+  data: Prisma.XOR<Prisma.DogUpdateManyMutationInput, Prisma.DogUncheckedUpdateManyWithoutPersonalityInput>
+}
+
+export type DogScalarWhereInput = {
+  AND?: Prisma.DogScalarWhereInput | Prisma.DogScalarWhereInput[]
+  OR?: Prisma.DogScalarWhereInput[]
+  NOT?: Prisma.DogScalarWhereInput | Prisma.DogScalarWhereInput[]
+  id?: Prisma.StringFilter<"Dog"> | string
+  userOwnerId?: Prisma.StringFilter<"Dog"> | string
+  shelterId?: Prisma.StringFilter<"Dog"> | string
+  shelterName?: Prisma.StringNullableFilter<"Dog"> | string | null
+  shelterLogo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  status?: Prisma.EnumDogStatusFilter<"Dog"> | $Enums.DogStatus
+  name?: Prisma.StringFilter<"Dog"> | string
+  breed?: Prisma.StringFilter<"Dog"> | string
+  breed2?: Prisma.StringNullableFilter<"Dog"> | string | null
+  age?: Prisma.IntFilter<"Dog"> | number
+  weightKg?: Prisma.FloatNullableFilter<"Dog"> | number | null
+  sex?: Prisma.EnumDogSexFilter<"Dog"> | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFilter<"Dog"> | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFilter<"Dog"> | $Enums.EnergyLevel
+  description?: Prisma.StringFilter<"Dog"> | string
+  goodWithKids?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithDogs?: Prisma.BoolFilter<"Dog"> | boolean
+  goodWithCats?: Prisma.BoolFilter<"Dog"> | boolean
+  sterilized?: Prisma.BoolFilter<"Dog"> | boolean
+  needsYard?: Prisma.BoolFilter<"Dog"> | boolean
+  isVaccinated?: Prisma.BoolFilter<"Dog"> | boolean
+  isDewormed?: Prisma.BoolFilter<"Dog"> | boolean
+  furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
+  health?: Prisma.StringFilter<"Dog"> | string
+  photo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
+}
+
+export type DogUpdateWithoutPersonalityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccinations?: Prisma.VaccinationUpdateManyWithoutDogNestedInput
+}
+
+export type DogUncheckedUpdateWithoutPersonalityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutDogNestedInput
+}
+
+export type DogUncheckedUpdateManyWithoutPersonalityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type DogCountOutputType
+ */
+
+export type DogCountOutputType = {
+  personality: number
+  vaccinations: number
+}
+
+export type DogCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  personality?: boolean | DogCountOutputTypeCountPersonalityArgs
+  vaccinations?: boolean | DogCountOutputTypeCountVaccinationsArgs
+}
+
+/**
+ * DogCountOutputType without action
+ */
+export type DogCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DogCountOutputType
+   */
+  select?: Prisma.DogCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DogCountOutputType without action
+ */
+export type DogCountOutputTypeCountPersonalityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PersonalityTagWhereInput
+}
+
+/**
+ * DogCountOutputType without action
+ */
+export type DogCountOutputTypeCountVaccinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VaccinationWhereInput
+}
 
 
 export type DogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userOwnerId?: boolean
+  shelterId?: boolean
+  shelterName?: boolean
+  shelterLogo?: boolean
+  status?: boolean
   name?: boolean
   breed?: boolean
+  breed2?: boolean
   age?: boolean
-  shelterId?: boolean
+  weightKg?: boolean
+  sex?: boolean
+  size?: boolean
+  energyLevel?: boolean
+  description?: boolean
+  goodWithKids?: boolean
+  goodWithDogs?: boolean
+  goodWithCats?: boolean
+  sterilized?: boolean
+  needsYard?: boolean
+  isVaccinated?: boolean
+  isDewormed?: boolean
+  furLength?: boolean
+  health?: boolean
+  photo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  personality?: boolean | Prisma.Dog$personalityArgs<ExtArgs>
+  vaccinations?: boolean | Prisma.Dog$vaccinationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DogCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dog"]>
 
 export type DogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userOwnerId?: boolean
+  shelterId?: boolean
+  shelterName?: boolean
+  shelterLogo?: boolean
+  status?: boolean
   name?: boolean
   breed?: boolean
+  breed2?: boolean
   age?: boolean
-  shelterId?: boolean
+  weightKg?: boolean
+  sex?: boolean
+  size?: boolean
+  energyLevel?: boolean
+  description?: boolean
+  goodWithKids?: boolean
+  goodWithDogs?: boolean
+  goodWithCats?: boolean
+  sterilized?: boolean
+  needsYard?: boolean
+  isVaccinated?: boolean
+  isDewormed?: boolean
+  furLength?: boolean
+  health?: boolean
+  photo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
 
 export type DogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  userOwnerId?: boolean
+  shelterId?: boolean
+  shelterName?: boolean
+  shelterLogo?: boolean
+  status?: boolean
   name?: boolean
   breed?: boolean
+  breed2?: boolean
   age?: boolean
-  shelterId?: boolean
+  weightKg?: boolean
+  sex?: boolean
+  size?: boolean
+  energyLevel?: boolean
+  description?: boolean
+  goodWithKids?: boolean
+  goodWithDogs?: boolean
+  goodWithCats?: boolean
+  sterilized?: boolean
+  needsYard?: boolean
+  isVaccinated?: boolean
+  isDewormed?: boolean
+  furLength?: boolean
+  health?: boolean
+  photo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
 
 export type DogSelectScalar = {
   id?: boolean
+  userOwnerId?: boolean
+  shelterId?: boolean
+  shelterName?: boolean
+  shelterLogo?: boolean
+  status?: boolean
   name?: boolean
   breed?: boolean
+  breed2?: boolean
   age?: boolean
-  shelterId?: boolean
+  weightKg?: boolean
+  sex?: boolean
+  size?: boolean
+  energyLevel?: boolean
+  description?: boolean
+  goodWithKids?: boolean
+  goodWithDogs?: boolean
+  goodWithCats?: boolean
+  sterilized?: boolean
+  needsYard?: boolean
+  isVaccinated?: boolean
+  isDewormed?: boolean
+  furLength?: boolean
+  health?: boolean
+  photo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "shelterId" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
+export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userOwnerId" | "shelterId" | "shelterName" | "shelterLogo" | "status" | "name" | "breed" | "breed2" | "age" | "weightKg" | "sex" | "size" | "energyLevel" | "description" | "goodWithKids" | "goodWithDogs" | "goodWithCats" | "sterilized" | "needsYard" | "isVaccinated" | "isDewormed" | "furLength" | "health" | "photo" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
+export type DogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  personality?: boolean | Prisma.Dog$personalityArgs<ExtArgs>
+  vaccinations?: boolean | Prisma.Dog$vaccinationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DogCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type DogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type DogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $DogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Dog"
-  objects: {}
+  objects: {
+    personality: Prisma.$PersonalityTagPayload<ExtArgs>[]
+    vaccinations: Prisma.$VaccinationPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    userOwnerId: string
+    shelterId: string
+    shelterName: string | null
+    shelterLogo: string | null
+    status: $Enums.DogStatus
     name: string
     breed: string
+    breed2: string | null
     age: number
-    shelterId: string
+    weightKg: number | null
+    sex: $Enums.DogSex
+    size: $Enums.DogSize
+    energyLevel: $Enums.EnergyLevel
+    description: string
+    goodWithKids: boolean
+    goodWithDogs: boolean
+    goodWithCats: boolean
+    sterilized: boolean
+    needsYard: boolean
+    isVaccinated: boolean
+    isDewormed: boolean
+    furLength: $Enums.FurLength
+    health: string
+    photo: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["dog"]>
@@ -858,6 +1908,8 @@ readonly fields: DogFieldRefs;
  */
 export interface Prisma__DogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  personality<T extends Prisma.Dog$personalityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dog$personalityArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PersonalityTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vaccinations<T extends Prisma.Dog$vaccinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dog$vaccinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VaccinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -888,10 +1940,30 @@ export interface Prisma__DogClient<T, Null = never, ExtArgs extends runtime.Type
  */
 export interface DogFieldRefs {
   readonly id: Prisma.FieldRef<"Dog", 'String'>
+  readonly userOwnerId: Prisma.FieldRef<"Dog", 'String'>
+  readonly shelterId: Prisma.FieldRef<"Dog", 'String'>
+  readonly shelterName: Prisma.FieldRef<"Dog", 'String'>
+  readonly shelterLogo: Prisma.FieldRef<"Dog", 'String'>
+  readonly status: Prisma.FieldRef<"Dog", 'DogStatus'>
   readonly name: Prisma.FieldRef<"Dog", 'String'>
   readonly breed: Prisma.FieldRef<"Dog", 'String'>
+  readonly breed2: Prisma.FieldRef<"Dog", 'String'>
   readonly age: Prisma.FieldRef<"Dog", 'Int'>
-  readonly shelterId: Prisma.FieldRef<"Dog", 'String'>
+  readonly weightKg: Prisma.FieldRef<"Dog", 'Float'>
+  readonly sex: Prisma.FieldRef<"Dog", 'DogSex'>
+  readonly size: Prisma.FieldRef<"Dog", 'DogSize'>
+  readonly energyLevel: Prisma.FieldRef<"Dog", 'EnergyLevel'>
+  readonly description: Prisma.FieldRef<"Dog", 'String'>
+  readonly goodWithKids: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly goodWithDogs: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly goodWithCats: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly sterilized: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly needsYard: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly isVaccinated: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly isDewormed: Prisma.FieldRef<"Dog", 'Boolean'>
+  readonly furLength: Prisma.FieldRef<"Dog", 'FurLength'>
+  readonly health: Prisma.FieldRef<"Dog", 'String'>
+  readonly photo: Prisma.FieldRef<"Dog", 'String'>
   readonly createdAt: Prisma.FieldRef<"Dog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Dog", 'DateTime'>
 }
@@ -911,6 +1983,10 @@ export type DogFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * Filter, which Dog to fetch.
    */
   where: Prisma.DogWhereUniqueInput
@@ -929,6 +2005,10 @@ export type DogFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * Filter, which Dog to fetch.
    */
   where: Prisma.DogWhereUniqueInput
@@ -946,6 +2026,10 @@ export type DogFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Dog
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
   /**
    * Filter, which Dog to fetch.
    */
@@ -995,6 +2079,10 @@ export type DogFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * Filter, which Dog to fetch.
    */
   where?: Prisma.DogWhereInput
@@ -1043,6 +2131,10 @@ export type DogFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * Filter, which Dogs to fetch.
    */
   where?: Prisma.DogWhereInput
@@ -1085,6 +2177,10 @@ export type DogCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Dog
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
   /**
    * The data needed to create a Dog.
    */
@@ -1133,6 +2229,10 @@ export type DogUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Omit specific fields from the Dog
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
   /**
    * The data needed to update a Dog.
    */
@@ -1200,6 +2300,10 @@ export type DogUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * The filter to search for the Dog to update in case it exists.
    */
   where: Prisma.DogWhereUniqueInput
@@ -1226,6 +2330,10 @@ export type DogDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
+  /**
    * Filter which Dog to delete.
    */
   where: Prisma.DogWhereUniqueInput
@@ -1246,6 +2354,54 @@ export type DogDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
+ * Dog.personality
+ */
+export type Dog$personalityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PersonalityTag
+   */
+  select?: Prisma.PersonalityTagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PersonalityTag
+   */
+  omit?: Prisma.PersonalityTagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PersonalityTagInclude<ExtArgs> | null
+  where?: Prisma.PersonalityTagWhereInput
+  orderBy?: Prisma.PersonalityTagOrderByWithRelationInput | Prisma.PersonalityTagOrderByWithRelationInput[]
+  cursor?: Prisma.PersonalityTagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PersonalityTagScalarFieldEnum | Prisma.PersonalityTagScalarFieldEnum[]
+}
+
+/**
+ * Dog.vaccinations
+ */
+export type Dog$vaccinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vaccination
+   */
+  select?: Prisma.VaccinationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vaccination
+   */
+  omit?: Prisma.VaccinationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VaccinationInclude<ExtArgs> | null
+  where?: Prisma.VaccinationWhereInput
+  orderBy?: Prisma.VaccinationOrderByWithRelationInput | Prisma.VaccinationOrderByWithRelationInput[]
+  cursor?: Prisma.VaccinationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VaccinationScalarFieldEnum | Prisma.VaccinationScalarFieldEnum[]
+}
+
+/**
  * Dog without action
  */
 export type DogDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1257,4 +2413,8 @@ export type DogDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Dog
    */
   omit?: Prisma.DogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DogInclude<ExtArgs> | null
 }

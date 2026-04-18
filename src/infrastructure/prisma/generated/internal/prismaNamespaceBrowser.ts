@@ -51,6 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Vaccination: 'Vaccination',
+  PersonalityTag: 'PersonalityTag',
   Dog: 'Dog'
 } as const
 
@@ -70,12 +72,57 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const VaccinationScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  name: 'name',
+  date: 'date',
+  nextDose: 'nextDose',
+  verified: 'verified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VaccinationScalarFieldEnum = (typeof VaccinationScalarFieldEnum)[keyof typeof VaccinationScalarFieldEnum]
+
+
+export const PersonalityTagScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PersonalityTagScalarFieldEnum = (typeof PersonalityTagScalarFieldEnum)[keyof typeof PersonalityTagScalarFieldEnum]
+
+
 export const DogScalarFieldEnum = {
   id: 'id',
+  userOwnerId: 'userOwnerId',
+  shelterId: 'shelterId',
+  shelterName: 'shelterName',
+  shelterLogo: 'shelterLogo',
+  status: 'status',
   name: 'name',
   breed: 'breed',
+  breed2: 'breed2',
   age: 'age',
-  shelterId: 'shelterId',
+  weightKg: 'weightKg',
+  sex: 'sex',
+  size: 'size',
+  energyLevel: 'energyLevel',
+  description: 'description',
+  goodWithKids: 'goodWithKids',
+  goodWithDogs: 'goodWithDogs',
+  goodWithCats: 'goodWithCats',
+  sterilized: 'sterilized',
+  needsYard: 'needsYard',
+  isVaccinated: 'isVaccinated',
+  isDewormed: 'isDewormed',
+  furLength: 'furLength',
+  health: 'health',
+  photo: 'photo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -97,4 +144,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

@@ -17,9 +17,9 @@ export class AppController {
   @Roles('SHELTER')
   async createDog(
     @Body() createDogDto: CreateDogDto,
-    @User("sub") shelterId: string,
+    @User("sub") userOwnerId: string,
   ): Promise<DogModel> {
-    return this.dogService.createDog(createDogDto, shelterId);
+    return this.dogService.createDog(createDogDto, userOwnerId);
   }
   
   @UseGuards(UserAuthorizationGuard)

@@ -384,6 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Vaccination: 'Vaccination',
+  PersonalityTag: 'PersonalityTag',
   Dog: 'Dog'
 } as const
 
@@ -400,10 +402,158 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dog"
+    modelProps: "vaccination" | "personalityTag" | "dog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Vaccination: {
+      payload: Prisma.$VaccinationPayload<ExtArgs>
+      fields: Prisma.VaccinationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VaccinationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VaccinationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        findFirst: {
+          args: Prisma.VaccinationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VaccinationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        findMany: {
+          args: Prisma.VaccinationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>[]
+        }
+        create: {
+          args: Prisma.VaccinationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        createMany: {
+          args: Prisma.VaccinationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VaccinationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>[]
+        }
+        delete: {
+          args: Prisma.VaccinationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        update: {
+          args: Prisma.VaccinationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        deleteMany: {
+          args: Prisma.VaccinationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VaccinationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VaccinationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>[]
+        }
+        upsert: {
+          args: Prisma.VaccinationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VaccinationPayload>
+        }
+        aggregate: {
+          args: Prisma.VaccinationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVaccination>
+        }
+        groupBy: {
+          args: Prisma.VaccinationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VaccinationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VaccinationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VaccinationCountAggregateOutputType> | number
+        }
+      }
+    }
+    PersonalityTag: {
+      payload: Prisma.$PersonalityTagPayload<ExtArgs>
+      fields: Prisma.PersonalityTagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PersonalityTagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PersonalityTagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        findFirst: {
+          args: Prisma.PersonalityTagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PersonalityTagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        findMany: {
+          args: Prisma.PersonalityTagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>[]
+        }
+        create: {
+          args: Prisma.PersonalityTagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        createMany: {
+          args: Prisma.PersonalityTagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PersonalityTagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>[]
+        }
+        delete: {
+          args: Prisma.PersonalityTagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        update: {
+          args: Prisma.PersonalityTagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        deleteMany: {
+          args: Prisma.PersonalityTagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PersonalityTagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PersonalityTagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>[]
+        }
+        upsert: {
+          args: Prisma.PersonalityTagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PersonalityTagPayload>
+        }
+        aggregate: {
+          args: Prisma.PersonalityTagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePersonalityTag>
+        }
+        groupBy: {
+          args: Prisma.PersonalityTagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonalityTagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PersonalityTagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PersonalityTagCountAggregateOutputType> | number
+        }
+      }
+    }
     Dog: {
       payload: Prisma.$DogPayload<ExtArgs>
       fields: Prisma.DogFieldRefs
@@ -517,12 +667,57 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const VaccinationScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  name: 'name',
+  date: 'date',
+  nextDose: 'nextDose',
+  verified: 'verified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VaccinationScalarFieldEnum = (typeof VaccinationScalarFieldEnum)[keyof typeof VaccinationScalarFieldEnum]
+
+
+export const PersonalityTagScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PersonalityTagScalarFieldEnum = (typeof PersonalityTagScalarFieldEnum)[keyof typeof PersonalityTagScalarFieldEnum]
+
+
 export const DogScalarFieldEnum = {
   id: 'id',
+  userOwnerId: 'userOwnerId',
+  shelterId: 'shelterId',
+  shelterName: 'shelterName',
+  shelterLogo: 'shelterLogo',
+  status: 'status',
   name: 'name',
   breed: 'breed',
+  breed2: 'breed2',
   age: 'age',
-  shelterId: 'shelterId',
+  weightKg: 'weightKg',
+  sex: 'sex',
+  size: 'size',
+  energyLevel: 'energyLevel',
+  description: 'description',
+  goodWithKids: 'goodWithKids',
+  goodWithDogs: 'goodWithDogs',
+  goodWithCats: 'goodWithCats',
+  sterilized: 'sterilized',
+  needsYard: 'needsYard',
+  isVaccinated: 'isVaccinated',
+  isDewormed: 'isDewormed',
+  furLength: 'furLength',
+  health: 'health',
+  photo: 'photo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -546,6 +741,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 
 /**
  * Field references
@@ -567,20 +770,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -595,6 +784,55 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'PersonalityCategory'
+ */
+export type EnumPersonalityCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PersonalityCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'PersonalityCategory[]'
+ */
+export type ListEnumPersonalityCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PersonalityCategory[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DogStatus'
+ */
+export type EnumDogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DogStatus[]'
+ */
+export type ListEnumDogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -605,6 +843,62 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DogSex'
+ */
+export type EnumDogSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogSex'>
+    
+
+
+/**
+ * Reference to a field of type 'DogSex[]'
+ */
+export type ListEnumDogSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogSex[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DogSize'
+ */
+export type EnumDogSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogSize'>
+    
+
+
+/**
+ * Reference to a field of type 'DogSize[]'
+ */
+export type ListEnumDogSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DogSize[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EnergyLevel'
+ */
+export type EnumEnergyLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnergyLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'EnergyLevel[]'
+ */
+export type ListEnumEnergyLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnergyLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FurLength'
+ */
+export type EnumFurLengthFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FurLength'>
+    
+
+
+/**
+ * Reference to a field of type 'FurLength[]'
+ */
+export type ListEnumFurLengthFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FurLength[]'>
     
 
 /**
@@ -702,6 +996,8 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  vaccination?: Prisma.VaccinationOmit
+  personalityTag?: Prisma.PersonalityTagOmit
   dog?: Prisma.DogOmit
 }
 

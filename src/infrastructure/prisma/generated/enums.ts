@@ -9,7 +9,58 @@
 * 🟢 You can import this file directly.
 */
 
+export const DogStatus = {
+  disponible: 'disponible',
+  en_proceso: 'en_proceso',
+  adoptado: 'adoptado',
+  no_disponible: 'no_disponible'
+} as const
+
+export type DogStatus = (typeof DogStatus)[keyof typeof DogStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const DogSize = {
+  pequeño: 'pequeño',
+  mediano: 'mediano',
+  grande: 'grande',
+  gigante: 'gigante'
+} as const
+
+export type DogSize = (typeof DogSize)[keyof typeof DogSize]
+
+
+export const EnergyLevel = {
+  baja: 'baja',
+  moderada: 'moderada',
+  alta: 'alta',
+  muy_alta: 'muy_alta'
+} as const
+
+export type EnergyLevel = (typeof EnergyLevel)[keyof typeof EnergyLevel]
+
+
+export const DogSex = {
+  macho: 'macho',
+  hembra: 'hembra'
+} as const
+
+export type DogSex = (typeof DogSex)[keyof typeof DogSex]
+
+
+export const PersonalityCategory = {
+  caracter: 'caracter',
+  socializacion: 'socializacion',
+  actividad: 'actividad',
+  entrenamiento: 'entrenamiento'
+} as const
+
+export type PersonalityCategory = (typeof PersonalityCategory)[keyof typeof PersonalityCategory]
+
+
+export const FurLength = {
+  corto: 'corto',
+  mediano: 'mediano',
+  largo: 'largo'
+} as const
+
+export type FurLength = (typeof FurLength)[keyof typeof FurLength]
