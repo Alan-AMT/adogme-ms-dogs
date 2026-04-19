@@ -12,9 +12,9 @@ import { UpdateDogDto } from './application/update-dog.dto.js';
 export class AppController {
   constructor(private readonly dogService: DogService) {}
   
-  @UseGuards(UserAuthorizationGuard)
+  // @UseGuards(UserAuthorizationGuard)
   @Post('dog')
-  @Roles('SHELTER')
+  // @Roles('SHELTER')
   async createDog(
     @Body() createDogDto: CreateDogDto,
     @User("sub") userOwnerId: string,
@@ -22,9 +22,9 @@ export class AppController {
     return this.dogService.createDog(createDogDto, userOwnerId);
   }
   
-  @UseGuards(UserAuthorizationGuard)
+  // @UseGuards(UserAuthorizationGuard)
   @Put("dog/:id")
-  @Roles('SHELTER')
+  // @Roles('SHELTER')
   async updateDog(
     @Body() updateDogDto: UpdateDogDto,
     @Param('id') dogId: string

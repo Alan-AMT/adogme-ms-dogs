@@ -8,5 +8,5 @@ export abstract class DogRepository {
     abstract findPersonalityTagsByLabel(labels: string[]): Promise<PersonalityTag[]>;
     abstract createPersonalityTags(tags: PersonalityTag[]): Promise<void>;
     abstract deleteAllDogVaccinations(dogId: string): Promise<void>;
-    abstract createVaccinations(vaccinations: Vaccination[]): Promise<void>
+    abstract createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void>
 }

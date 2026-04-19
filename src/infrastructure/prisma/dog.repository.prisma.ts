@@ -15,7 +15,7 @@ export class PrismaDogRepository implements DogRepository {
                 },
                 vaccinations: {
                     create: dog.vaccinations.map(vaccination => ({
-                        id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
+                        id: vaccination.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
                     }))
                 },
             }
@@ -74,7 +74,7 @@ export class PrismaDogRepository implements DogRepository {
             data: cleanedDog });
         await this.deleteAllDogVaccinations(dog.id);
         if (vaccinations) {
-            await this.createVaccinations(vaccinations);
+            await this.createAndLinkVaccinations(vaccinations);
         }
     }
 
@@ -86,16 +86,22 @@ export class PrismaDogRepository implements DogRepository {
     }
 
     async createPersonalityTags(tags: PersonalityTag[]): Promise<void> {
-        await this.prisma.personalityTag.createMany({ data: tags.map(tag => ({id: tag.id, dogId: {
-            connect: [{id: tag.dogId}]
-        }, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt})) });
+        await this.prisma.personalityTag.createMany({ 
+            data: tags.map(tag => ({
+                id: tag.id, 
+                label: tag.label, 
+                category: tag.category as PersonalityCategory, 
+                createdAt: tag.createdAt, 
+                updatedAt: tag.updatedAt
+            })) 
+        });
     }
 
     async deleteAllDogVaccinations(dogId: string): Promise<void> {
         await this.prisma.vaccination.deleteMany({ where: { dogId } });
     }
 
-    async createVaccinations(vaccinations: Vaccination[]): Promise<void> {
+    async createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void> {
         await this.prisma.vaccination.createMany({ data: vaccinations.map(vaccination => ({id: vaccination.id, dogId: vaccination.dogId, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt})) });
     }
 }

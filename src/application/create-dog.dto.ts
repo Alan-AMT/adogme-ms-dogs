@@ -72,17 +72,17 @@ export class CreateDogDto {
   @IsString()
   photo: string;
 
-  @IsString()
   @IsOptional()
-  breed2: string;
+  @IsString()
+  breed2: string | null = null;
 
-  @IsString()
   @IsOptional()
-  shelterName: string;
+  @IsString()
+  shelterName: string | null = null;
 
-  @IsString()
   @IsOptional()
-  shelterLogo: string;
+  @IsString()
+  shelterLogo: string | null = null;
 
 }
 
@@ -101,9 +101,9 @@ export class VaccinationDto {
   @IsString()
   date: string;
 
-  @IsString()
   @IsOptional()
-  nextDose: string;
+  @IsString()
+  nextDose: string | null = null;
 
   @IsBoolean()
   verified: boolean;

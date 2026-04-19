@@ -67,7 +67,7 @@ enum FurLength {
 
 model Vaccination {
   id       String    @id @unique
-  dog      Dog       @relation(fields: [dogId], references: [id])
+  dog      Dog       @relation(fields: [dogId], references: [id], onDelete: Cascade)
   dogId    String
   name     String
   date     DateTime // ISO date
