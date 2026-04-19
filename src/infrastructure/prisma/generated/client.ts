@@ -29,8 +29,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Dogs
- * const dogs = await prisma.dog.findMany()
+ * // Fetch zero or more Vaccinations
+ * const vaccinations = await prisma.vaccination.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,16 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Vaccination
+ * 
+ */
+export type Vaccination = Prisma.VaccinationModel
+/**
+ * Model PersonalityTag
+ * 
+ */
+export type PersonalityTag = Prisma.PersonalityTagModel
 /**
  * Model Dog
  * 

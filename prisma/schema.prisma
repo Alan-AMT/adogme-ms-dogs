@@ -14,13 +14,115 @@ datasource db {
   schemas  = ["dogs_service"]
 }
 
+enum DogStatus {
+  disponible
+  en_proceso
+  adoptado
+  no_disponible
+
+  @@schema("dogs_service")
+}
+
+enum DogSize {
+  pequeño
+  mediano
+  grande
+  gigante
+
+  @@schema("dogs_service")
+}
+
+enum EnergyLevel {
+  baja
+  moderada
+  alta
+  muy_alta
+
+  @@schema("dogs_service")
+}
+
+enum DogSex {
+  macho
+  hembra
+
+  @@schema("dogs_service")
+}
+
+enum PersonalityCategory {
+  caracter
+  socializacion
+  actividad
+  entrenamiento
+
+  @@schema("dogs_service")
+}
+
+enum FurLength {
+  corto
+  mediano
+  largo
+
+  @@schema("dogs_service")
+}
+
+model Vaccination {
+  id       String    @id @unique
+  dog      Dog       @relation(fields: [dogId], references: [id], onDelete: Cascade)
+  dogId    String
+  name     String
+  date     DateTime // ISO date
+  nextDose DateTime?
+  verified Boolean
+
+  createdAt DateTime // @default(now())
+  updatedAt DateTime // @updatedAt
+
+  @@schema("dogs_service")
+}
+
+//Este más bien ya deberíamos de tener un montón en la biblioteca
+model PersonalityTag {
+  id       String              @id @unique
+  dog      Dog[]
+  label    String // ej: "Juguetón", "Tranquilo", "Protector"
+  category PersonalityCategory
+
+  createdAt DateTime // @default(now())
+  updatedAt DateTime // @updatedAt
+
+  @@schema("dogs_service")
+}
+
 model Dog {
-  id          String @id // @default(uuid())
-  name        String
-  breed       String
-  age         Int
-  shelterId   String
+  id          String    @id @unique // @default(uuid())
   userOwnerId String
+  shelterId   String
+  shelterName String?
+  shelterLogo String?
+  status      DogStatus
+
+  name         String
+  breed        String
+  breed2       String?
+  age          Int
+  weightKg     Float?
+  sex          DogSex
+  size         DogSize
+  energyLevel  EnergyLevel
+  description  String           @db.Text
+  personality  PersonalityTag[]
+  goodWithKids Boolean
+  goodWithDogs Boolean
+  goodWithCats Boolean
+  sterilized   Boolean
+  needsYard    Boolean
+  isVaccinated Boolean
+  isDewormed   Boolean
+  furLength    FurLength
+  vaccinations Vaccination[]
+  health       String
+  photo        String? // URL principal
+  // photos: string[] // galería completa
 
   createdAt DateTime // @default(now())
   updatedAt DateTime // @updatedAt
