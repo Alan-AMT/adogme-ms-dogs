@@ -18,7 +18,8 @@ export class CreateDogDto {
   shelterId: string;
 
   @IsNumber()
-  weightKg: number;
+  @IsOptional()
+  weightKg: number | null = null;
 
   @IsEnum(DogSex)
   sex: DogSex;
