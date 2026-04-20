@@ -36,6 +36,13 @@ export class AppController {
   async findAll(): Promise<DogModel[]> {
     return this.dogService.findAll();
   }
+
+  @Get("dogs/shelter/:shelterId")
+  async findAllByShelterId(
+    @Param('shelterId') shelterId: string
+  ): Promise<DogModel[]> {
+    return this.dogService.findAllByShelterId(shelterId);
+  }
   
   @UseGuards(UserAuthorizationGuard)
   @Get("guard")

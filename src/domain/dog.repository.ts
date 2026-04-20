@@ -9,4 +9,5 @@ export abstract class DogRepository {
     abstract createPersonalityTags(tags: PersonalityTag[]): Promise<void>;
     abstract deleteAllDogVaccinations(dogId: string): Promise<void>;
     abstract createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void>
+    abstract findAllByShelterId(shelterId: string): Promise<Dog[]>;
 }

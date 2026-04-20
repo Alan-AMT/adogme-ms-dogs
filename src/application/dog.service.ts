@@ -30,6 +30,10 @@ export class DogService {
     async findAll(): Promise<Dog[]> {
         return this.repository.findAll();
     }
+
+    async findAllByShelterId(shelterId: string): Promise<Dog[]> {
+        return this.repository.findAllByShelterId(shelterId);
+    }
     
     async updateDog(updateDogDto: UpdateDogDto, dogId: string): Promise<Dog> {
         const dog = await this.repository.findDogById(dogId);

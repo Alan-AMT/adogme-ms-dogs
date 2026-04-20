@@ -45,6 +45,30 @@ export class PrismaDogRepository implements DogRepository {
             })});
     }
 
+    async findAllByShelterId(shelterId: string): Promise<Dog[]> {
+        const dogs = await this.prisma.dog.findMany({ where: { shelterId }, include: { personality: true, vaccinations: true } });
+        return dogs.map(dog => {
+            const furLength = dog.furLength as FurLength;
+            const energyLevel = dog.energyLevel as EnergyLevel;
+            const size = dog.size as DogSize;
+            const sex = dog.sex as DogSex;
+            const status = dog.status as DogStatus;
+            return Dog.createDog({
+                ...dog,
+                personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
+                    id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
+                })),
+                vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
+                    id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
+                })),
+                furLength: furLength,
+                energyLevel: energyLevel,
+                size: size,
+                sex: sex,
+                status: status,
+            })});
+    }
+
     async findDogById(id: string): Promise<Dog> {
         const dog = await this.prisma.dog.findUnique({ where: { id }, include: { personality: true, vaccinations: true } });
         if (!dog) throw new Error("Dog not found");
