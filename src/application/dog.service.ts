@@ -34,6 +34,10 @@ export class DogService {
     async findAllByShelterId(shelterId: string): Promise<Dog[]> {
         return this.repository.findAllByShelterId(shelterId);
     }
+
+    async findDogById(dogId: string): Promise<Dog> {
+        return this.repository.findDogById(dogId);
+    }
     
     async updateDog(updateDogDto: UpdateDogDto, dogId: string): Promise<Dog> {
         const dog = await this.repository.findDogById(dogId);

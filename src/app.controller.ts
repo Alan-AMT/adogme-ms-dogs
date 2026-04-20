@@ -31,6 +31,13 @@ export class AppController {
   ): Promise<DogModel> {
     return this.dogService.updateDog(updateDogDto, dogId);
   }
+
+  @Get("dog/:dogId")
+  async getDogById(
+    @Param('dogId') dogId: string
+  ): Promise<DogModel> {
+    return this.dogService.findDogById(dogId);
+  }
   
   @Get("dogs")
   async findAll(): Promise<DogModel[]> {
