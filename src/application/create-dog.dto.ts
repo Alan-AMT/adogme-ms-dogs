@@ -11,7 +11,6 @@ export class CreateDogDto {
 
   @IsInt()
   @Min(0)
-  @Max(25)
   age: number;
 
   @IsString()
