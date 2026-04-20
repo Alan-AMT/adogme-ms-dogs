@@ -14,7 +14,7 @@ export class AppController {
   
   @UseGuards(UserAuthorizationGuard)
   @Post('dog')
-  @Roles('SHELTER')
+  @Roles('shelter')
   async createDog(
     @Body() createDogDto: CreateDogDto,
     @User("sub") userOwnerId: string,
@@ -24,7 +24,7 @@ export class AppController {
   
   @UseGuards(UserAuthorizationGuard)
   @Put("dog/:id")
-  @Roles('SHELTER')
+  @Roles('shelter')
   async updateDog(
     @Body() updateDogDto: UpdateDogDto,
     @Param('id') dogId: string
@@ -39,7 +39,7 @@ export class AppController {
   
   @UseGuards(UserAuthorizationGuard)
   @Get("guard")
-  @Roles('ADOPTER')
+  @Roles('applicant')
   async guardTest(
     @User("sub") userId: string,
     @User("role") userRole: string,
