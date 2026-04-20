@@ -32,9 +32,9 @@ export class AppController {
     return this.dogService.updateDog(updateDogDto, dogId);
   }
 
-  @Get("dog/:dogId")
+  @Get("dog/:id")
   async getDogById(
-    @Param('dogId') dogId: string
+    @Param('id') dogId: string
   ): Promise<DogModel> {
     return this.dogService.findDogById(dogId);
   }
