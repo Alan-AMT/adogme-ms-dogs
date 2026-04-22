@@ -4,18 +4,20 @@ import { Dog, DogStatus, PersonalityTag, Vaccination } from "../domain/dog.entit
 import { CreateDogDto, PersonalityDto, VaccinationDto } from "./create-dog.dto.js";
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateDogDto } from "./update-dog.dto.js";
+import { MlDogPort } from "../domain/ml.port.js";
 
 @Injectable()
 export class DogService {
-    constructor(private readonly repository: DogRepository) {}
+    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort) {}
 
     async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<Dog> {
         const date = new Date();
         const dogId = uuidv4();
         const dogTags = await this.createAndGetPersonalityTags(dogId, createDogDto.personality);
+        const {adoptionFee, ...dogData} = createDogDto;
         const dogToCreate = Dog.createDog({
             id: dogId,
-            ...createDogDto,
+            ...dogData,
             userOwnerId: userOwnerId,
             personality: dogTags,
             status: DogStatus.disponible,
@@ -23,6 +25,7 @@ export class DogService {
             updatedAt: date,
             createdAt: date,
         })
+        await this.mlDogPort.createMlDog(dogToCreate,  adoptionFee ?? 0);
         await this.repository.createDog(dogToCreate);
         return dogToCreate;
     }
@@ -39,13 +42,18 @@ export class DogService {
         return this.repository.findDogById(dogId);
     }
     
-    async updateDog(updateDogDto: UpdateDogDto, dogId: string): Promise<Dog> {
+    async updateDog(updateDogDto: UpdateDogDto, dogId: string, userOwnerId: string): Promise<Dog> {
         const dog = await this.repository.findDogById(dogId);
+        if (dog.userOwnerId !== userOwnerId) {
+            throw new Error('No puedes editar este perro');
+        }
         const dogTags = await this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []);
         //Primero llenamos con los valores actuales, luego con los valores que vienen llenos en el Dto
-        const updatedDog = Dog.createDog({...dog, ...updateDogDto, personality: dogTags,
+        const {adoptionFee, ...dogData} = updateDogDto;
+        const updatedDog = Dog.createDog({...dog, ...dogData, personality: dogTags,
             vaccinations: updateDogDto.vaccinations ? this.createVaccinationsDomainInstances(dogId, updateDogDto.vaccinations) : [],
             updatedAt: new Date()});
+        await this.mlDogPort.updateMlDog(updatedDog, adoptionFee ?? 0);
         await this.repository.updateDog(updatedDog);
         return updatedDog;
     }

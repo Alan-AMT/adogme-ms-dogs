@@ -84,6 +84,10 @@ export class CreateDogDto {
   @IsString()
   shelterLogo: string | null = null;
 
+  @IsOptional()
+  @IsNumber()
+  adoptionFee: number | null = null;
+
 }
 
 export class PersonalityDto {

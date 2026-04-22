@@ -48,6 +48,7 @@ jobs:
         # Aquí mapeas el secreto de GCP a la variable que espera NestJS
         secrets: |
           DATABASE_URL=MS_DOGS_DATABASE_URL:latest
+          ML_SERVICE_URL=ML_SERVICE_URL:latest
         # Ajustar según necesidades de seguridad
         # flags: '--allow-unauthenticated' 
         flags: '--no-allow-unauthenticated'

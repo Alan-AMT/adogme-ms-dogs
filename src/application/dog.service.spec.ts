@@ -2,12 +2,29 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { jest } from '@jest/globals';
 import { DogService } from './dog.service.js';
 import { DogRepository } from '../domain/dog.repository.js';
-import { Dog, DogSex, DogSize, DogStatus, EnergyLevel, FurLength, PersonalityCategory, PersonalityTag, Vaccination } from '../domain/dog.entity.js';
-import { CreateDogDto, PersonalityDto, VaccinationDto } from './create-dog.dto.js';
+import {
+  Dog,
+  DogSex,
+  DogSize,
+  DogStatus,
+  EnergyLevel,
+  FurLength,
+  PersonalityCategory,
+  PersonalityTag,
+  Vaccination,
+} from '../domain/dog.entity.js';
+import {
+  CreateDogDto,
+  PersonalityDto,
+  VaccinationDto,
+} from './create-dog.dto.js';
 import { UpdateDogDto } from './update-dog.dto.js';
 
 // Mock UUID testing without mockModule to simply check expect.any(String)
 class MockDogRepository implements DogRepository {
+  findAllByShelterId(shelterId: string): Promise<Dog[]> {
+    throw new Error('Method not implemented.');
+  }
   public dogs: Map<string, Dog> = new Map();
   public personalityTags: Map<string, PersonalityTag> = new Map();
   public vaccinations: Map<string, Vaccination> = new Map();
@@ -24,21 +41,25 @@ class MockDogRepository implements DogRepository {
 
   async findDogById(id: string): Promise<Dog> {
     const dog = this.dogs.get(id);
-    if (!dog) throw new Error("Dog not found");
+    if (!dog) throw new Error('Dog not found');
     return dog;
   }
 
   async updateDog(dog: Dog): Promise<void> {
-    if (!this.dogs.has(dog.id)) throw new Error("Dog not found");
+    if (!this.dogs.has(dog.id)) throw new Error('Dog not found');
     this.dogs.set(dog.id, dog);
   }
 
-  async findPersonalityTagsByLabel(labels: string[]): Promise<PersonalityTag[]> {
-    return Array.from(this.personalityTags.values()).filter(tag => labels.includes(tag.label));
+  async findPersonalityTagsByLabel(
+    labels: string[],
+  ): Promise<PersonalityTag[]> {
+    return Array.from(this.personalityTags.values()).filter((tag) =>
+      labels.includes(tag.label),
+    );
   }
 
   async createPersonalityTags(tags: PersonalityTag[]): Promise<void> {
-    tags.forEach(tag => this.personalityTags.set(tag.id, tag));
+    tags.forEach((tag) => this.personalityTags.set(tag.id, tag));
   }
 
   async deleteAllDogVaccinations(dogId: string): Promise<void> {
@@ -50,7 +71,7 @@ class MockDogRepository implements DogRepository {
   }
 
   async createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void> {
-    vaccinations.forEach(vac => this.vaccinations.set(vac.id, vac));
+    vaccinations.forEach((vac) => this.vaccinations.set(vac.id, vac));
   }
 }
 
@@ -88,7 +109,12 @@ describe('DogService', () => {
     it('should map dtos to Vaccination entities correctly', () => {
       const dogId = 'dog-id';
       const dto: VaccinationDto[] = [
-        { name: 'Rabia', date: new Date('2025-01-01').toISOString(), nextDose: new Date('2026-01-01').toISOString(), verified: true }
+        {
+          name: 'Rabia',
+          date: new Date('2025-01-01').toISOString(),
+          nextDose: new Date('2026-01-01').toISOString(),
+          verified: true,
+        },
       ];
 
       const result = service.createVaccinationsDomainInstances(dogId, dto);
@@ -109,22 +135,24 @@ describe('DogService', () => {
         label: 'Juguetón',
         category: PersonalityCategory.actividad,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       });
       repository.personalityTags.set(existingTag.id, existingTag);
 
       const dtoTags: PersonalityDto[] = [
         { label: 'Juguetón', category: PersonalityCategory.actividad }, // Existe
-        { label: 'Tranquilo', category: PersonalityCategory.caracter } // No existe
+        { label: 'Tranquilo', category: PersonalityCategory.caracter }, // No existe
       ];
 
       const spyCreate = jest.spyOn(repository, 'createPersonalityTags');
 
       const result = await service.createAndGetPersonalityTags(dogId, dtoTags);
-      
+
       expect(result).toHaveLength(2);
-      expect(result.some(t => t.id === 'existing-id')).toBeTruthy();
-      expect(result.some(t => typeof t.id === 'string' && t.id !== 'existing-id')).toBeTruthy();
+      expect(result.some((t) => t.id === 'existing-id')).toBeTruthy();
+      expect(
+        result.some((t) => typeof t.id === 'string' && t.id !== 'existing-id'),
+      ).toBeTruthy();
       expect(spyCreate).toHaveBeenCalledTimes(1);
       const createdArg = spyCreate.mock.calls[0][0];
       expect(createdArg).toHaveLength(1);
@@ -144,7 +172,9 @@ describe('DogService', () => {
         size: DogSize.mediano,
         energyLevel: EnergyLevel.alta,
         description: 'Un perro muy activo',
-        personality: [{ label: 'Juguetón', category: PersonalityCategory.actividad }],
+        personality: [
+          { label: 'Juguetón', category: PersonalityCategory.actividad },
+        ],
         goodWithKids: true,
         goodWithDogs: true,
         goodWithCats: false,
@@ -158,7 +188,8 @@ describe('DogService', () => {
         photo: 'http://foto.com/firulais.jpg',
         breed2: null,
         shelterName: 'Refugio Amigo',
-        shelterLogo: 'http://logo.com/refugio.png'
+        shelterLogo: 'http://logo.com/refugio.png',
+        adoptionFee: 100,
       };
 
       const spyCreateRepo = jest.spyOn(repository, 'createDog');
@@ -176,12 +207,35 @@ describe('DogService', () => {
     it('should return all dogs from repository', async () => {
       // Setup
       const d = Dog.createDog({
-        id: '1', userOwnerId, shelterId, status: DogStatus.disponible, name: 'Dog 1',
-        breed: 'B1', age: 1, sex: DogSex.macho, size: DogSize.mediano, energyLevel: EnergyLevel.alta,
-        description: 'D1', personality: [], goodWithKids: true, goodWithDogs: true, goodWithCats: true,
-        sterilized: false, needsYard: false, isVaccinated: false, isDewormed: false, furLength: FurLength.corto,
-        vaccinations: [], health: 'H1', photo: null, breed2: null, shelterName: null, shelterLogo: null, weightKg: 10,
-        createdAt: new Date(), updatedAt: new Date()
+        id: '1',
+        userOwnerId,
+        shelterId,
+        status: DogStatus.disponible,
+        name: 'Dog 1',
+        breed: 'B1',
+        age: 1,
+        sex: DogSex.macho,
+        size: DogSize.mediano,
+        energyLevel: EnergyLevel.alta,
+        description: 'D1',
+        personality: [],
+        goodWithKids: true,
+        goodWithDogs: true,
+        goodWithCats: true,
+        sterilized: false,
+        needsYard: false,
+        isVaccinated: false,
+        isDewormed: false,
+        furLength: FurLength.corto,
+        vaccinations: [],
+        health: 'H1',
+        photo: null,
+        breed2: null,
+        shelterName: null,
+        shelterLogo: null,
+        weightKg: 10,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
       repository.dogs.set(d.id, d);
 
@@ -196,12 +250,35 @@ describe('DogService', () => {
       // Setup existing
       const existingDogId = 'existing-dog';
       const existingDog = Dog.createDog({
-        id: existingDogId, userOwnerId, shelterId, status: DogStatus.disponible, name: 'DogOld',
-        breed: 'B1', age: 1, sex: DogSex.macho, size: DogSize.mediano, energyLevel: EnergyLevel.alta,
-        description: 'D1', personality: [], goodWithKids: true, goodWithDogs: true, goodWithCats: true,
-        sterilized: false, needsYard: false, isVaccinated: false, isDewormed: false, furLength: FurLength.corto,
-        vaccinations: [], health: 'H1', photo: null, breed2: null, shelterName: null, shelterLogo: null, weightKg: 10,
-        createdAt: new Date(), updatedAt: new Date('2020-01-01')
+        id: existingDogId,
+        userOwnerId,
+        shelterId,
+        status: DogStatus.disponible,
+        name: 'DogOld',
+        breed: 'B1',
+        age: 1,
+        sex: DogSex.macho,
+        size: DogSize.mediano,
+        energyLevel: EnergyLevel.alta,
+        description: 'D1',
+        personality: [],
+        goodWithKids: true,
+        goodWithDogs: true,
+        goodWithCats: true,
+        sterilized: false,
+        needsYard: false,
+        isVaccinated: false,
+        isDewormed: false,
+        furLength: FurLength.corto,
+        vaccinations: [],
+        health: 'H1',
+        photo: null,
+        breed2: null,
+        shelterName: null,
+        shelterLogo: null,
+        weightKg: 10,
+        createdAt: new Date(),
+        updatedAt: new Date('2020-01-01'),
       });
       repository.dogs.set(existingDogId, existingDog);
 
@@ -215,7 +292,9 @@ describe('DogService', () => {
         size: DogSize.mediano,
         energyLevel: EnergyLevel.alta,
         description: 'D1',
-        personality: [{ label: 'Tranquilo', category: PersonalityCategory.caracter }], // Campo cambiado (Tag)
+        personality: [
+          { label: 'Tranquilo', category: PersonalityCategory.caracter },
+        ], // Campo cambiado (Tag)
         goodWithKids: true,
         goodWithDogs: true,
         goodWithCats: true,
@@ -229,7 +308,8 @@ describe('DogService', () => {
         photo: 'http://foto.com/nuevo.jpg',
         breed2: null,
         shelterName: null,
-        shelterLogo: null
+        shelterLogo: null,
+        adoptionFee: 100,
       };
 
       const spyUpdateRepo = jest.spyOn(repository, 'updateDog');

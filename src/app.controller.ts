@@ -27,9 +27,10 @@ export class AppController {
   @Roles('shelter')
   async updateDog(
     @Body() updateDogDto: UpdateDogDto,
-    @Param('id') dogId: string
+    @Param('id') dogId: string,
+    @User("sub") userOwnerId: string,
   ): Promise<DogModel> {
-    return this.dogService.updateDog(updateDogDto, dogId);
+    return this.dogService.updateDog(updateDogDto, dogId, userOwnerId);
   }
 
   @Get("dog/:id")
