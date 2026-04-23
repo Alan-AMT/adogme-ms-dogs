@@ -51,4 +51,4 @@ jobs:
           ML_SERVICE_URL=ML_SERVICE_URL:latest
         # Ajustar según necesidades de seguridad
         # flags: '--allow-unauthenticated' 
-        flags: '--no-allow-unauthenticated --service-account=ms-dogs@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"'
+        flags: '--no-allow-unauthenticated --service-account=ms-dogs@${{ env.PROJECT_ID }}.iam.gserviceaccount.com'
