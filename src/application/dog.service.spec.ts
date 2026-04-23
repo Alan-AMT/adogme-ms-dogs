@@ -314,7 +314,7 @@ describe('DogService', () => {
 
       const spyUpdateRepo = jest.spyOn(repository, 'updateDog');
 
-      const result = await service.updateDog(updateDto, existingDogId);
+      const result = await service.updateDog(updateDto, existingDogId, userOwnerId);
 
       expect(result.id).toBe(existingDogId);
       expect(result.name).toBe('DogNew');

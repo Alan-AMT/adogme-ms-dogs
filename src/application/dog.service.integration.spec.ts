@@ -6,6 +6,8 @@ import { DogRepository } from '../domain/dog.repository.js';
 import { ConfigModule } from '@nestjs/config';
 import { CreateDogDto } from './create-dog.dto.js';
 import { DogSex, DogSize, DogStatus, EnergyLevel, FurLength, PersonalityCategory } from '../domain/dog.entity.js';
+import { MlDogPort } from '../domain/ml.port.js';
+import { MlDogAdapter } from '../infrastructure/ml-microservice/ml.adapter.js';
 
 describe('DogService Integration (Prisma DB)', () => {
   let service: DogService;
@@ -28,6 +30,10 @@ describe('DogService Integration (Prisma DB)', () => {
           provide: DogRepository,
           useClass: PrismaDogRepository, // Se bindea la interfaz al repository de Infraestructura
         },
+        {
+          provide: MlDogPort,
+          useClass: MlDogAdapter
+        }
       ],
     }).compile();
 
@@ -68,7 +74,8 @@ describe('DogService Integration (Prisma DB)', () => {
         photo: 'http://foto.com/firulais.jpg',
         breed2: null,
         shelterName: 'Refugio Amigo',
-        shelterLogo: 'http://logo.com/refugio.png'
+        shelterLogo: 'http://logo.com/refugio.png',
+        adoptionFee: 100,
       };
 
       const result = await service.createDog(createDto, userOwnerId);
@@ -114,7 +121,8 @@ describe('DogService Integration (Prisma DB)', () => {
         photo: '',
         breed2: null,
         shelterName: null,
-        shelterLogo: null
+        shelterLogo: null,
+        adoptionFee: 100,
       };
 
       const result = await service.createDog(createDto, userOwnerId);
@@ -158,7 +166,8 @@ describe('DogService Integration (Prisma DB)', () => {
         photo: '',
         breed2: null,
         shelterName: null,
-        shelterLogo: null
+        shelterLogo: null,
+        adoptionFee: 100,
       };
 
       const result = await service.createDog(createDto, userOwnerId);
@@ -213,10 +222,11 @@ describe('DogService Integration (Prisma DB)', () => {
           photo: '',
           breed2: null,
           shelterName: null,
-          shelterLogo: null
+          shelterLogo: null,
+          adoptionFee: 100,
         };
 
-        const result = await service.updateDog(updateDto, dogToUpdate.id);
+        const result = await service.updateDog(updateDto, dogToUpdate.id, userOwnerId);
         expect(result.name).toBe('Firulais Actualizado Vacio');
         
         const persistedDog = await prisma.dog.findUnique({
@@ -268,10 +278,11 @@ describe('DogService Integration (Prisma DB)', () => {
           photo: '',
           breed2: null,
           shelterName: null,
-          shelterLogo: null
+          shelterLogo: null,
+          adoptionFee: 100,
         };
 
-        const result = await service.updateDog(updateDto, dogToUpdate.id);
+        const result = await service.updateDog(updateDto, dogToUpdate.id, userOwnerId);
         expect(result.name).toBe('Firulais Full Equipado');
         
         const persistedDog = await prisma.dog.findUnique({

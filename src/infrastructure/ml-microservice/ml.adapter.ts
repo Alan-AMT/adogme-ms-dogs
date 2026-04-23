@@ -1,17 +1,25 @@
+import { GoogleAuth } from "google-auth-library";
 import { Dog, DogSex, DogSize, FurLength } from "../../domain/dog.entity.js";
 import { MlDogPort } from "../../domain/ml.port.js";
 import { BreedsMap } from "./breeds.map.js"
 import { Injectable } from "@nestjs/common";
+import { decode, JwtPayload } from "jsonwebtoken";
 
 @Injectable()
 export class MlDogAdapter implements MlDogPort {
+    mlServiceToken: string;
+
     async createMlDog(dog: Dog, adoptionFee: number): Promise<void> {
         try { 
             const parsedDog = this.parseDogToMlPayload(dog, adoptionFee)
+            if (this.checkTokenExpired()) {
+                await this.refreshTokenClient();
+            }
             const response = await fetch(`${process.env.ML_SERVICE_URL}/predict/process-dog`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.mlServiceToken}`
                 },
                 body: JSON.stringify(parsedDog),
             });
@@ -27,10 +35,14 @@ export class MlDogAdapter implements MlDogPort {
     async updateMlDog(dog: Dog, adoptionFee: number): Promise<void> {
         try { 
             const parsedDog = this.parseDogToMlPayload(dog, adoptionFee)
+            if (this.checkTokenExpired()) {
+                await this.refreshTokenClient();
+            }
             const response = await fetch(`${process.env.ML_SERVICE_URL}/predict/process-dog`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.mlServiceToken}`
                 },
                 body: JSON.stringify(parsedDog),
             });
@@ -41,6 +53,25 @@ export class MlDogAdapter implements MlDogPort {
         } catch (error) {
             console.error(error)
             throw new Error("Failed to update dog in ML service")
+        }
+    }
+
+    checkTokenExpired(): boolean {
+        if (!this.mlServiceToken) return true;
+        const decodedToken = decode(this.mlServiceToken) as JwtPayload;
+        const currentTime = Date.now() / 1000;
+        return decodedToken.exp! < currentTime;
+    }
+
+    async refreshTokenClient(): Promise<void> {
+        try {
+            const auth = new GoogleAuth();
+            const client = await auth.getIdTokenClient(process.env.ML_SERVICE_URL ?? "");
+            const token = await client.idTokenProvider.fetchIdToken(process.env.ML_SERVICE_URL ?? "")
+            this.mlServiceToken = token;
+        } catch (error) {
+            console.error(error)
+            throw new Error("Failed to refresh ML service token")
         }
     }
 
