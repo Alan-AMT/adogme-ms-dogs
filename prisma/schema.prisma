@@ -123,9 +123,29 @@ model Dog {
   health       String
   photo        String? // URL principal
   // photos: string[] // galería completa
+  vector       Float[]          @default([])
+  images       Image[]
 
   createdAt DateTime // @default(now())
   updatedAt DateTime // @updatedAt
+
+  @@schema("dogs_service")
+}
+
+enum ImageStatus {
+  pending
+  accepted
+  rejected
+
+  @@schema("dogs_service")
+}
+
+model Image {
+  id     String      @id @unique
+  dog    Dog         @relation(fields: [dogId], references: [id], onDelete: Cascade)
+  dogId  String
+  status ImageStatus
+  url    String
 
   @@schema("dogs_service")
 }

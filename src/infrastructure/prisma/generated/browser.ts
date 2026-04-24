@@ -32,3 +32,8 @@ export type PersonalityTag = Prisma.PersonalityTagModel
  * 
  */
 export type Dog = Prisma.DogModel
+/**
+ * Model Image
+ * 
+ */
+export type Image = Prisma.ImageModel

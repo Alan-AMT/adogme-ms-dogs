@@ -1,5 +1,8 @@
 import { DogRepository } from "../../domain/dog.repository.js";
-import { Dog, DogSex, DogSize, DogStatus, EnergyLevel, FurLength, PersonalityCategory, PersonalityTag, Vaccination } from "../../domain/dog.entity.js";
+import { Dog, DogSex, DogSize, DogStatus, EnergyLevel, FurLength } from "../../domain/dog.entity.js";
+import { PersonalityCategory, PersonalityTag } from "../../domain/personalityTag.entity.js";
+import { Vaccination } from "../../domain/vaccination.entity.js";
+import { Image as DogImage, ImageStatus } from "../../domain/image.entity.js";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.service.js";
 
@@ -18,11 +21,16 @@ export class PrismaDogRepository implements DogRepository {
                         id: vaccination.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
                     }))
                 },
+                images: {
+                    create: dog.images.map(image => ({
+                        id: image.id, url: image.url, status: image.status as ImageStatus
+                    }))
+                }
             }
         })
     }
     async findAll(): Promise<Dog[]> {
-        const dogs = await this.prisma.dog.findMany({include: {personality: true, vaccinations: true}});
+        const dogs = await this.prisma.dog.findMany({include: {images: true}});
         return dogs.map(dog => {
             const furLength = dog.furLength as FurLength;
             const energyLevel = dog.energyLevel as EnergyLevel;
@@ -31,12 +39,20 @@ export class PrismaDogRepository implements DogRepository {
             const status = dog.status as DogStatus;
             return Dog.createDog({
                 ...dog,
-                personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
-                    id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
-                })),
-                vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
-                    id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
-                })),
+                // personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
+                //     id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
+                // })),
+                // vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
+                //     id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
+                // })),
+                // images: dog.images.map(image => DogImage.createImage({
+                //     id: image.id, dogId: dog.id, url: image.url, status: image.status as ImageStatus
+                // })),
+                personality: [],
+                vaccinations: [],
+                images: dog.images.length > 0 ? [DogImage.createImage({
+                    id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
+                })] : [],
                 furLength: furLength,
                 energyLevel: energyLevel,
                 size: size,
@@ -46,7 +62,7 @@ export class PrismaDogRepository implements DogRepository {
     }
 
     async findAllByShelterId(shelterId: string): Promise<Dog[]> {
-        const dogs = await this.prisma.dog.findMany({ where: { shelterId }, include: { personality: true, vaccinations: true } });
+        const dogs = await this.prisma.dog.findMany({ where: { shelterId }, include: { images: true } });
         return dogs.map(dog => {
             const furLength = dog.furLength as FurLength;
             const energyLevel = dog.energyLevel as EnergyLevel;
@@ -55,12 +71,20 @@ export class PrismaDogRepository implements DogRepository {
             const status = dog.status as DogStatus;
             return Dog.createDog({
                 ...dog,
-                personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
-                    id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
-                })),
-                vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
-                    id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
-                })),
+                // personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
+                //     id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
+                // })),
+                // vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
+                //     id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
+                // })),
+                // images: dog.images.map(image => DogImage.createImage({
+                //     id: image.id, dogId: dog.id, url: image.url, status: image.status as ImageStatus
+                // })),
+                personality: [],
+                vaccinations: [],
+                images: dog.images.length > 0 ? [DogImage.createImage({
+                    id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
+                })] : [],
                 furLength: furLength,
                 energyLevel: energyLevel,
                 size: size,
@@ -70,7 +94,7 @@ export class PrismaDogRepository implements DogRepository {
     }
 
     async findDogById(id: string): Promise<Dog> {
-        const dog = await this.prisma.dog.findUnique({ where: { id }, include: { personality: true, vaccinations: true } });
+        const dog = await this.prisma.dog.findUnique({ where: { id }, include: { personality: true, vaccinations: true, images: true } });
         if (!dog) throw new Error("Dog not found");
         return Dog.createDog({...dog, 
                 personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
@@ -78,6 +102,9 @@ export class PrismaDogRepository implements DogRepository {
                 })), 
                 vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
                     id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
+                })),
+                images: dog.images.map(image => DogImage.createImage({
+                    id: image.id, dogId: dog.id, url: image.url, status: image.status as ImageStatus
                 })),
                 furLength: dog.furLength as FurLength,
                 energyLevel: dog.energyLevel as EnergyLevel,
@@ -93,7 +120,8 @@ export class PrismaDogRepository implements DogRepository {
                     set: dog.personality.map(tag => ({ id: tag.id })),
                 }
             }
-        const {id, userOwnerId, shelterId, vaccinations, ...cleanedDog} = data
+        //TODO: HOW ARE WE GOING TO IMPLEMENT IMAGE UPDATE?
+        const {id, userOwnerId, shelterId, vaccinations, images, ...cleanedDog} = data
         await this.prisma.dog.update({ where: { id: dog.id }, 
             data: cleanedDog });
         await this.deleteAllDogVaccinations(dog.id);

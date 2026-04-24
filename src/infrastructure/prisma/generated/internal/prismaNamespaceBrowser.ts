@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Vaccination: 'Vaccination',
   PersonalityTag: 'PersonalityTag',
-  Dog: 'Dog'
+  Dog: 'Dog',
+  Image: 'Image'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -123,11 +124,22 @@ export const DogScalarFieldEnum = {
   furLength: 'furLength',
   health: 'health',
   photo: 'photo',
+  vector: 'vector',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type DogScalarFieldEnum = (typeof DogScalarFieldEnum)[keyof typeof DogScalarFieldEnum]
+
+
+export const ImageScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  status: 'status',
+  url: 'url'
+} as const
+
+export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
 
 
 export const SortOrder = {

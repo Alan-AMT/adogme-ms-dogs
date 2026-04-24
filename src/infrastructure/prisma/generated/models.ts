@@ -11,4 +11,5 @@
 export type * from './models/Vaccination.js'
 export type * from './models/PersonalityTag.js'
 export type * from './models/Dog.js'
+export type * from './models/Image.js'
 export type * from './commonInputTypes.js'

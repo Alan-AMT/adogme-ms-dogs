@@ -4,14 +4,16 @@ import { MlDogPort } from "../../domain/ml.port.js";
 import { BreedsMap } from "./breeds.map.js"
 import { Injectable } from "@nestjs/common";
 import { decode, JwtPayload } from "jsonwebtoken";
+import { CreateDogDto } from "src/application/create-dog.dto.js";
+import { UpdateDogDto } from "src/application/update-dog.dto.js";
 
 @Injectable()
 export class MlDogAdapter implements MlDogPort {
     mlServiceToken: string;
 
-    async createMlDog(dog: Dog, adoptionFee: number): Promise<void> {
+    async createMlDog(dog: CreateDogDto, adoptionFee: number, dogId: string): Promise<{adoption_speed: number, speed_label: string, dog_vector: number[]}> {
         try { 
-            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee)
+            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId)
             if (this.checkTokenExpired()) {
                 await this.refreshTokenClient();
             }
@@ -27,14 +29,15 @@ export class MlDogAdapter implements MlDogPort {
                 throw new Error(`Machine Learning service error! status: ${response.status}`);
             }
             const {adoption_speed, speed_label, dog_vector} = await response.json();
+            return {adoption_speed, speed_label, dog_vector};
         } catch (error) {
             console.error(error)
             throw new Error("Failed to create dog in ML service")
         }
     }
-    async updateMlDog(dog: Dog, adoptionFee: number): Promise<void> {
+    async updateMlDog(dog: UpdateDogDto, adoptionFee: number, dogId: string): Promise<{adoption_speed: number, speed_label: string, dog_vector: number[]}> {
         try { 
-            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee)
+            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId)
             if (this.checkTokenExpired()) {
                 await this.refreshTokenClient();
             }
@@ -50,6 +53,7 @@ export class MlDogAdapter implements MlDogPort {
                 throw new Error(`Machine Learning service error! status: ${response.status}`);
             }
             const {adoption_speed, speed_label, dog_vector} = await response.json();
+            return {adoption_speed, speed_label, dog_vector};
         } catch (error) {
             console.error(error)
             throw new Error("Failed to update dog in ML service")
@@ -75,7 +79,7 @@ export class MlDogAdapter implements MlDogPort {
         }
     }
 
-    parseDogToMlPayload(dog: Dog, adoptionFee: number): any {
+    parseDogToMlPayload(dog: CreateDogDto | UpdateDogDto, adoptionFee: number, dogId: string): any {
         const getMaturitySizeValue = (size: DogSize): number => {
             switch (size) {
                 case DogSize.pequeño:
@@ -113,7 +117,7 @@ export class MlDogAdapter implements MlDogPort {
             }
         }
         return {
-            dog_service_id: dog.id,
+            dog_service_id: dogId,
             Name: dog.name,
             Age: dog.age,
             Breed1: BreedsMap[dog.breed] ?? 307,
@@ -127,7 +131,7 @@ export class MlDogAdapter implements MlDogPort {
             Health: getHealthValue(dog.health),
             Quantity: 1,
             Fee: adoptionFee,
-            PhotoAmt: 0,
+            PhotoAmt: dog.imageExtensions ? dog.imageExtensions.length : 0,
             VideoAmt: 0,
             Description: dog.description,
         }

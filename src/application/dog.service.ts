@@ -1,20 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import { DogRepository } from "../domain/dog.repository.js";
-import { Dog, DogStatus, PersonalityTag, Vaccination } from "../domain/dog.entity.js";
+import { Dog, DogStatus } from "../domain/dog.entity.js";
 import { CreateDogDto, PersonalityDto, VaccinationDto } from "./create-dog.dto.js";
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateDogDto } from "./update-dog.dto.js";
 import { MlDogPort } from "../domain/ml.port.js";
+import { ImagesPort } from "../domain/images.port.js";
+import { ImageStatus, Image as DogImage } from "../domain/image.entity.js";
+import { Vaccination } from "../domain/vaccination.entity.js";
+import { PersonalityTag } from "../domain/personalityTag.entity.js";
 
 @Injectable()
 export class DogService {
-    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort) {}
+    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort, private readonly imagesPort: ImagesPort) {}
 
     async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<Dog> {
         const date = new Date();
         const dogId = uuidv4();
-        const dogTags = await this.createAndGetPersonalityTags(dogId, createDogDto.personality);
-        const {adoptionFee, ...dogData} = createDogDto;
+        const {adoptionFee, imageExtensions, ...dogData} = createDogDto;
+        const [dogTags, dogMl, uploadUrls] = await Promise.all([
+            this.createAndGetPersonalityTags(dogId, createDogDto.personality),
+            this.mlDogPort.createMlDog(createDogDto, adoptionFee ?? 0, dogId),
+            this.imagesPort.generateUploadLinks(dogId, createDogDto.imageExtensions ?? [])
+        ]);
         const dogToCreate = Dog.createDog({
             id: dogId,
             ...dogData,
@@ -22,10 +30,11 @@ export class DogService {
             personality: dogTags,
             status: DogStatus.disponible,
             vaccinations: this.createVaccinationsDomainInstances(dogId, createDogDto.vaccinations),
+            images: this.createImagesDomainInstances(dogId, createDogDto.imageExtensions ?? []),
+            vector: dogMl.dog_vector,
             updatedAt: date,
             createdAt: date,
         })
-        await this.mlDogPort.createMlDog(dogToCreate,  adoptionFee ?? 0);
         await this.repository.createDog(dogToCreate);
         return dogToCreate;
     }
@@ -47,13 +56,17 @@ export class DogService {
         if (dog.userOwnerId !== userOwnerId) {
             throw new Error('No puedes editar este perro');
         }
-        const dogTags = await this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []);
-        //Primero llenamos con los valores actuales, luego con los valores que vienen llenos en el Dto
-        const {adoptionFee, ...dogData} = updateDogDto;
+        const {adoptionFee, imageExtensions, ...dogData} = updateDogDto;
+        // const [dogTags, dogMl, uploadUrls] = await Promise.all([
+        const [dogTags, dogMl ] = await Promise.all([
+            this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []),
+            this.mlDogPort.updateMlDog(updateDogDto, adoptionFee ?? 0, dogId),
+            // this.imagesPort.generateUploadLinks(dogId, updateDogDto.imageExtensions ?? [])
+        ]);
         const updatedDog = Dog.createDog({...dog, ...dogData, personality: dogTags,
             vaccinations: updateDogDto.vaccinations ? this.createVaccinationsDomainInstances(dogId, updateDogDto.vaccinations) : [],
+            vector: dogMl.dog_vector,
             updatedAt: new Date()});
-        await this.mlDogPort.updateMlDog(updatedDog, adoptionFee ?? 0);
         await this.repository.updateDog(updatedDog);
         return updatedDog;
     }
@@ -88,6 +101,16 @@ export class DogService {
                 verified: vaccination.verified,
                 createdAt: new Date(),
                 updatedAt: new Date()
+            }))
+    }
+
+    createImagesDomainInstances(dogId: string, imageExtensions: string[]): DogImage[] {
+        const BUCKET_NAME = process.env.BUCKET_NAME;
+        return imageExtensions.map((extension, index) => DogImage.createImage({
+                id: uuidv4(),
+                dogId: dogId,
+                status: ImageStatus.pending,
+                url: `https://storage.googleapis.com/${BUCKET_NAME}/${dogId}/image_${index + 1}${extension}`,
             }))
     }
 

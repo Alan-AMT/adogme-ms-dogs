@@ -29,11 +29,13 @@ export type AggregateDog = {
 export type DogAvgAggregateOutputType = {
   age: number | null
   weightKg: number | null
+  vector: number | null
 }
 
 export type DogSumAggregateOutputType = {
   age: number | null
   weightKg: number | null
+  vector: number[]
 }
 
 export type DogMinAggregateOutputType = {
@@ -122,6 +124,7 @@ export type DogCountAggregateOutputType = {
   furLength: number
   health: number
   photo: number
+  vector: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -131,11 +134,13 @@ export type DogCountAggregateOutputType = {
 export type DogAvgAggregateInputType = {
   age?: true
   weightKg?: true
+  vector?: true
 }
 
 export type DogSumAggregateInputType = {
   age?: true
   weightKg?: true
+  vector?: true
 }
 
 export type DogMinAggregateInputType = {
@@ -224,6 +229,7 @@ export type DogCountAggregateInputType = {
   furLength?: true
   health?: true
   photo?: true
+  vector?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -341,6 +347,7 @@ export type DogGroupByOutputType = {
   furLength: $Enums.FurLength
   health: string
   photo: string | null
+  vector: number[]
   createdAt: Date
   updatedAt: Date
   _count: DogCountAggregateOutputType | null
@@ -394,10 +401,12 @@ export type DogWhereInput = {
   furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
   health?: Prisma.StringFilter<"Dog"> | string
   photo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  vector?: Prisma.FloatNullableListFilter<"Dog">
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   personality?: Prisma.PersonalityTagListRelationFilter
   vaccinations?: Prisma.VaccinationListRelationFilter
+  images?: Prisma.ImageListRelationFilter
 }
 
 export type DogOrderByWithRelationInput = {
@@ -426,10 +435,12 @@ export type DogOrderByWithRelationInput = {
   furLength?: Prisma.SortOrder
   health?: Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
+  vector?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   personality?: Prisma.PersonalityTagOrderByRelationAggregateInput
   vaccinations?: Prisma.VaccinationOrderByRelationAggregateInput
+  images?: Prisma.ImageOrderByRelationAggregateInput
 }
 
 export type DogWhereUniqueInput = Prisma.AtLeast<{
@@ -461,10 +472,12 @@ export type DogWhereUniqueInput = Prisma.AtLeast<{
   furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
   health?: Prisma.StringFilter<"Dog"> | string
   photo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  vector?: Prisma.FloatNullableListFilter<"Dog">
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   personality?: Prisma.PersonalityTagListRelationFilter
   vaccinations?: Prisma.VaccinationListRelationFilter
+  images?: Prisma.ImageListRelationFilter
 }, "id" | "id">
 
 export type DogOrderByWithAggregationInput = {
@@ -493,6 +506,7 @@ export type DogOrderByWithAggregationInput = {
   furLength?: Prisma.SortOrder
   health?: Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
+  vector?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DogCountOrderByAggregateInput
@@ -531,6 +545,7 @@ export type DogScalarWhereWithAggregatesInput = {
   furLength?: Prisma.EnumFurLengthWithAggregatesFilter<"Dog"> | $Enums.FurLength
   health?: Prisma.StringWithAggregatesFilter<"Dog"> | string
   photo?: Prisma.StringNullableWithAggregatesFilter<"Dog"> | string | null
+  vector?: Prisma.FloatNullableListFilter<"Dog">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Dog"> | Date | string
 }
@@ -561,10 +576,12 @@ export type DogCreateInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   personality?: Prisma.PersonalityTagCreateNestedManyWithoutDogInput
   vaccinations?: Prisma.VaccinationCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageCreateNestedManyWithoutDogInput
 }
 
 export type DogUncheckedCreateInput = {
@@ -593,10 +610,12 @@ export type DogUncheckedCreateInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   personality?: Prisma.PersonalityTagUncheckedCreateNestedManyWithoutDogInput
   vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutDogInput
 }
 
 export type DogUpdateInput = {
@@ -625,10 +644,12 @@ export type DogUpdateInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   personality?: Prisma.PersonalityTagUpdateManyWithoutDogNestedInput
   vaccinations?: Prisma.VaccinationUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUpdateManyWithoutDogNestedInput
 }
 
 export type DogUncheckedUpdateInput = {
@@ -657,10 +678,12 @@ export type DogUncheckedUpdateInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   personality?: Prisma.PersonalityTagUncheckedUpdateManyWithoutDogNestedInput
   vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutDogNestedInput
 }
 
 export type DogCreateManyInput = {
@@ -689,6 +712,7 @@ export type DogCreateManyInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
 }
@@ -719,6 +743,7 @@ export type DogUpdateManyMutationInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -749,6 +774,7 @@ export type DogUncheckedUpdateManyInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -766,6 +792,14 @@ export type DogListRelationFilter = {
 
 export type DogOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type FloatNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.FloatFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type DogCountOrderByAggregateInput = {
@@ -794,6 +828,7 @@ export type DogCountOrderByAggregateInput = {
   furLength?: Prisma.SortOrder
   health?: Prisma.SortOrder
   photo?: Prisma.SortOrder
+  vector?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -801,6 +836,7 @@ export type DogCountOrderByAggregateInput = {
 export type DogAvgOrderByAggregateInput = {
   age?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  vector?: Prisma.SortOrder
 }
 
 export type DogMaxOrderByAggregateInput = {
@@ -866,6 +902,7 @@ export type DogMinOrderByAggregateInput = {
 export type DogSumOrderByAggregateInput = {
   age?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  vector?: Prisma.SortOrder
 }
 
 export type DogCreateNestedOneWithoutVaccinationsInput = {
@@ -920,6 +957,10 @@ export type DogUncheckedUpdateManyWithoutPersonalityNestedInput = {
   deleteMany?: Prisma.DogScalarWhereInput | Prisma.DogScalarWhereInput[]
 }
 
+export type DogCreatevectorInput = {
+  set: number[]
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
@@ -960,6 +1001,25 @@ export type EnumFurLengthFieldUpdateOperationsInput = {
   set?: $Enums.FurLength
 }
 
+export type DogUpdatevectorInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
+export type DogCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutImagesInput, Prisma.DogUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutImagesInput
+  connect?: Prisma.DogWhereUniqueInput
+}
+
+export type DogUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.DogCreateWithoutImagesInput, Prisma.DogUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.DogCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.DogUpsertWithoutImagesInput
+  connect?: Prisma.DogWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DogUpdateToOneWithWhereWithoutImagesInput, Prisma.DogUpdateWithoutImagesInput>, Prisma.DogUncheckedUpdateWithoutImagesInput>
+}
+
 export type DogCreateWithoutVaccinationsInput = {
   id: string
   userOwnerId: string
@@ -986,9 +1046,11 @@ export type DogCreateWithoutVaccinationsInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   personality?: Prisma.PersonalityTagCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageCreateNestedManyWithoutDogInput
 }
 
 export type DogUncheckedCreateWithoutVaccinationsInput = {
@@ -1017,9 +1079,11 @@ export type DogUncheckedCreateWithoutVaccinationsInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   personality?: Prisma.PersonalityTagUncheckedCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutDogInput
 }
 
 export type DogCreateOrConnectWithoutVaccinationsInput = {
@@ -1064,9 +1128,11 @@ export type DogUpdateWithoutVaccinationsInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   personality?: Prisma.PersonalityTagUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUpdateManyWithoutDogNestedInput
 }
 
 export type DogUncheckedUpdateWithoutVaccinationsInput = {
@@ -1095,9 +1161,11 @@ export type DogUncheckedUpdateWithoutVaccinationsInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   personality?: Prisma.PersonalityTagUncheckedUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutDogNestedInput
 }
 
 export type DogCreateWithoutPersonalityInput = {
@@ -1126,9 +1194,11 @@ export type DogCreateWithoutPersonalityInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   vaccinations?: Prisma.VaccinationCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageCreateNestedManyWithoutDogInput
 }
 
 export type DogUncheckedCreateWithoutPersonalityInput = {
@@ -1157,9 +1227,11 @@ export type DogUncheckedCreateWithoutPersonalityInput = {
   furLength: $Enums.FurLength
   health: string
   photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
   createdAt: Date | string
   updatedAt: Date | string
   vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutDogInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutDogInput
 }
 
 export type DogCreateOrConnectWithoutPersonalityInput = {
@@ -1212,8 +1284,157 @@ export type DogScalarWhereInput = {
   furLength?: Prisma.EnumFurLengthFilter<"Dog"> | $Enums.FurLength
   health?: Prisma.StringFilter<"Dog"> | string
   photo?: Prisma.StringNullableFilter<"Dog"> | string | null
+  vector?: Prisma.FloatNullableListFilter<"Dog">
   createdAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Dog"> | Date | string
+}
+
+export type DogCreateWithoutImagesInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
+  createdAt: Date | string
+  updatedAt: Date | string
+  personality?: Prisma.PersonalityTagCreateNestedManyWithoutDogInput
+  vaccinations?: Prisma.VaccinationCreateNestedManyWithoutDogInput
+}
+
+export type DogUncheckedCreateWithoutImagesInput = {
+  id: string
+  userOwnerId: string
+  shelterId: string
+  shelterName?: string | null
+  shelterLogo?: string | null
+  status: $Enums.DogStatus
+  name: string
+  breed: string
+  breed2?: string | null
+  age: number
+  weightKg?: number | null
+  sex: $Enums.DogSex
+  size: $Enums.DogSize
+  energyLevel: $Enums.EnergyLevel
+  description: string
+  goodWithKids: boolean
+  goodWithDogs: boolean
+  goodWithCats: boolean
+  sterilized: boolean
+  needsYard: boolean
+  isVaccinated: boolean
+  isDewormed: boolean
+  furLength: $Enums.FurLength
+  health: string
+  photo?: string | null
+  vector?: Prisma.DogCreatevectorInput | number[]
+  createdAt: Date | string
+  updatedAt: Date | string
+  personality?: Prisma.PersonalityTagUncheckedCreateNestedManyWithoutDogInput
+  vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutDogInput
+}
+
+export type DogCreateOrConnectWithoutImagesInput = {
+  where: Prisma.DogWhereUniqueInput
+  create: Prisma.XOR<Prisma.DogCreateWithoutImagesInput, Prisma.DogUncheckedCreateWithoutImagesInput>
+}
+
+export type DogUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.DogUpdateWithoutImagesInput, Prisma.DogUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.DogCreateWithoutImagesInput, Prisma.DogUncheckedCreateWithoutImagesInput>
+  where?: Prisma.DogWhereInput
+}
+
+export type DogUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.DogWhereInput
+  data: Prisma.XOR<Prisma.DogUpdateWithoutImagesInput, Prisma.DogUncheckedUpdateWithoutImagesInput>
+}
+
+export type DogUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUpdateManyWithoutDogNestedInput
+  vaccinations?: Prisma.VaccinationUpdateManyWithoutDogNestedInput
+}
+
+export type DogUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userOwnerId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  shelterName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDogStatusFieldUpdateOperationsInput | $Enums.DogStatus
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  breed2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weightKg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sex?: Prisma.EnumDogSexFieldUpdateOperationsInput | $Enums.DogSex
+  size?: Prisma.EnumDogSizeFieldUpdateOperationsInput | $Enums.DogSize
+  energyLevel?: Prisma.EnumEnergyLevelFieldUpdateOperationsInput | $Enums.EnergyLevel
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  goodWithKids?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithDogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  goodWithCats?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sterilized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsYard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVaccinated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDewormed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
+  health?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  personality?: Prisma.PersonalityTagUncheckedUpdateManyWithoutDogNestedInput
+  vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutDogNestedInput
 }
 
 export type DogUpdateWithoutPersonalityInput = {
@@ -1242,9 +1463,11 @@ export type DogUpdateWithoutPersonalityInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccinations?: Prisma.VaccinationUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUpdateManyWithoutDogNestedInput
 }
 
 export type DogUncheckedUpdateWithoutPersonalityInput = {
@@ -1273,9 +1496,11 @@ export type DogUncheckedUpdateWithoutPersonalityInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutDogNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutDogNestedInput
 }
 
 export type DogUncheckedUpdateManyWithoutPersonalityInput = {
@@ -1304,6 +1529,7 @@ export type DogUncheckedUpdateManyWithoutPersonalityInput = {
   furLength?: Prisma.EnumFurLengthFieldUpdateOperationsInput | $Enums.FurLength
   health?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vector?: Prisma.DogUpdatevectorInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1316,11 +1542,13 @@ export type DogUncheckedUpdateManyWithoutPersonalityInput = {
 export type DogCountOutputType = {
   personality: number
   vaccinations: number
+  images: number
 }
 
 export type DogCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   personality?: boolean | DogCountOutputTypeCountPersonalityArgs
   vaccinations?: boolean | DogCountOutputTypeCountVaccinationsArgs
+  images?: boolean | DogCountOutputTypeCountImagesArgs
 }
 
 /**
@@ -1345,6 +1573,13 @@ export type DogCountOutputTypeCountPersonalityArgs<ExtArgs extends runtime.Types
  */
 export type DogCountOutputTypeCountVaccinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.VaccinationWhereInput
+}
+
+/**
+ * DogCountOutputType without action
+ */
+export type DogCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImageWhereInput
 }
 
 
@@ -1374,10 +1609,12 @@ export type DogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   furLength?: boolean
   health?: boolean
   photo?: boolean
+  vector?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   personality?: boolean | Prisma.Dog$personalityArgs<ExtArgs>
   vaccinations?: boolean | Prisma.Dog$vaccinationsArgs<ExtArgs>
+  images?: boolean | Prisma.Dog$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.DogCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dog"]>
 
@@ -1407,6 +1644,7 @@ export type DogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   furLength?: boolean
   health?: boolean
   photo?: boolean
+  vector?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
@@ -1437,6 +1675,7 @@ export type DogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   furLength?: boolean
   health?: boolean
   photo?: boolean
+  vector?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["dog"]>
@@ -1467,14 +1706,16 @@ export type DogSelectScalar = {
   furLength?: boolean
   health?: boolean
   photo?: boolean
+  vector?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userOwnerId" | "shelterId" | "shelterName" | "shelterLogo" | "status" | "name" | "breed" | "breed2" | "age" | "weightKg" | "sex" | "size" | "energyLevel" | "description" | "goodWithKids" | "goodWithDogs" | "goodWithCats" | "sterilized" | "needsYard" | "isVaccinated" | "isDewormed" | "furLength" | "health" | "photo" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
+export type DogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userOwnerId" | "shelterId" | "shelterName" | "shelterLogo" | "status" | "name" | "breed" | "breed2" | "age" | "weightKg" | "sex" | "size" | "energyLevel" | "description" | "goodWithKids" | "goodWithDogs" | "goodWithCats" | "sterilized" | "needsYard" | "isVaccinated" | "isDewormed" | "furLength" | "health" | "photo" | "vector" | "createdAt" | "updatedAt", ExtArgs["result"]["dog"]>
 export type DogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   personality?: boolean | Prisma.Dog$personalityArgs<ExtArgs>
   vaccinations?: boolean | Prisma.Dog$vaccinationsArgs<ExtArgs>
+  images?: boolean | Prisma.Dog$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.DogCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1485,6 +1726,7 @@ export type $DogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   objects: {
     personality: Prisma.$PersonalityTagPayload<ExtArgs>[]
     vaccinations: Prisma.$VaccinationPayload<ExtArgs>[]
+    images: Prisma.$ImagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1512,6 +1754,7 @@ export type $DogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     furLength: $Enums.FurLength
     health: string
     photo: string | null
+    vector: number[]
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["dog"]>
@@ -1910,6 +2153,7 @@ export interface Prisma__DogClient<T, Null = never, ExtArgs extends runtime.Type
   readonly [Symbol.toStringTag]: "PrismaPromise"
   personality<T extends Prisma.Dog$personalityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dog$personalityArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PersonalityTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vaccinations<T extends Prisma.Dog$vaccinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dog$vaccinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VaccinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  images<T extends Prisma.Dog$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dog$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1964,6 +2208,7 @@ export interface DogFieldRefs {
   readonly furLength: Prisma.FieldRef<"Dog", 'FurLength'>
   readonly health: Prisma.FieldRef<"Dog", 'String'>
   readonly photo: Prisma.FieldRef<"Dog", 'String'>
+  readonly vector: Prisma.FieldRef<"Dog", 'Float[]'>
   readonly createdAt: Prisma.FieldRef<"Dog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Dog", 'DateTime'>
 }
@@ -2399,6 +2644,30 @@ export type Dog$vaccinationsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.VaccinationScalarFieldEnum | Prisma.VaccinationScalarFieldEnum[]
+}
+
+/**
+ * Dog.images
+ */
+export type Dog$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Image
+   */
+  select?: Prisma.ImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Image
+   */
+  omit?: Prisma.ImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImageInclude<ExtArgs> | null
+  where?: Prisma.ImageWhereInput
+  orderBy?: Prisma.ImageOrderByWithRelationInput | Prisma.ImageOrderByWithRelationInput[]
+  cursor?: Prisma.ImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImageScalarFieldEnum | Prisma.ImageScalarFieldEnum[]
 }
 
 /**

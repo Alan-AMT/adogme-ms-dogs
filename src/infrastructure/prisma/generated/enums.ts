@@ -64,3 +64,12 @@ export const FurLength = {
 } as const
 
 export type FurLength = (typeof FurLength)[keyof typeof FurLength]
+
+
+export const ImageStatus = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+} as const
+
+export type ImageStatus = (typeof ImageStatus)[keyof typeof ImageStatus]

@@ -88,6 +88,11 @@ export class CreateDogDto {
   @IsNumber()
   adoptionFee: number | null = null;
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  imageExtensions: string[] | null = null;
+
 }
 
 export class PersonalityDto {
