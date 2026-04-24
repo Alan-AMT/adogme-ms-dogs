@@ -55,7 +55,13 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# acceptance tests
+```bash
+bash test/acceptance-tests.sh
 ```
+npm test src/application/dog.service.spec.ts
+npm test src/application/dog.service.integration.spec.ts
 
 ## Deployment
 
