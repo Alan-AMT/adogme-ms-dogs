@@ -1,42 +1,54 @@
-# --- Etapa 1: Build ---
+# ---------- 1. Build stage ----------
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copia los archivos de dependencias
+# Install deps (with dev)
 COPY package*.json ./
-COPY prisma ./prisma/ 
+COPY prisma ./prisma/
+RUN npm ci
 
-# Instala dependencias e incluye prisma
-RUN npm install
-
-# Copia el resto del código
+# Copy source
 COPY . .
 
-# Genera el cliente de Prisma basado en tu schema.prisma
+# Generate Prisma client
 RUN npx prisma generate
 
-# Compila NestJS
+# Build NestJS
 RUN npm run build
 
-# --- Etapa 2: Runner ---
+# ---------- 2. Production deps stage ----------
+FROM node:20-alpine AS deps
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY package*.json ./
+
+# Install ONLY production deps
+RUN npm ci --omit=dev
+
+# ---------- 3. Runner ----------
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
-# Ensure ca-certificates is installed for Prisma Postgres SSL connections
+# Required for Prisma SSL (Postgres)
 RUN apk add --no-cache ca-certificates
 
-# Copiamos solo lo necesario desde el builder
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-# Copiamos las dependencias de producción y el cliente generado
-COPY --from=builder /app/node_modules ./node_modules
+# Copy prod deps
+COPY --from=deps /app/node_modules ./node_modules
 
-# Si tu estrategia requiere copiar específicamente la carpeta .prisma:
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+# Copy Prisma runtime (engines + client)
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+
+# Copy compiled app only
+COPY --from=builder /app/dist ./dist
+
+# Optional: reduce attack surface
+RUN addgroup -S nodejs && adduser -S nodejs -G nodejs
+USER nodejs
 
 EXPOSE 8080
-ENV PORT 8080
-
 CMD ["node", "dist/src/main.js"]
