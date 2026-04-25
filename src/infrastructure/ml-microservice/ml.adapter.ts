@@ -131,7 +131,7 @@ export class MlDogAdapter implements MlDogPort {
             Health: getHealthValue(dog.health),
             Quantity: 1,
             Fee: adoptionFee,
-            PhotoAmt: dog.imageExtensions ? dog.imageExtensions.length : 0,
+            PhotoAmt: dog.amountImages ? dog.amountImages : 0,
             VideoAmt: 0,
             Description: dog.description,
         }
