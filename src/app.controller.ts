@@ -54,7 +54,7 @@ export class AppController {
     return this.dogService.findAllByShelterId(shelterId);
   }
   
-  @UseGuards(GoogleOidcGuard)
+  // @UseGuards(GoogleOidcGuard)
   @Patch('images/status')
   updateImageStatus(
     @Body() updateImageStatusDto: UpdateImageStatusDto,
