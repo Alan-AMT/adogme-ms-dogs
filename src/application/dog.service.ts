@@ -1,4 +1,5 @@
 import { Injectable, Logger, NotFoundException, ForbiddenException, InternalServerErrorException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { DogRepository } from "../domain/dog.repository.js";
 import { Dog, DogStatus } from "../domain/dog.entity.js";
 import { CreateDogDto, PersonalityDto, VaccinationDto } from "./create-dog.dto.js";
@@ -14,7 +15,12 @@ import { PersonalityTag } from "../domain/personalityTag.entity.js";
 export class DogService {
     private readonly logger = new Logger(DogService.name);
 
-    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort, private readonly imagesPort: ImagesPort) { }
+    constructor(
+        private readonly repository: DogRepository, 
+        private readonly mlDogPort: MlDogPort, 
+        private readonly imagesPort: ImagesPort,
+        private readonly configService: ConfigService
+    ) { }
 
     async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<{ dog: Dog, uploadUrls: string[] }> {
         this.logger.log(`Initiating dog creation for owner ${userOwnerId}`);
@@ -152,7 +158,7 @@ export class DogService {
     }
 
     createImagesDomainInstances(dogId: string, amountImages: number): DogImage[] {
-        const BUCKET_NAME_PUBLIC = process.env.BUCKET_NAME_PUBLIC;
+        const BUCKET_NAME_PUBLIC = this.configService.get<string>('BUCKET_NAME_PUBLIC');
         let images: DogImage[] = [];
         for(let i = 0; i < amountImages; i++) {
             const imageId = uuidv4();

@@ -1,9 +1,12 @@
 import { ImagesPort } from "src/domain/images.port.js";
-import {GetSignedUrlConfig, Storage} from '@google-cloud/storage';
+import { GetSignedUrlConfig, Storage } from '@google-cloud/storage';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
+@Injectable()
 export class CloudStorageAdapter implements ImagesPort {
     storage: Storage;
-    constructor() {
+    constructor(private readonly configService: ConfigService) {
         this.storage = new Storage();
     }
     async generateUploadLinks(dogId: string, imageIds: string[]): Promise<string[]> {
@@ -12,10 +15,10 @@ export class CloudStorageAdapter implements ImagesPort {
         }
         try {
             // The ID of your GCS bucket
-            const BUCKET_NAME_UPLOADS = process.env.BUCKET_NAME_UPLOADS;
+            const BUCKET_NAME_UPLOADS = this.configService.get<string>('BUCKET_NAME_UPLOADS');
             
             if (!BUCKET_NAME_UPLOADS) {
-                throw new Error("BUCKET_NAME_UPLOADS is not defined")
+                throw new Error("BUCKET_NAME_UPLOADS is not defined in the environment config")
             }
 
             // Creates a client
