@@ -1,6 +1,7 @@
 // src/dogs/application/dtos/create-dog.dto.ts
-import { IsString, IsInt, Min, Max, IsNumber, IsBoolean, IsOptional, IsEnum, IsArray, ValidateNested } from 'class-validator';
-import { DogSex, DogSize, EnergyLevel, FurLength, PersonalityCategory } from '../domain/dog.entity.js';
+import { IsString, IsInt, Min, IsNumber, IsBoolean, IsOptional, IsEnum, IsArray, ValidateNested } from 'class-validator';
+import { DogSex, DogSize, EnergyLevel, FurLength } from '../domain/dog.entity.js';
+import { PersonalityCategory } from '../domain/personalityTag.entity.js';
 import { Type } from 'class-transformer';
 export class CreateDogDto {
   @IsString()
@@ -89,10 +90,8 @@ export class CreateDogDto {
   adoptionFee: number | null = null;
 
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  imageExtensions: string[] | null = null;
-
+  @IsInt()
+  amountImages: number | null = null;
 }
 
 export class PersonalityDto {

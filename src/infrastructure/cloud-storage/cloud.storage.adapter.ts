@@ -6,16 +6,16 @@ export class CloudStorageAdapter implements ImagesPort {
     constructor() {
         this.storage = new Storage();
     }
-    async generateUploadLinks(dogId: string, imageExtensions: string[]): Promise<string[]> {
-        if (!imageExtensions || imageExtensions.length == 0) {
+    async generateUploadLinks(dogId: string, imageIds: string[]): Promise<string[]> {
+        if (!imageIds || imageIds.length == 0) {
             return [];
         }
         try {
             // The ID of your GCS bucket
-            const BUCKET_NAME = process.env.BUCKET_NAME;
+            const BUCKET_NAME_UPLOADS = process.env.BUCKET_NAME_UPLOADS;
             
-            if (!BUCKET_NAME) {
-                throw new Error("BUCKET_NAME is not defined")
+            if (!BUCKET_NAME_UPLOADS) {
+                throw new Error("BUCKET_NAME_UPLOADS is not defined")
             }
 
             // Creates a client
@@ -31,7 +31,7 @@ export class CloudStorageAdapter implements ImagesPort {
             };
             
             // The full path of your file inside the GCS bucket, e.g. 'yourFile.jpg' or 'folder1/folder2/yourFile.jpg'
-            const promises = imageExtensions.map((fileExtension, index) => storage.bucket(BUCKET_NAME).file(`${dogId}/image_${index + 1}${fileExtension}`).getSignedUrl(OPTIONS))
+            const promises = imageIds.map((imageId) => storage.bucket(BUCKET_NAME_UPLOADS).file(`${dogId}/${imageId}.jpg`).getSignedUrl(OPTIONS))
             const results: string[][] = await Promise.all(promises)
 
             const urls: string[] = results.map(r => r[0])
@@ -44,5 +44,5 @@ export class CloudStorageAdapter implements ImagesPort {
     }
 }
 
-const storage = new CloudStorageAdapter();
-storage.generateUploadLinks("adgt-4273-4272", [".png", ".jpg"]);
+// const storage = new CloudStorageAdapter();
+// storage.generateUploadLinks("adgt-4273-4272", [".png", ".jpg"]);

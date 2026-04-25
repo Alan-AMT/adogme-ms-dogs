@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards, Patch} from '@nestjs/common';
 import { Dog as DogModel } from './domain/dog.entity.js';
 import { CreateDogDto } from './application/create-dog.dto.js';
 import { DogService } from './application/dog.service.js';
@@ -6,6 +6,8 @@ import { User } from './infrastructure/security/user.decorator.js';
 import { Roles } from './infrastructure/security/roles.decorator.js';
 import { UserAuthorizationGuard } from './infrastructure/security/user.authorization.guard.js';
 import { UpdateDogDto } from './application/update-dog.dto.js';
+import { UpdateImageStatusDto } from './application/update-image.dto.js';
+import { GoogleOidcGuard } from './infrastructure/security/google-oidc.guard.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -18,7 +20,7 @@ export class AppController {
   async createDog(
     @Body() createDogDto: CreateDogDto,
     @User("sub") userOwnerId: string,
-  ): Promise<DogModel> {
+  ): Promise<{dog: DogModel, uploadUrls: string[]}> {
     return this.dogService.createDog(createDogDto, userOwnerId);
   }
   
@@ -52,13 +54,11 @@ export class AppController {
     return this.dogService.findAllByShelterId(shelterId);
   }
   
-  @UseGuards(UserAuthorizationGuard)
-  @Get("guard")
-  @Roles('applicant')
-  async guardTest(
-    @User("sub") userId: string,
-    @User("role") userRole: string,
-  ): Promise<string> {
-    return `You are a adopter: ${userId} and your role is ${userRole}`;
+  @UseGuards(GoogleOidcGuard)
+  @Patch('images/status')
+  updateImageStatus(
+    @Body() updateImageStatusDto: UpdateImageStatusDto,
+  ): Promise<void> {
+    return this.dogService.updateImageStatus(updateImageStatusDto.imageId, updateImageStatusDto.status);
   }
 }

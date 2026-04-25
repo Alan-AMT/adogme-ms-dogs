@@ -7,6 +7,8 @@ import { DogRepository } from './domain/dog.repository.js';
 import { PrismaDogRepository } from './infrastructure/prisma/dog.repository.prisma.js';
 import { MlDogPort } from './domain/ml.port.js';
 import { MlDogAdapter } from './infrastructure/ml-microservice/ml.adapter.js';
+import { ImagesPort } from './domain/images.port.js';
+import { CloudStorageAdapter } from './infrastructure/cloud-storage/cloud.storage.adapter.js';
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -19,6 +21,10 @@ import { MlDogAdapter } from './infrastructure/ml-microservice/ml.adapter.js';
     {
       provide: MlDogPort,
       useClass: MlDogAdapter
+    },
+    {
+      provide: ImagesPort,
+      useClass: CloudStorageAdapter
     }
   ],
 })

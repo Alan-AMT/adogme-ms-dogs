@@ -12,16 +12,17 @@ import { PersonalityTag } from "../domain/personalityTag.entity.js";
 
 @Injectable()
 export class DogService {
-    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort, private readonly imagesPort: ImagesPort) {}
+    constructor(private readonly repository: DogRepository, private readonly mlDogPort: MlDogPort, private readonly imagesPort: ImagesPort) { }
 
-    async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<Dog> {
+    async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<{ dog: Dog, uploadUrls: string[] }> {
         const date = new Date();
         const dogId = uuidv4();
-        const {adoptionFee, imageExtensions, ...dogData} = createDogDto;
+        const { adoptionFee, amountImages, ...dogData } = createDogDto;
+        const imageInstances = this.createImagesDomainInstances(dogId, createDogDto.amountImages ?? 0);
         const [dogTags, dogMl, uploadUrls] = await Promise.all([
             this.createAndGetPersonalityTags(dogId, createDogDto.personality),
             this.mlDogPort.createMlDog(createDogDto, adoptionFee ?? 0, dogId),
-            this.imagesPort.generateUploadLinks(dogId, createDogDto.imageExtensions ?? [])
+            this.imagesPort.generateUploadLinks(dogId, imageInstances.map(image => image.id))
         ]);
         const dogToCreate = Dog.createDog({
             id: dogId,
@@ -30,13 +31,13 @@ export class DogService {
             personality: dogTags,
             status: DogStatus.disponible,
             vaccinations: this.createVaccinationsDomainInstances(dogId, createDogDto.vaccinations),
-            images: this.createImagesDomainInstances(dogId, createDogDto.imageExtensions ?? []),
+            images: imageInstances,
             vector: dogMl.dog_vector,
             updatedAt: date,
             createdAt: date,
         })
         await this.repository.createDog(dogToCreate);
-        return dogToCreate;
+        return {dog: dogToCreate, uploadUrls};
     }
 
     async findAll(): Promise<Dog[]> {
@@ -56,7 +57,7 @@ export class DogService {
         if (dog.userOwnerId !== userOwnerId) {
             throw new Error('No puedes editar este perro');
         }
-        const {adoptionFee, imageExtensions, ...dogData} = updateDogDto;
+        const {adoptionFee, amountImages, ...dogData} = updateDogDto;
         // const [dogTags, dogMl, uploadUrls] = await Promise.all([
         const [dogTags, dogMl ] = await Promise.all([
             this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []),
@@ -104,14 +105,28 @@ export class DogService {
             }))
     }
 
-    createImagesDomainInstances(dogId: string, imageExtensions: string[]): DogImage[] {
-        const BUCKET_NAME = process.env.BUCKET_NAME;
-        return imageExtensions.map((extension, index) => DogImage.createImage({
-                id: uuidv4(),
+    createImagesDomainInstances(dogId: string, amountImages: number): DogImage[] {
+        const BUCKET_NAME_PUBLIC = process.env.BUCKET_NAME_PUBLIC;
+        let images: DogImage[] = [];
+        for(let i = 0; i < amountImages; i++) {
+            const imageId = uuidv4();
+            images.push(DogImage.createImage({
+                id: imageId,
                 dogId: dogId,
                 status: ImageStatus.pending,
-                url: `https://storage.googleapis.com/${BUCKET_NAME}/${dogId}/image_${index + 1}${extension}`,
+                url: `https://storage.googleapis.com/${BUCKET_NAME_PUBLIC}/${dogId}/${imageId}.jpg`,
             }))
+        }
+        return images;
     }
 
+    async updateImageStatus(imageId: string, status: ImageStatus): Promise<void> {
+        if(status == ImageStatus.accepted) {
+            await this.repository.updateImageStatus(imageId, ImageStatus.accepted);
+        } else if(status == ImageStatus.pending) {
+            await this.repository.updateImageStatus(imageId, ImageStatus.pending);
+        } else {
+            await this.repository.deleteImage(imageId);
+        }
+    }
 }

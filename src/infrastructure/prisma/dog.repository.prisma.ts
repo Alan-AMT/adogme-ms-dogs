@@ -156,4 +156,12 @@ export class PrismaDogRepository implements DogRepository {
     async createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void> {
         await this.prisma.vaccination.createMany({ data: vaccinations.map(vaccination => ({id: vaccination.id, dogId: vaccination.dogId, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt})) });
     }
+
+    async updateImageStatus(imageId: string, status: ImageStatus): Promise<void> {
+        await this.prisma.image.update({ where: { id: imageId }, data: { status } });
+    }
+
+    async deleteImage(imageId: string): Promise<void> {
+        await this.prisma.image.delete({ where: { id: imageId } });
+    }
 }
