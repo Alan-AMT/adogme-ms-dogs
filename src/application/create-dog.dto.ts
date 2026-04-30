@@ -91,7 +91,7 @@ export class CreateDogDto {
 
   @IsOptional()
   @IsInt()
-  amountImages: number | null = null;
+  amountImagesToCreate: number | null = null;
 }
 
 export class PersonalityDto {

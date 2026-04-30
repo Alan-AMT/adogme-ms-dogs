@@ -30,13 +30,14 @@ export class PrismaDogRepository implements DogRepository {
         })
     }
     async findAll(): Promise<Dog[]> {
-        const dogs = await this.prisma.dog.findMany({include: {images: true}});
+        const dogs = await this.prisma.dog.findMany();
         return dogs.map(dog => {
             const furLength = dog.furLength as FurLength;
             const energyLevel = dog.energyLevel as EnergyLevel;
             const size = dog.size as DogSize;
             const sex = dog.sex as DogSex;
             const status = dog.status as DogStatus;
+            // This function is supposed to be for long dogs list, so we don't need all the images and relations
             return Dog.createDog({
                 ...dog,
                 // personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
@@ -50,9 +51,10 @@ export class PrismaDogRepository implements DogRepository {
                 // })),
                 personality: [],
                 vaccinations: [],
-                images: dog.images.length > 0 ? [DogImage.createImage({
-                    id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
-                })] : [],
+                // images: dog.images.length > 0 ? [DogImage.createImage({
+                //     id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
+                // })] : [],
+                images: [],
                 furLength: furLength,
                 energyLevel: energyLevel,
                 size: size,
@@ -118,10 +120,16 @@ export class PrismaDogRepository implements DogRepository {
         const data = { ...dog,
                 personality: {
                     set: dog.personality.map(tag => ({ id: tag.id })),
+                },
+                images: {
+                    connectOrCreate: dog.images.map(image => ({
+                        where: { id: image.id },
+                        create: { id: image.id, url: image.url, status: image.status as ImageStatus }
+                    })),
                 }
             }
         //TODO: HOW ARE WE GOING TO IMPLEMENT IMAGE UPDATE?
-        const {id, userOwnerId, shelterId, vaccinations, images, ...cleanedDog} = data
+        const {id, userOwnerId, shelterId, vaccinations, ...cleanedDog} = data
         await this.prisma.dog.update({ where: { id: dog.id }, 
             data: cleanedDog });
         await this.deleteAllDogVaccinations(dog.id);
@@ -161,8 +169,13 @@ export class PrismaDogRepository implements DogRepository {
         await this.prisma.image.update({ where: { id: imageId }, data: { status } });
     }
 
-    async deleteImage(imageId: string): Promise<void> {
-        await this.prisma.image.delete({ where: { id: imageId } });
+    async deleteImagesByIds(imageIds: string[]): Promise<void> {
+        if (imageIds.length == 0) return;
+        if (imageIds.length == 1) {
+            await this.prisma.image.delete({ where: { id: imageIds[0] } });
+            return;
+        }
+        await this.prisma.image.deleteMany({ where: { id: { in: imageIds } } });
     }
 
     async deleteDog(dogId: string): Promise<void> {

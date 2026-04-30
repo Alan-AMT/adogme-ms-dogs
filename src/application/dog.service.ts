@@ -29,8 +29,8 @@ export class DogService {
         try {
             const date = new Date();
             const dogId = uuidv4();
-            const { adoptionFee, amountImages, ...dogData } = createDogDto;
-            const imageInstances = this.createImagesDomainInstances(dogId, createDogDto.amountImages ?? 0);
+            const { adoptionFee, amountImagesToCreate, ...dogData } = createDogDto;
+            const imageInstances = this.createImagesDomainInstances(dogId, createDogDto.amountImagesToCreate ?? 0);
             const [dogTags, dogMl, uploadUrls] = await Promise.all([
                 this.createAndGetPersonalityTags(dogId, createDogDto.personality),
                 this.mlDogPort.createMlDog(createDogDto, adoptionFee ?? 0, dogId),
@@ -94,7 +94,7 @@ export class DogService {
         }
     }
     
-    async updateDog(updateDogDto: UpdateDogDto, dogId: string, userOwnerId: string): Promise<Dog> {
+    async updateDog(updateDogDto: UpdateDogDto, dogId: string, userOwnerId: string): Promise<{dog: Dog, uploadUrls: string[]}> {
         this.logger.log(`Attempting to update dog ${dogId} for owner ${userOwnerId}`);
         try {
             const dog = await this.repository.findDogById(dogId);
@@ -106,20 +106,28 @@ export class DogService {
                 this.logger.warn(`Owner ${userOwnerId} attempted to update dog ${dogId} without permission`);
                 throw new ForbiddenException('No puedes editar este perro');
             }
-            const {adoptionFee, amountImages, ...dogData} = updateDogDto;
-            // const [dogTags, dogMl, uploadUrls] = await Promise.all([
-            const [dogTags, dogMl ] = await Promise.all([
+
+            
+            const {adoptionFee, imagesToDelete, amountImagesToCreate, ...dogData} = updateDogDto;
+
+            const [dogTags, dogMl, newImages  ] = await Promise.all([
                 this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []),
-                this.mlDogPort.updateMlDog(updateDogDto, adoptionFee ?? 0, dogId),
-                // this.imagesPort.generateUploadLinks(dogId, updateDogDto.imageExtensions ?? [])
+                this.mlDogPort.updateMlDog(updateDogDto, adoptionFee ?? 0, dogId, dog.images.length + (amountImagesToCreate ?? 0) - (imagesToDelete?.length || 0)),
+                this.getUpdatedDogImages(dogId, dog.images, imagesToDelete, amountImagesToCreate ?? 0)
             ]);
+
+
             const updatedDog = Dog.createDog({...dog, ...dogData, personality: dogTags,
                 vaccinations: updateDogDto.vaccinations ? this.createVaccinationsDomainInstances(dogId, updateDogDto.vaccinations) : [],
+                images: newImages,
                 vector: dogMl.dog_vector,
                 updatedAt: new Date()});
-            await this.repository.updateDog(updatedDog);
+            const [uploadUrls, _] = await Promise.all([
+                this.imagesPort.generateUploadLinks(dogId, newImages.filter(image => !dog.images.map(dogImage => dogImage.id).includes(image.id)).map(image => image.id)),
+                this.repository.updateDog(updatedDog)
+            ]);
             this.logger.log(`Successfully updated dog ${dogId}`);
-            return updatedDog;
+            return {dog: updatedDog, uploadUrls};
         } catch (error) {
             if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
             this.logger.error(`Failed to update dog ${dogId}: ${error.message}`, error.stack);
@@ -183,7 +191,7 @@ export class DogService {
             } else if(status == ImageStatus.pending) {
                 await this.repository.updateImageStatus(imageId, ImageStatus.pending);
             } else {
-                await this.repository.deleteImage(imageId);
+                await this.repository.deleteImagesByIds([imageId]);
             }
             this.logger.log(`Successfully updated image status for ${imageId}`);
         } catch (error) {
@@ -211,5 +219,15 @@ export class DogService {
             this.logger.error(`Failed to delete dog ${dogId}: ${error.message}`, error.stack);
             throw new InternalServerErrorException('Error al eliminar perro');
         }
+    }
+
+    async getUpdatedDogImages(dogId: string, dogImages: DogImage[], imagesToDelete: string[] = [], amountImagesToCreate: number = 0): Promise<DogImage[]> {
+        if (imagesToDelete && imagesToDelete.length > 0) {
+            await this.repository.deleteImagesByIds(imagesToDelete);
+            this.eventEmitter.emit('images.deleted', dogId, imagesToDelete);
+        }
+        const newImages = this.createImagesDomainInstances(dogId, amountImagesToCreate);
+        const remainingImages = dogImages.filter(img => !(imagesToDelete || []).includes(img.id));
+        return [...remainingImages, ...newImages];
     }
 }

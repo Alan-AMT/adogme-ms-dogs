@@ -31,7 +31,7 @@ export class AppController {
     @Body() updateDogDto: UpdateDogDto,
     @Param('id') dogId: string,
     @User("sub") userOwnerId: string,
-  ): Promise<DogModel> {
+  ): Promise<{dog: DogModel, uploadUrls: string[]}> {
     return this.dogService.updateDog(updateDogDto, dogId, userOwnerId);
 
   }

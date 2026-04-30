@@ -13,7 +13,7 @@ export class MlDogAdapter implements MlDogPort {
 
     async createMlDog(dog: CreateDogDto, adoptionFee: number, dogId: string): Promise<{adoption_speed: number, speed_label: string, dog_vector: number[]}> {
         try { 
-            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId)
+            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId, dog.amountImagesToCreate ?? 0)
             if (this.checkTokenExpired()) {
                 await this.refreshTokenClient();
             }
@@ -35,9 +35,9 @@ export class MlDogAdapter implements MlDogPort {
             throw new Error("Failed to create dog in ML service")
         }
     }
-    async updateMlDog(dog: UpdateDogDto, adoptionFee: number, dogId: string): Promise<{adoption_speed: number, speed_label: string, dog_vector: number[]}> {
+    async updateMlDog(dog: UpdateDogDto, adoptionFee: number, dogId: string, amountImages: number = 0): Promise<{adoption_speed: number, speed_label: string, dog_vector: number[]}> {
         try { 
-            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId)
+            const parsedDog = this.parseDogToMlPayload(dog, adoptionFee, dogId, amountImages)
             if (this.checkTokenExpired()) {
                 await this.refreshTokenClient();
             }
@@ -100,7 +100,7 @@ export class MlDogAdapter implements MlDogPort {
         }
     }
 
-    parseDogToMlPayload(dog: CreateDogDto | UpdateDogDto, adoptionFee: number, dogId: string): any {
+    parseDogToMlPayload(dog: CreateDogDto | UpdateDogDto, adoptionFee: number, dogId: string, amountImages: number = 0): any {
         const getMaturitySizeValue = (size: DogSize): number => {
             switch (size) {
                 case DogSize.pequeño:
@@ -152,7 +152,7 @@ export class MlDogAdapter implements MlDogPort {
             Health: getHealthValue(dog.health),
             Quantity: 1,
             Fee: adoptionFee,
-            PhotoAmt: dog.amountImages ? dog.amountImages : 0,
+            PhotoAmt: amountImages,
             VideoAmt: 0,
             Description: dog.description,
         }

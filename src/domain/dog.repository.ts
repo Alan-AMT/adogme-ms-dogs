@@ -14,6 +14,6 @@ export abstract class DogRepository {
     abstract createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void>
     abstract findAllByShelterId(shelterId: string): Promise<Dog[]>;
     abstract updateImageStatus(imageId: string, status: ImageStatus): Promise<void>;
-    abstract deleteImage(imageId: string): Promise<void>;
+    abstract deleteImagesByIds(imageIds: string[]): Promise<void>;
     abstract deleteDog(dogId: string): Promise<void>;
 }
