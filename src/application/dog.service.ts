@@ -119,6 +119,7 @@ export class DogService {
 
             const updatedDog = Dog.createDog({...dog, ...dogData, personality: dogTags,
                 vaccinations: updateDogDto.vaccinations ? this.createVaccinationsDomainInstances(dogId, updateDogDto.vaccinations) : [],
+                photo: newImages.length > 0 ? newImages[0].url : null,
                 images: newImages,
                 vector: dogMl.dog_vector,
                 updatedAt: new Date()});
