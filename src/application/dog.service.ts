@@ -10,6 +10,7 @@ import { ImagesPort } from "../domain/images.port.js";
 import { ImageStatus, Image as DogImage } from "../domain/image.entity.js";
 import { Vaccination } from "../domain/vaccination.entity.js";
 import { PersonalityTag } from "../domain/personalityTag.entity.js";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 @Injectable()
 export class DogService {
@@ -19,7 +20,8 @@ export class DogService {
         private readonly repository: DogRepository, 
         private readonly mlDogPort: MlDogPort, 
         private readonly imagesPort: ImagesPort,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private eventEmitter: EventEmitter2
     ) { }
 
     async createDog(createDogDto: CreateDogDto, userOwnerId: string): Promise<{ dog: Dog, uploadUrls: string[] }> {
@@ -37,6 +39,7 @@ export class DogService {
             const dogToCreate = Dog.createDog({
                 id: dogId,
                 ...dogData,
+                photo: imageInstances.length > 0 ? imageInstances[0].url : null,
                 userOwnerId: userOwnerId,
                 personality: dogTags,
                 status: DogStatus.disponible,
@@ -200,11 +203,8 @@ export class DogService {
                 this.logger.warn(`Owner ${userOwnerId} attempted to delete dog ${dogId} without permission`);
                 throw new ForbiddenException('No puedes eliminar este perro');
             }
-            await Promise.all([
-                this.repository.deleteDog(dogId),
-                this.mlDogPort.deleteMlDog(dogId),
-                this.imagesPort.deleteImages(dogId)
-            ])
+            await this.repository.deleteDog(dogId);
+            this.eventEmitter.emit('dog.deleted', dogId);
             this.logger.log(`Successfully deleted dog ${dogId}`);
         } catch (error) {
             if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;

@@ -44,7 +44,7 @@ export class CloudStorageAdapter implements ImagesPort {
         }
     }
 
-    async deleteImages(dogId: string): Promise<void> {
+    async deleteDogImages(dogId: string): Promise<void> {
         if (!dogId) {
             return;
         }
@@ -64,6 +64,25 @@ export class CloudStorageAdapter implements ImagesPort {
         } catch (error) {
             console.error(error)
             throw new Error("Failed to delete images for dog: " + error.message)
+        }
+    }
+
+    async deleteImagesByIds(dogId: string, imageIds: string[]): Promise<void> {
+        if (!dogId) {
+            return;
+        }
+        try {
+            const BUCKET_NAME_PUBLIC = this.configService.get<string>('BUCKET_NAME_PUBLIC');
+            
+            if (!BUCKET_NAME_PUBLIC) {
+                throw new Error("BUCKET_NAME_PUBLIC is not defined in the environment config")
+            }
+            const storage = new Storage();
+            const promises = imageIds.map((imageId) => storage.bucket(BUCKET_NAME_PUBLIC).file(`${dogId}/${imageId}.jpg`).delete())
+            await Promise.all(promises)
+        } catch (error) {
+            console.error(error)
+            throw new Error("Failed to delete image for dog: " + error.message)
         }
     }
 }

@@ -1,4 +1,5 @@
 export abstract class ImagesPort {
-    abstract generateUploadLinks(dogId: string, imageExtensions: string[]): Promise<string[]>;
-    abstract deleteImages(dogId: string): Promise<void>;
+    abstract generateUploadLinks(dogId: string, imageIds: string[]): Promise<string[]>;
+    abstract deleteDogImages(dogId: string): Promise<void>;
+    abstract deleteImagesByIds(dogId: string, imageIds: string[]): Promise<void>;
 }
