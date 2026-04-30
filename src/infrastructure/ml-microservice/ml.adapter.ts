@@ -65,13 +65,12 @@ export class MlDogAdapter implements MlDogPort {
             if (this.checkTokenExpired()) {
                 await this.refreshTokenClient();
             }
-            const response = await fetch(`${process.env.ML_SERVICE_URL}/predict/process-dog`, {
+            const response = await fetch(`${process.env.ML_SERVICE_URL}/dogs/${dogId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.mlServiceToken}`
                 },
-                body: JSON.stringify({dog_service_id: dogId}),
             });
             if (!response.ok) {
                 throw new Error(`Machine Learning service error! status: ${response.status}`);
