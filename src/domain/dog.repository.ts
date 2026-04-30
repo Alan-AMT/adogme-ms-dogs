@@ -15,4 +15,5 @@ export abstract class DogRepository {
     abstract findAllByShelterId(shelterId: string): Promise<Dog[]>;
     abstract updateImageStatus(imageId: string, status: ImageStatus): Promise<void>;
     abstract deleteImage(imageId: string): Promise<void>;
+    abstract deleteDog(dogId: string): Promise<void>;
 }

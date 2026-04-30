@@ -24,13 +24,11 @@ export class CloudStorageAdapter implements ImagesPort {
             // Creates a client
             const storage = new Storage();
             
-            // These options will allow temporary uploading of the file with outgoing
-            // Content-Type: application/octet-stream header.
             const OPTIONS: GetSignedUrlConfig = {
                 version: "v4",
                 action: "write",
                 expires: Date.now() + 30 * 60 * 1000, // 30 minutes
-                contentType: "application/octet-stream",
+                contentType: "image/*",
             };
             
             // The full path of your file inside the GCS bucket, e.g. 'yourFile.jpg' or 'folder1/folder2/yourFile.jpg'
@@ -42,10 +40,30 @@ export class CloudStorageAdapter implements ImagesPort {
             return urls;
         } catch (error) {
             console.error(error)
-            throw new Error("Failed to generate links for dog")
+            throw new Error("Failed to generate links for dog" + error.message)
+        }
+    }
+
+    async deleteImages(dogId: string): Promise<void> {
+        if (!dogId) {
+            return;
+        }
+        try {
+            const BUCKET_NAME_PUBLIC = this.configService.get<string>('BUCKET_NAME_PUBLIC');
+            
+            if (!BUCKET_NAME_PUBLIC) {
+                throw new Error("BUCKET_NAME_PUBLIC is not defined in the environment config")
+            }
+
+            // Creates a client
+            const storage = new Storage();
+            
+            const [files] = await storage.bucket(BUCKET_NAME_PUBLIC).getFiles({ prefix: dogId });
+            const deletePromises = files.map(file => file.delete());
+            await Promise.all(deletePromises);
+        } catch (error) {
+            console.error(error)
+            throw new Error("Failed to delete images for dog: " + error.message)
         }
     }
 }
-
-// const storage = new CloudStorageAdapter();
-// storage.generateUploadLinks("adgt-4273-4272", [".png", ".jpg"]);

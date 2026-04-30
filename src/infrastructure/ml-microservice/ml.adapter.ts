@@ -60,6 +60,28 @@ export class MlDogAdapter implements MlDogPort {
         }
     }
 
+    async deleteMlDog(dogId: string): Promise<void> {
+        try { 
+            if (this.checkTokenExpired()) {
+                await this.refreshTokenClient();
+            }
+            const response = await fetch(`${process.env.ML_SERVICE_URL}/predict/process-dog`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.mlServiceToken}`
+                },
+                body: JSON.stringify({dog_service_id: dogId}),
+            });
+            if (!response.ok) {
+                throw new Error(`Machine Learning service error! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(error)
+            throw new Error("Failed to delete dog in ML service")
+        }
+    }
+
     checkTokenExpired(): boolean {
         if (!this.mlServiceToken) return true;
         const decodedToken = decode(this.mlServiceToken) as JwtPayload;

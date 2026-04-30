@@ -188,4 +188,28 @@ export class DogService {
             throw new InternalServerErrorException('Failed to update image status');
         }
     }
+
+    async deleteDog(dogId: string, userOwnerId: string): Promise<void> {
+        try {
+            const dog = await this.repository.findDogById(dogId);
+            if (!dog) {
+                this.logger.warn(`Dog with id ${dogId} not found for deletion`);
+                throw new NotFoundException(`No se encontro un perro con id ${dogId}`);
+            }
+            if (dog.userOwnerId !== userOwnerId) {
+                this.logger.warn(`Owner ${userOwnerId} attempted to delete dog ${dogId} without permission`);
+                throw new ForbiddenException('No puedes eliminar este perro');
+            }
+            await Promise.all([
+                this.repository.deleteDog(dogId),
+                this.mlDogPort.deleteMlDog(dogId),
+                this.imagesPort.deleteImages(dogId)
+            ])
+            this.logger.log(`Successfully deleted dog ${dogId}`);
+        } catch (error) {
+            if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
+            this.logger.error(`Failed to delete dog ${dogId}: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Error al eliminar perro');
+        }
+    }
 }

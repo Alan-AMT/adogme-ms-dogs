@@ -164,4 +164,8 @@ export class PrismaDogRepository implements DogRepository {
     async deleteImage(imageId: string): Promise<void> {
         await this.prisma.image.delete({ where: { id: imageId } });
     }
+
+    async deleteDog(dogId: string): Promise<void> {
+        await this.prisma.dog.delete({ where: { id: dogId } });
+    }
 }

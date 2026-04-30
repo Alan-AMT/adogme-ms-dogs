@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards, Patch} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards, Patch, Delete} from '@nestjs/common';
 import { Dog as DogModel } from './domain/dog.entity.js';
 import { CreateDogDto } from './application/create-dog.dto.js';
 import { DogService } from './application/dog.service.js';
@@ -33,6 +33,17 @@ export class AppController {
     @User("sub") userOwnerId: string,
   ): Promise<DogModel> {
     return this.dogService.updateDog(updateDogDto, dogId, userOwnerId);
+
+  }
+  
+  @UseGuards(UserAuthorizationGuard)
+  @Delete("dog/:id")
+  @Roles('shelter')
+  async deleteDog(
+    @Param('id') dogId: string,
+    @User("sub") userOwnerId: string,
+  ): Promise<void> {
+    return this.dogService.deleteDog(dogId, userOwnerId);
   }
 
   @Get("dog/:id")
@@ -54,7 +65,7 @@ export class AppController {
     return this.dogService.findAllByShelterId(shelterId);
   }
   
-  // @UseGuards(GoogleOidcGuard)
+  @UseGuards(GoogleOidcGuard)
   @Patch('images/status')
   updateImageStatus(
     @Body() updateImageStatusDto: UpdateImageStatusDto,
