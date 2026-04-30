@@ -28,7 +28,7 @@ export class CloudStorageAdapter implements ImagesPort {
                 version: "v4",
                 action: "write",
                 expires: Date.now() + 30 * 60 * 1000, // 30 minutes
-                contentType: "image/*",
+                contentType: "application/octet-stream",
             };
             
             // The full path of your file inside the GCS bucket, e.g. 'yourFile.jpg' or 'folder1/folder2/yourFile.jpg'
