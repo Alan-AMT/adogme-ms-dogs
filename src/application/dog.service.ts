@@ -108,12 +108,12 @@ export class DogService {
             }
 
             
-            const {adoptionFee, imagesToDelete, amountImagesToCreate, ...dogData} = updateDogDto;
+            const {adoptionFee, imagesToDelete, amountImagesToCreate, updatedMainImageId, ...dogData} = updateDogDto;
 
             const [dogTags, dogMl, newImages  ] = await Promise.all([
                 this.createAndGetPersonalityTags(dogId, updateDogDto.personality ?? []),
                 this.mlDogPort.updateMlDog(updateDogDto, adoptionFee ?? 0, dogId, dog.images.length + (amountImagesToCreate ?? 0) - (imagesToDelete?.length || 0)),
-                this.getUpdatedDogImages(dogId, dog.images, imagesToDelete, amountImagesToCreate ?? 0)
+                this.getUpdatedAndSortedDogImages(dogId, dog.images, imagesToDelete, amountImagesToCreate ?? 0, updatedMainImageId)
             ]);
 
 
@@ -222,13 +222,61 @@ export class DogService {
         }
     }
 
-    async getUpdatedDogImages(dogId: string, dogImages: DogImage[], imagesToDelete: string[] = [], amountImagesToCreate: number = 0): Promise<DogImage[]> {
-        if (imagesToDelete && imagesToDelete.length > 0) {
+    async getUpdatedAndSortedDogImages(dogId: string, dogImages: DogImage[], imagesToDelete: string[] = [], amountImagesToCreate: number = 0, updatedMainImageId: string | null = null): Promise<DogImage[]> {
+        // 1. Guard: prevent deleting the chosen main image
+        if (updatedMainImageId && imagesToDelete.includes(updatedMainImageId)) {
+            throw new Error("Main image cannot be deleted");
+        }
+
+        // 2. Create new images instances
+        const newImages = this.createImagesDomainInstances(dogId, amountImagesToCreate);
+        
+        // 3. Filter remaining existing images
+        const remainingImages = dogImages.filter(img => !imagesToDelete.includes(img.id));
+        
+        // 4. Guard: prevent dog from having 0 images
+        if (newImages.length + remainingImages.length === 0) {
+            throw new Error("Dog can not have 0 images");
+        }
+
+        // 5. Delete images
+        if (imagesToDelete.length > 0) {
             await this.repository.deleteImagesByIds(imagesToDelete);
             this.eventEmitter.emit('images.deleted', dogId, imagesToDelete);
         }
-        const newImages = this.createImagesDomainInstances(dogId, amountImagesToCreate);
-        const remainingImages = dogImages.filter(img => !(imagesToDelete || []).includes(img.id));
-        return [...remainingImages, ...newImages];
+
+        // 6. Resolve main image
+        let newMainImage: DogImage | null = null;
+        if (updatedMainImageId) {
+            const found = remainingImages.find(img => img.id === updatedMainImageId);
+            if (!found) {
+                throw new Error("Invalid updatedMainImageId");
+            }
+            newMainImage = found;
+        }
+
+        // 7. Fallback logic (guarantee main image if possible)
+        if (!newMainImage) {
+            newMainImage =
+                newImages[0] ??
+                remainingImages[0] ??
+                null;
+        }
+
+        // 8. Build final lists WITHOUT mutating
+        const remainingWithoutMain = newMainImage
+            ? remainingImages.filter(img => img.id !== newMainImage!.id)
+            : remainingImages;
+
+        const newWithoutMain = newMainImage
+            ? newImages.filter(img => img.id !== newMainImage!.id)
+            : newImages;
+
+        // 9. Return ordered result
+        return [
+            ...(newMainImage ? [newMainImage] : []),
+            ...remainingWithoutMain,
+            ...newWithoutMain
+        ];
     }
 }

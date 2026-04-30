@@ -10,4 +10,8 @@ export class UpdateDogDto extends CreateDogDto {
     @IsArray()
     @IsUUID("all", { each: true })
     imagesToDelete?: string[];
+
+    @IsOptional()
+    @IsUUID("all")
+    updatedMainImageId?: string | null = null;
 }
