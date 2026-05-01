@@ -312,4 +312,14 @@ export class DogService {
             ...newWithoutMain
         ];
     }
+
+    async getPortraitDogs(): Promise<DogFindAllCatalog[]> {
+        this.logger.log('Fetching portrait dogs (last 4 disponible)');
+        try {
+            return await this.repository.getPortraitDogs();
+        } catch (error) {
+            this.logger.error(`Failed to fetch portrait dogs: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to fetch portrait dogs');
+        }
+    }
 }

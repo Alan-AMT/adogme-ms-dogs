@@ -59,6 +59,11 @@ export class AppController {
     return this.dogService.findAllCatalog(query);
   }
 
+  @Get("dogs/portrait")
+  async getPortraitDogs(): Promise<DogFindAllCatalog[]> {
+    return this.dogService.getPortraitDogs();
+  }
+
   @Get("dogs/shelter/:shelterId")
   async findAllByShelterId(
     @Param('shelterId') shelterId: string
