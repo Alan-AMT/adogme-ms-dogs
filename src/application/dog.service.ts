@@ -1,10 +1,11 @@
 import { Injectable, Logger, NotFoundException, ForbiddenException, InternalServerErrorException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DogRepository } from "../domain/dog.repository.js";
-import { Dog, DogStatus } from "../domain/dog.entity.js";
+import { Dog, DogFindAllCatalog, DogStatus } from "../domain/dog.entity.js";
 import { CreateDogDto, PersonalityDto, VaccinationDto } from "./create-dog.dto.js";
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateDogDto } from "./update-dog.dto.js";
+import { GetDogsCatalogDto } from "./get-dogs-catalog.dto.js";
 import { MlDogPort } from "../domain/ml.port.js";
 import { ImagesPort } from "../domain/images.port.js";
 import { ImageStatus, Image as DogImage } from "../domain/image.entity.js";
@@ -65,6 +66,38 @@ export class DogService {
         } catch (error) {
             this.logger.error(`Failed to fetch all dogs: ${error.message}`, error.stack);
             throw new InternalServerErrorException('Failed to fetch dogs');
+        }
+    }
+
+    async findAllCatalog(query: GetDogsCatalogDto): Promise<{data: DogFindAllCatalog[], total: number, page: number, totalPages: number, limit: number}> {
+        this.logger.log('Fetching dogs catalog');
+        try {
+            const { page = 1, limit = 12, ...filters } = query;
+            const { data, total } = await this.repository.findAllCatalog(filters, page, limit);
+
+            const totalPages = Math.ceil(total / limit);
+
+            if (page > totalPages) {
+                return {
+                    data: [],
+                    total,
+                    page,
+                    totalPages,
+                    limit
+                };
+            }
+
+            return {
+                data: data,
+                total,
+                page,
+                totalPages,
+                limit
+            };
+
+        } catch (error) {
+            this.logger.error(`Failed to fetch dogs catalog: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to fetch dogs catalog');
         }
     }
 

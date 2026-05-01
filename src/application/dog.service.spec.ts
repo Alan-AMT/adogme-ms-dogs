@@ -22,6 +22,8 @@ import { UpdateDogDto } from './update-dog.dto.js';
 
 // Mock UUID testing without mockModule to simply check expect.any(String)
 class MockDogRepository implements DogRepository {
+  async findAllCatalog(filters: any, page: number, limit: number): Promise<{ data: Dog[], total: number }> { return { data: [], total: 0 }; }
+
   findAllByShelterId(shelterId: string): Promise<Dog[]> {
     throw new Error('Method not implemented.');
   }

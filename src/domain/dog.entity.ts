@@ -104,17 +104,6 @@ export class Dog {
             dogData.images,
         );
     }
-    //MANTENIENDO EL PRINCIPIO DE INMUTABILIDAD - NO PODEMOS TENER UNA FUNCIÓN 'UPDATE DETAILS'
-    // updateDetails(details: { name?: string; breed?: string; age?: number; weightKg?: number; sex?: DogSex; size?: DogSize; energyLevel?: EnergyLevel; description?: string; personality?: PersonalityTag[]; goodWithKids?: boolean; goodWithDogs?: boolean; goodWithCats?: boolean; sterilized?: boolean; needsYard?: boolean; isVaccinated?: boolean; isDewormed?: boolean; furLength?: FurLength; vaccinations?: Vaccination[]; health?: string; photo?: string; breed2?: string; shelterName?: string; shelterLogo?: string }) {
-    // if (details.name) {this.name = details.name};
-    // if (details.breed) {this.breed = details.breed};
-    // if (details.age !== undefined) {
-    //     if (details.age < 0) throw new Error("Edad inválida");
-    //     this.age = details.age;
-    // }
-    // if (details.weightKg !== undefined) {
-    //     if (details.weightKg < 0) throw new Error("Peso inválido");
-    
-    // this.updatedAt = new Date();
-//   }
 }
+
+export type DogFindAllCatalog = Pick<Dog, "id" | "shelterId" | "name" | "age" | "breed" | "size" | "sex" | "energyLevel" | "status" | "photo" | "goodWithKids" | "goodWithDogs" | "needsYard" | "shelterName">

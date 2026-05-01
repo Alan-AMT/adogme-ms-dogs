@@ -1,5 +1,5 @@
 import { DogRepository } from "../../domain/dog.repository.js";
-import { Dog, DogSex, DogSize, DogStatus, EnergyLevel, FurLength } from "../../domain/dog.entity.js";
+import { Dog, DogFindAllCatalog, DogSex, DogSize, DogStatus, EnergyLevel, FurLength } from "../../domain/dog.entity.js";
 import { PersonalityCategory, PersonalityTag } from "../../domain/personalityTag.entity.js";
 import { Vaccination } from "../../domain/vaccination.entity.js";
 import { Image as DogImage, ImageStatus } from "../../domain/image.entity.js";
@@ -40,20 +40,8 @@ export class PrismaDogRepository implements DogRepository {
             // This function is supposed to be for long dogs list, so we don't need all the images and relations
             return Dog.createDog({
                 ...dog,
-                // personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
-                //     id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
-                // })),
-                // vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
-                //     id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
-                // })),
-                // images: dog.images.map(image => DogImage.createImage({
-                //     id: image.id, dogId: dog.id, url: image.url, status: image.status as ImageStatus
-                // })),
                 personality: [],
                 vaccinations: [],
-                // images: dog.images.length > 0 ? [DogImage.createImage({
-                //     id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
-                // })] : [],
                 images: [],
                 furLength: furLength,
                 energyLevel: energyLevel,
@@ -61,6 +49,125 @@ export class PrismaDogRepository implements DogRepository {
                 sex: sex,
                 status: status,
             })});
+    }
+
+    async findAllCatalog(filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }> {
+        const andConditions: any[] = [];
+
+        // Base visibility filter
+        andConditions.push({
+            status: {
+                notIn: [DogStatus.no_disponible, DogStatus.adoptado]
+            }
+        });
+
+        if (filters.search) {
+            andConditions.push({
+                OR: [
+                    { name: { contains: filters.search, mode: 'insensitive' } },
+                    { breed: { contains: filters.search, mode: 'insensitive' } }
+                ]
+            });
+        }
+
+        if (filters.breed) {
+            andConditions.push({
+                OR: [
+                    { breed: { contains: filters.breed, mode: 'insensitive' } },
+                    { breed2: { contains: filters.breed, mode: 'insensitive' } }
+                ]
+            });
+        }
+
+        if (filters.size) {
+            andConditions.push({ size: filters.size });
+        }
+
+        if (filters.sex) {
+            andConditions.push({ sex: filters.sex });
+        }
+
+        if (filters.energyLevel) {
+            andConditions.push({ energyLevel: filters.energyLevel });
+        }
+
+        if (filters.goodWithKids === true) {
+            andConditions.push({ goodWithKids: true });
+        }
+
+        if (filters.goodWithDogs === true) {
+            andConditions.push({ goodWithDogs: true });
+        }
+
+        if (filters.shelterId) {
+            andConditions.push({ shelterId: filters.shelterId });
+        }
+
+        if (filters.ageCategory) {
+            switch (filters.ageCategory) {
+                case 'cachorro':
+                    andConditions.push({ age: { lt: 12 } });
+                    break;
+                case 'joven':
+                    andConditions.push({ age: { gte: 12, lte: 36 } });
+                    break;
+                case 'adulto':
+                    andConditions.push({ age: { gt: 36, lte: 96 } });
+                    break;
+                case 'senior':
+                    andConditions.push({ age: { gt: 96 } });
+                    break;
+            }
+        }
+
+        const where = { AND: andConditions };
+        const total = await this.prisma.dog.count({ where });
+
+        const offset = (page - 1) * limit;
+
+        const dogs = await this.prisma.dog.findMany({
+            where,
+            skip: offset,
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+            select: {
+                id: true,
+                shelterId: true,
+                name: true,
+                age: true,
+                breed: true,
+                size: true,
+                sex: true,
+                energyLevel: true,
+                status: true,
+                photo: true,
+                goodWithKids: true,
+                goodWithDogs: true,
+                needsYard: true,
+                shelterName: true,
+            }
+        });
+
+        const data = dogs.map(dog => {
+            return {
+                id: dog.id,
+                shelterId: dog.shelterId,
+                name: dog.name,
+                age: dog.age,
+                breed: dog.breed,
+                size: dog.size as DogSize,
+                sex: dog.sex as DogSex,
+                energyLevel: dog.energyLevel as EnergyLevel,
+                status: dog.status as DogStatus,
+                photo: dog.photo,
+                goodWithKids: dog.goodWithKids,
+                goodWithDogs: dog.goodWithDogs,
+                needsYard: dog.needsYard,
+                shelterName: dog.shelterName,
+            } as DogFindAllCatalog;
+        });
+
+        return { data, total };
     }
 
     async findAllByShelterId(shelterId: string): Promise<Dog[]> {

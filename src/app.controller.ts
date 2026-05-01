@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards, Patch, Delete} from '@nestjs/common';
-import { Dog as DogModel } from './domain/dog.entity.js';
+import { Body, Controller, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards, Patch, Delete, Query} from '@nestjs/common';
+import { DogFindAllCatalog, Dog as DogModel } from './domain/dog.entity.js';
 import { CreateDogDto } from './application/create-dog.dto.js';
 import { DogService } from './application/dog.service.js';
 import { User } from './infrastructure/security/user.decorator.js';
@@ -8,6 +8,7 @@ import { UserAuthorizationGuard } from './infrastructure/security/user.authoriza
 import { UpdateDogDto } from './application/update-dog.dto.js';
 import { UpdateImageStatusDto } from './application/update-image.dto.js';
 import { GoogleOidcGuard } from './infrastructure/security/google-oidc.guard.js';
+import { GetDogsCatalogDto } from './application/get-dogs-catalog.dto.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -54,8 +55,8 @@ export class AppController {
   }
   
   @Get("dogs")
-  async findAll(): Promise<DogModel[]> {
-    return this.dogService.findAll();
+  async findAll(@Query() query: GetDogsCatalogDto): Promise<{data: DogFindAllCatalog[], total: number, page: number, totalPages: number, limit: number}> {
+    return this.dogService.findAllCatalog(query);
   }
 
   @Get("dogs/shelter/:shelterId")

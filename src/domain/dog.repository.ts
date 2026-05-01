@@ -1,4 +1,4 @@
-import { Dog } from "./dog.entity.js";
+import { Dog, DogFindAllCatalog } from "./dog.entity.js";
 import { PersonalityTag } from "./personalityTag.entity.js";
 import { Vaccination } from "./vaccination.entity.js";
 import { ImageStatus } from "./image.entity.js";
@@ -13,6 +13,7 @@ export abstract class DogRepository {
     abstract deleteAllDogVaccinations(dogId: string): Promise<void>;
     abstract createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void>
     abstract findAllByShelterId(shelterId: string): Promise<Dog[]>;
+    abstract findAllCatalog(filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }>;
     abstract updateImageStatus(imageId: string, status: ImageStatus): Promise<void>;
     abstract deleteImagesByIds(imageIds: string[]): Promise<void>;
     abstract deleteDog(dogId: string): Promise<void>;
