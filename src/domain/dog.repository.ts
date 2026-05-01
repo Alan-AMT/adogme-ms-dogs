@@ -12,7 +12,7 @@ export abstract class DogRepository {
     abstract createPersonalityTags(tags: PersonalityTag[]): Promise<void>;
     abstract deleteAllDogVaccinations(dogId: string): Promise<void>;
     abstract createAndLinkVaccinations(vaccinations: Vaccination[]): Promise<void>
-    abstract findAllByShelterId(shelterId: string): Promise<Dog[]>;
+    abstract findAllByShelterId(shelterId: string, filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }>;
     abstract findAllCatalog(filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }>;
     abstract updateImageStatus(imageId: string, status: ImageStatus): Promise<void>;
     abstract deleteImagesByIds(imageIds: string[]): Promise<void>;

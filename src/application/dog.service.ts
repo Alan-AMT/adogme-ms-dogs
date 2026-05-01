@@ -6,6 +6,7 @@ import { CreateDogDto, PersonalityDto, VaccinationDto } from "./create-dog.dto.j
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateDogDto } from "./update-dog.dto.js";
 import { GetDogsCatalogDto } from "./get-dogs-catalog.dto.js";
+import { GetShelterDogsDto } from "./get-shelter-dogs.dto.js";
 import { MlDogPort } from "../domain/ml.port.js";
 import { ImagesPort } from "../domain/images.port.js";
 import { ImageStatus, Image as DogImage } from "../domain/image.entity.js";
@@ -101,10 +102,30 @@ export class DogService {
         }
     }
 
-    async findAllByShelterId(shelterId: string): Promise<Dog[]> {
+    async findAllByShelterId(shelterId: string, query: GetShelterDogsDto): Promise<{data: DogFindAllCatalog[], total: number, page: number, totalPages: number, limit: number}> {
         this.logger.log(`Fetching dogs for shelter ${shelterId}`);
         try {
-            return await this.repository.findAllByShelterId(shelterId);
+            const { page = 1, limit = 12, ...filters } = query;
+            const { data, total } = await this.repository.findAllByShelterId(shelterId, filters, page, limit);
+            const totalPages = Math.ceil(total / limit);
+
+            if (page > totalPages) {
+                return {
+                    data: [],
+                    total,
+                    page,
+                    totalPages,
+                    limit
+                };
+            }
+
+            return {
+                data,
+                total,
+                page,
+                totalPages,
+                limit
+            };
         } catch (error) {
             this.logger.error(`Failed to fetch dogs for shelter ${shelterId}: ${error.message}`, error.stack);
             throw new InternalServerErrorException('Failed to fetch shelter dogs');

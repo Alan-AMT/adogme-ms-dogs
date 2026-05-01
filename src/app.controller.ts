@@ -9,6 +9,7 @@ import { UpdateDogDto } from './application/update-dog.dto.js';
 import { UpdateImageStatusDto } from './application/update-image.dto.js';
 import { GoogleOidcGuard } from './infrastructure/security/google-oidc.guard.js';
 import { GetDogsCatalogDto } from './application/get-dogs-catalog.dto.js';
+import { GetShelterDogsDto } from './application/get-shelter-dogs.dto.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -66,9 +67,10 @@ export class AppController {
 
   @Get("dogs/shelter/:shelterId")
   async findAllByShelterId(
-    @Param('shelterId') shelterId: string
-  ): Promise<DogModel[]> {
-    return this.dogService.findAllByShelterId(shelterId);
+    @Param('shelterId') shelterId: string,
+    @Query() query: GetShelterDogsDto
+  ): Promise<{data: DogFindAllCatalog[], total: number, page: number, totalPages: number, limit: number}> {
+    return this.dogService.findAllByShelterId(shelterId, query);
   }
   
   @UseGuards(GoogleOidcGuard)

@@ -170,36 +170,70 @@ export class PrismaDogRepository implements DogRepository {
         return { data, total };
     }
 
-    async findAllByShelterId(shelterId: string): Promise<Dog[]> {
-        const dogs = await this.prisma.dog.findMany({ where: { shelterId }, include: { images: true } });
-        return dogs.map(dog => {
-            const furLength = dog.furLength as FurLength;
-            const energyLevel = dog.energyLevel as EnergyLevel;
-            const size = dog.size as DogSize;
-            const sex = dog.sex as DogSex;
-            const status = dog.status as DogStatus;
-            return Dog.createDog({
-                ...dog,
-                // personality: dog.personality.map(tag => PersonalityTag.createPersonalityTag({
-                //     id: tag.id, dogId: dog.id, label: tag.label, category: tag.category as PersonalityCategory, createdAt: tag.createdAt, updatedAt: tag.updatedAt
-                // })),
-                // vaccinations: dog.vaccinations.map(vaccination => Vaccination.createVaccination({
-                //     id: vaccination.id, dogId: dog.id, name: vaccination.name, date: vaccination.date, nextDose: vaccination.nextDose, verified: vaccination.verified, createdAt: vaccination.createdAt, updatedAt: vaccination.updatedAt
-                // })),
-                // images: dog.images.map(image => DogImage.createImage({
-                //     id: image.id, dogId: dog.id, url: image.url, status: image.status as ImageStatus
-                // })),
-                personality: [],
-                vaccinations: [],
-                images: dog.images.length > 0 ? [DogImage.createImage({
-                    id: dog.images[0].id, dogId: dog.id, url: dog.images[0].url, status: dog.images[0].status as ImageStatus
-                })] : [],
-                furLength: furLength,
-                energyLevel: energyLevel,
-                size: size,
-                sex: sex,
-                status: status,
-            })});
+    async findAllByShelterId(shelterId: string, filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }> {
+        const andConditions: any[] = [{ shelterId }];
+
+        if (filters.status) {
+            andConditions.push({ status: filters.status });
+        }
+
+        if (filters.search) {
+            andConditions.push({
+                OR: [
+                    { name: { contains: filters.search, mode: 'insensitive' } },
+                    { breed: { contains: filters.search, mode: 'insensitive' } }
+                ]
+            });
+        }
+
+        const where = { AND: andConditions };
+        const total = await this.prisma.dog.count({ where });
+
+        const offset = (page - 1) * limit;
+
+        const dogs = await this.prisma.dog.findMany({
+            where,
+            skip: offset,
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+            select: {
+                id: true,
+                shelterId: true,
+                name: true,
+                age: true,
+                breed: true,
+                size: true,
+                sex: true,
+                energyLevel: true,
+                status: true,
+                photo: true,
+                goodWithKids: true,
+                goodWithDogs: true,
+                needsYard: true,
+                shelterName: true,
+            }
+        });
+
+        const data = dogs.map(dog => {
+            return {
+                id: dog.id,
+                shelterId: dog.shelterId,
+                name: dog.name,
+                age: dog.age,
+                breed: dog.breed,
+                size: dog.size as DogSize,
+                sex: dog.sex as DogSex,
+                energyLevel: dog.energyLevel as EnergyLevel,
+                status: dog.status as DogStatus,
+                photo: dog.photo,
+                goodWithKids: dog.goodWithKids,
+                goodWithDogs: dog.goodWithDogs,
+                needsYard: dog.needsYard,
+                shelterName: dog.shelterName,
+            } as DogFindAllCatalog;
+        });
+
+        return { data, total };
     }
 
     async findDogById(id: string): Promise<Dog> {
