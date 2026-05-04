@@ -365,4 +365,11 @@ export class PrismaDogRepository implements DogRepository {
             shelterName: dog.shelterName,
         } as DogFindAllCatalog));
     }
+
+    async updateDogStatus(dogId: string, status: DogStatus): Promise<void> {
+        await this.prisma.dog.update({
+            where: { id: dogId },
+            data: { status }
+        });
+    }
 }

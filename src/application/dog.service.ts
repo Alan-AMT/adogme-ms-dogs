@@ -190,6 +190,28 @@ export class DogService {
         }
     }
 
+    async updateDogStatus(dogId: string, status: DogStatus, userOwnerId: string): Promise<void> {
+        this.logger.log(`Attempting to update dog ${dogId} status to ${status} for owner ${userOwnerId}`);
+        try {
+            const dog = await this.repository.findDogById(dogId);
+            if (!dog) {
+                this.logger.warn(`Dog with id ${dogId} not found for status update`);
+                throw new NotFoundException(`Dog with id ${dogId} not found`);
+            }
+            if (dog.userOwnerId !== userOwnerId) {
+                this.logger.warn(`Owner ${userOwnerId} attempted to update dog ${dogId} status without permission`);
+                throw new ForbiddenException('No puedes editar este perro');
+            }
+
+            await this.repository.updateDogStatus(dogId, status);
+            this.logger.log(`Successfully updated dog ${dogId} status to ${status}`);
+        } catch (error) {
+            if (error instanceof NotFoundException || error instanceof ForbiddenException) throw error;
+            this.logger.error(`Failed to update dog ${dogId} status: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to update dog status');
+        }
+    }
+
     async createAndGetPersonalityTags(dogId: string, dtoTags: PersonalityDto[]): Promise<PersonalityTag[]> {
         const existingTags = await this.repository.findPersonalityTagsByLabel(dtoTags.map(tag => tag.label));
         const notExistingTags = dtoTags.filter(tag => !existingTags.some(existingTag => existingTag.label === tag.label));

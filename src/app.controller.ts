@@ -10,6 +10,7 @@ import { UpdateImageStatusDto } from './application/update-image.dto.js';
 import { GoogleOidcGuard } from './infrastructure/security/google-oidc.guard.js';
 import { GetDogsCatalogDto } from './application/get-dogs-catalog.dto.js';
 import { GetShelterDogsDto } from './application/get-shelter-dogs.dto.js';
+import { UpdateDogStatusDto } from './application/update-dog-status.dto.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -36,6 +37,17 @@ export class AppController {
   ): Promise<{dog: DogModel, uploadUrls: string[]}> {
     return this.dogService.updateDog(updateDogDto, dogId, userOwnerId);
 
+  }
+  
+  @UseGuards(UserAuthorizationGuard)
+  @Patch("dog/:id/status")
+  @Roles('shelter')
+  async updateDogStatus(
+    @Body() updateDogStatusDto: UpdateDogStatusDto,
+    @Param('id') dogId: string,
+    @User("sub") userOwnerId: string,
+  ): Promise<void> {
+    return this.dogService.updateDogStatus(dogId, updateDogStatusDto.status, userOwnerId);
   }
   
   @UseGuards(UserAuthorizationGuard)
