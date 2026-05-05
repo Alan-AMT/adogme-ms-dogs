@@ -19,4 +19,10 @@ export abstract class DogRepository {
     abstract deleteDog(dogId: string): Promise<void>;
     abstract getPortraitDogs(): Promise<DogFindAllCatalog[]>;
     abstract updateDogStatus(dogId: string, status: DogStatus): Promise<void>;
+    abstract getDogsCountByStatus(shelterId: string): Promise<{
+        disponible: number,
+        en_proceso: number,
+        adoptado: number,
+        no_disponible: number,
+      }>;
 }

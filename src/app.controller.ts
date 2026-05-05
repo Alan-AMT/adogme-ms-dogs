@@ -92,4 +92,23 @@ export class AppController {
   ): Promise<void> {
     return this.dogService.updateImageStatus(updateImageStatusDto.imageId, updateImageStatusDto.status);
   }
+
+  @UseGuards(UserAuthorizationGuard)
+  @Roles('shelter')
+  @Get("dogs/shelter/:shelterId/stats")
+  async getShelterStats(
+    @Param('shelterId') shelterId: string,
+  ): Promise<
+    {
+      recentDogs: DogFindAllCatalog[],
+      dogsByStatus: {
+        disponible: number,
+        en_proceso: number,
+        adoptado: number,
+        no_disponible: number,
+      }
+    }
+  > {
+    return this.dogService.getShelterStats(shelterId);
+  }
 }

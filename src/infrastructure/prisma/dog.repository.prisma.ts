@@ -372,4 +372,27 @@ export class PrismaDogRepository implements DogRepository {
             data: { status }
         });
     }
+
+    async getDogsCountByStatus(shelterId: string): Promise<{
+        disponible: number,
+        en_proceso: number,
+        adoptado: number,
+        no_disponible: number,
+    }> {
+        const dogs = await this.prisma.dog.groupBy({
+            by: ['status'],
+            where: { shelterId },
+            _count: true
+        });
+        const count = dogs.reduce((acc, dog) => {
+            acc[dog.status] = dog._count;
+            return acc;
+        }, {
+            disponible: 0,
+            en_proceso: 0,
+            adoptado: 0,
+            no_disponible: 0,
+        });
+        return count;
+    }
 }

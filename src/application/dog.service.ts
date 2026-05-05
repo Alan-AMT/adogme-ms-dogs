@@ -365,4 +365,29 @@ export class DogService {
             throw new InternalServerErrorException('Failed to fetch portrait dogs');
         }
     }
+
+    async getShelterStats(shelterId: string): Promise<{
+        recentDogs: DogFindAllCatalog[],
+        dogsByStatus: {
+          disponible: number,
+          en_proceso: number,
+          adoptado: number,
+          no_disponible: number,
+        }
+      }> {
+        this.logger.log(`Fetching shelter stats for shelter ${shelterId}`);
+        try {
+            const [recentDogs, dogsByStatus] = await Promise.all([
+                this.repository.findAllByShelterId(shelterId, {}, 1, 5),
+                this.repository.getDogsCountByStatus(shelterId)
+            ]);
+            return {
+                recentDogs: recentDogs.data,
+                dogsByStatus
+            };
+        } catch (error) {
+            this.logger.error(`Failed to fetch shelter stats: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to fetch shelter stats');
+        }
+    }
 }
