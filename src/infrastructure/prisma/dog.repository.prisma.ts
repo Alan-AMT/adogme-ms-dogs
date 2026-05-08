@@ -395,4 +395,17 @@ export class PrismaDogRepository implements DogRepository {
         });
         return count;
     }
+
+    async updateDogsShelterData(shelterId: string, shelterName?: string, shelterLogo?: string): Promise<void> {
+        const dataToUpdate: any = {};
+        if (shelterName !== undefined) dataToUpdate.shelterName = shelterName;
+        if (shelterLogo !== undefined) dataToUpdate.shelterLogo = shelterLogo;
+        
+        if (Object.keys(dataToUpdate).length > 0) {
+            await this.prisma.dog.updateMany({
+                where: { shelterId },
+                data: dataToUpdate
+            });
+        }
+    }
 }

@@ -25,4 +25,5 @@ export abstract class DogRepository {
         adoptado: number,
         no_disponible: number,
       }>;
+    abstract updateDogsShelterData(shelterId: string, shelterName?: string, shelterLogo?: string): Promise<void>;
 }

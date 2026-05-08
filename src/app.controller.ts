@@ -11,6 +11,7 @@ import { GoogleOidcGuard } from './infrastructure/security/google-oidc.guard.js'
 import { GetDogsCatalogDto } from './application/get-dogs-catalog.dto.js';
 import { GetShelterDogsDto } from './application/get-shelter-dogs.dto.js';
 import { UpdateDogStatusDto } from './application/update-dog-status.dto.js';
+import { UpdateDogsShelterDataDto } from './application/update-dogs-shelter-data.dto.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -110,5 +111,14 @@ export class AppController {
     }
   > {
     return this.dogService.getShelterStats(shelterId);
+  }
+
+  @UseGuards(GoogleOidcGuard)
+  @Patch("dogs/shelter/:shelterId")
+  async updateDogsShelterData(
+    @Param('shelterId') shelterId: string,
+    @Body() updateDogsShelterDataDto: UpdateDogsShelterDataDto,
+  ): Promise<void> {
+    return this.dogService.updateDogsShelterData(shelterId, updateDogsShelterDataDto);
   }
 }

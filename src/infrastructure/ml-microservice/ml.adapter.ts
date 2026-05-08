@@ -1,5 +1,5 @@
 import { GoogleAuth } from "google-auth-library";
-import { Dog, DogSex, DogSize, FurLength } from "../../domain/dog.entity.js";
+import { DogSex, DogSize, FurLength } from "../../domain/dog.entity.js";
 import { MlDogPort } from "../../domain/ml.port.js";
 import { BreedsMap } from "./breeds.map.js"
 import { Injectable } from "@nestjs/common";

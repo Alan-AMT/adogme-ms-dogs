@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { UpdateDogDto } from "./update-dog.dto.js";
 import { GetDogsCatalogDto } from "./get-dogs-catalog.dto.js";
 import { GetShelterDogsDto } from "./get-shelter-dogs.dto.js";
+import { UpdateDogsShelterDataDto } from "./update-dogs-shelter-data.dto.js";
 import { MlDogPort } from "../domain/ml.port.js";
 import { ImagesPort } from "../domain/images.port.js";
 import { ImageStatus, Image as DogImage } from "../domain/image.entity.js";
@@ -388,6 +389,17 @@ export class DogService {
         } catch (error) {
             this.logger.error(`Failed to fetch shelter stats: ${error.message}`, error.stack);
             throw new InternalServerErrorException('Failed to fetch shelter stats');
+        }
+    }
+
+    async updateDogsShelterData(shelterId: string, dto: UpdateDogsShelterDataDto): Promise<void> {
+        this.logger.log(`Updating shelter data for shelter ${shelterId}`);
+        try {
+            await this.repository.updateDogsShelterData(shelterId, dto.shelterName, dto.shelterLogo);
+            this.logger.log(`Successfully updated shelter data for shelter ${shelterId}`);
+        } catch (error) {
+            this.logger.error(`Failed to update shelter data for shelter ${shelterId}: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to update shelter data for dogs');
         }
     }
 }
