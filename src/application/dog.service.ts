@@ -51,6 +51,7 @@ export class DogService {
                 vector: dogMl.dog_vector,
                 updatedAt: date,
                 createdAt: date,
+                adoptionSpeed: dogMl.adoption_speed ?? null,
             })
             await this.repository.createDog(dogToCreate);
             this.logger.log(`Successfully created dog with id ${dogId}`);
@@ -177,6 +178,7 @@ export class DogService {
                 photo: newImages.length > 0 ? newImages[0].url : null,
                 images: newImages,
                 vector: dogMl.dog_vector,
+                adoptionSpeed: dogMl.adoption_speed ?? null,
                 updatedAt: new Date()});
             const [uploadUrls, _] = await Promise.all([
                 this.imagesPort.generateUploadLinks(dogId, newImages.filter(image => !dog.images.map(dogImage => dogImage.id).includes(image.id)).map(image => image.id)),

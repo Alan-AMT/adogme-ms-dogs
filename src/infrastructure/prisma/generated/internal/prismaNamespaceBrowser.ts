@@ -125,6 +125,7 @@ export const DogScalarFieldEnum = {
   health: 'health',
   photo: 'photo',
   vector: 'vector',
+  adoptionSpeed: 'adoptionSpeed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -101,30 +101,31 @@ model Dog {
   shelterLogo String?
   status      DogStatus
 
-  name         String
-  breed        String
-  breed2       String?
-  age          Int
-  weightKg     Float?
-  sex          DogSex
-  size         DogSize
-  energyLevel  EnergyLevel
-  description  String           @db.Text
-  personality  PersonalityTag[]
-  goodWithKids Boolean
-  goodWithDogs Boolean
-  goodWithCats Boolean
-  sterilized   Boolean
-  needsYard    Boolean
-  isVaccinated Boolean
-  isDewormed   Boolean
-  furLength    FurLength
-  vaccinations Vaccination[]
-  health       String
-  photo        String? // URL principal
+  name          String
+  breed         String
+  breed2        String?
+  age           Int
+  weightKg      Float?
+  sex           DogSex
+  size          DogSize
+  energyLevel   EnergyLevel
+  description   String           @db.Text
+  personality   PersonalityTag[]
+  goodWithKids  Boolean
+  goodWithDogs  Boolean
+  goodWithCats  Boolean
+  sterilized    Boolean
+  needsYard     Boolean
+  isVaccinated  Boolean
+  isDewormed    Boolean
+  furLength     FurLength
+  vaccinations  Vaccination[]
+  health        String
+  photo         String? // URL principal
   // photos: string[] // galería completa
-  vector       Float[]          @default([])
-  images       Image[]
+  vector        Float[]          @default([])
+  images        Image[]
+  adoptionSpeed Float?
 
   createdAt DateTime // @default(now())
   updatedAt DateTime // @updatedAt

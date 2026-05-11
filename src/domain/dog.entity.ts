@@ -67,9 +67,10 @@ export class Dog {
         public readonly shelterLogo: string | null,
         public readonly vector: number[],
         public readonly images: Image[],
+        public readonly adoptionSpeed: number | null,
     ) { }
 
-    public static createDog(dogData: { id: string; userOwnerId: string; name: string; breed: string; age: number; createdAt: Date; updatedAt: Date; shelterId: string, status: DogStatus, weightKg: number | null, sex: DogSex, size: DogSize, energyLevel: EnergyLevel, description: string, personality: PersonalityTag[], goodWithKids: boolean, goodWithDogs: boolean, goodWithCats: boolean, sterilized: boolean, needsYard: boolean, isVaccinated: boolean, isDewormed: boolean, furLength: FurLength, vaccinations: Vaccination[], health: string, photo: string | null, breed2: string | null, shelterName: string | null, shelterLogo: string | null, vector: number[], images: Image[] }): Dog {
+    public static createDog(dogData: { id: string; userOwnerId: string; name: string; breed: string; age: number; createdAt: Date; updatedAt: Date; shelterId: string, status: DogStatus, weightKg: number | null, sex: DogSex, size: DogSize, energyLevel: EnergyLevel, description: string, personality: PersonalityTag[], goodWithKids: boolean, goodWithDogs: boolean, goodWithCats: boolean, sterilized: boolean, needsYard: boolean, isVaccinated: boolean, isDewormed: boolean, furLength: FurLength, vaccinations: Vaccination[], health: string, photo: string | null, breed2: string | null, shelterName: string | null, shelterLogo: string | null, vector: number[], images: Image[], adoptionSpeed: number | null }): Dog {
         return new Dog(
             dogData.id,
             dogData.userOwnerId,
@@ -102,6 +103,7 @@ export class Dog {
             dogData.shelterLogo,
             dogData.vector,
             dogData.images,
+            dogData.adoptionSpeed,
         );
     }
 }
