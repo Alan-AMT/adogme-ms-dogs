@@ -396,6 +396,45 @@ export class PrismaDogRepository implements DogRepository {
         return count;
     }
 
+    async findDogsByIds(dogIds: string[]): Promise<DogFindAllCatalog[]> {
+        const dogs = await this.prisma.dog.findMany({
+            where: { id: { in: dogIds } },
+            select: {
+                id: true,
+                shelterId: true,
+                name: true,
+                age: true,
+                breed: true,
+                size: true,
+                sex: true,
+                energyLevel: true,
+                status: true,
+                photo: true,
+                goodWithKids: true,
+                goodWithDogs: true,
+                needsYard: true,
+                shelterName: true,
+            }
+        });
+
+        return dogs.map(dog => ({
+            id: dog.id,
+            shelterId: dog.shelterId,
+            name: dog.name,
+            age: dog.age,
+            breed: dog.breed,
+            size: dog.size as DogSize,
+            sex: dog.sex as DogSex,
+            energyLevel: dog.energyLevel as EnergyLevel,
+            status: dog.status as DogStatus,
+            photo: dog.photo,
+            goodWithKids: dog.goodWithKids,
+            goodWithDogs: dog.goodWithDogs,
+            needsYard: dog.needsYard,
+            shelterName: dog.shelterName,
+        } as DogFindAllCatalog));
+    }
+
     async updateDogsShelterData(shelterId: string, shelterName?: string, shelterLogo?: string): Promise<void> {
         const dataToUpdate: any = {};
         if (shelterName !== undefined) dataToUpdate.shelterName = shelterName;

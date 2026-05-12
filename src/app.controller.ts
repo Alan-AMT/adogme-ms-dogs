@@ -12,6 +12,7 @@ import { GetDogsCatalogDto } from './application/get-dogs-catalog.dto.js';
 import { GetShelterDogsDto } from './application/get-shelter-dogs.dto.js';
 import { UpdateDogStatusDto } from './application/update-dog-status.dto.js';
 import { UpdateDogsShelterDataDto } from './application/update-dogs-shelter-data.dto.js';
+import { GetDogsByIdsDto } from './application/get-dogs-by-ids.dto.js';
 
 @Controller('dogs-ms')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -76,6 +77,13 @@ export class AppController {
   @Get("dogs/portrait")
   async getPortraitDogs(): Promise<DogFindAllCatalog[]> {
     return this.dogService.getPortraitDogs();
+  }
+
+  @UseGuards(UserAuthorizationGuard)
+  @Roles('applicant')
+  @Get("dogs/by-ids")
+  async findDogsByIds(@Query() query: GetDogsByIdsDto): Promise<DogFindAllCatalog[]> {
+    return this.dogService.findDogsByIds(query.dogIds);
   }
 
   @Get("dogs/shelter/:shelterId")

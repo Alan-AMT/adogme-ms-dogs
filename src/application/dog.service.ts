@@ -394,6 +394,16 @@ export class DogService {
         }
     }
 
+    async findDogsByIds(dogIds: string[]): Promise<DogFindAllCatalog[]> {
+        this.logger.log(`Fetching dogs by ids: ${dogIds.join(', ')}`);
+        try {
+            return await this.repository.findDogsByIds(dogIds);
+        } catch (error) {
+            this.logger.error(`Failed to fetch dogs by ids: ${error.message}`, error.stack);
+            throw new InternalServerErrorException('Failed to fetch dogs');
+        }
+    }
+
     async updateDogsShelterData(shelterId: string, dto: UpdateDogsShelterDataDto): Promise<void> {
         this.logger.log(`Updating shelter data for shelter ${shelterId}`);
         try {

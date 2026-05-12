@@ -26,4 +26,5 @@ export abstract class DogRepository {
         no_disponible: number,
       }>;
     abstract updateDogsShelterData(shelterId: string, shelterName?: string, shelterLogo?: string): Promise<void>;
+    abstract findDogsByIds(dogIds: string[]): Promise<DogFindAllCatalog[]>;
 }
