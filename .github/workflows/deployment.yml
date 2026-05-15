@@ -48,9 +48,7 @@ jobs:
           # Aquí mapeas el secreto de GCP a la variable que espera NestJS
           secrets: |
             DATABASE_URL=MS_DOGS_DATABASE_URL:latest
-            ML_SERVICE_URL=ML_SERVICE_URL:latest
-            OIDC_AUDIENCE=OIDC_DOGS_AUDIENCE:latest
             OIDC_SERVICE_ACCOUNT_EMAIL=OIDC_CLOUD_FUNCTION_SERVICE_ACCOUNT_EMAIL:latest
           # Ajustar según necesidades de seguridad
           # flags: '--allow-unauthenticated'
-          flags: '--no-allow-unauthenticated --service-account=ms-dogs@${{ env.PROJECT_ID }}.iam.gserviceaccount.com --remove-secrets=BUCKET_NAME_PUBLIC,BUCKET_NAME_UPLOADS'
+          flags: '--no-allow-unauthenticated --service-account=ms-dogs@${{ env.PROJECT_ID }}.iam.gserviceaccount.com --remove-secrets=BUCKET_NAME_PUBLIC,BUCKET_NAME_UPLOADS,ML_SERVICE_URL,OIDC_AUDIENCE'
