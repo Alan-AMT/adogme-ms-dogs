@@ -97,6 +97,19 @@ export class DogService {
     }
   }
 
+  async findAllAvailableDogsForRag(): Promise<Dog[]> {
+    this.logger.log('Fetching all available dogs for RAG');
+    try {
+      return await this.repository.findAllAvailableDogsForRag();
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch dogs for RAG: ${error.message}`,
+        error.stack,
+      );
+      throw new InternalServerErrorException('Failed to fetch dogs for RAG');
+    }
+  }
+
   async findAllCatalog(query: GetDogsCatalogDto): Promise<{
     data: DogFindAllCatalog[];
     total: number;
