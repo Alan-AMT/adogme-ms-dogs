@@ -6,6 +6,7 @@ import { ImageStatus } from "./image.entity.js";
 export abstract class DogRepository {
     abstract createDog(dog: Dog): Promise<void>;
     abstract findAll(): Promise<Dog[]>;
+    abstract findAllAvailableDogsForRag(): Promise<Dog[]>;
     abstract findDogById(id: string): Promise<Dog>;
     abstract updateDog(dog: Dog): Promise<void>;
     abstract findPersonalityTagsByLabel(labels: string[]): Promise<PersonalityTag[]>;

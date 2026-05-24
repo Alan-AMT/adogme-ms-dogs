@@ -51,6 +51,25 @@ export class PrismaDogRepository implements DogRepository {
             })});
     }
 
+    //Used for rag purposes, we dont need paginated data
+    async findAllAvailableDogsForRag(): Promise<Dog[]>{
+        const dogs = await this.prisma.dog.findMany({
+            include: { personality: true, vaccinations: true, images: true },
+            where:{status:'disponible'}
+        });
+        return dogs.map(dog => Dog.createDog({
+            ...dog,
+            personality: dog.personality as PersonalityTag[],
+            vaccinations: dog.vaccinations as Vaccination[],
+            images: dog.images as DogImage[],
+            furLength: dog.furLength as FurLength,
+            energyLevel: dog.energyLevel as EnergyLevel,
+            size: dog.size as DogSize,
+            sex: dog.sex as DogSex,
+            status: dog.status as DogStatus,
+        }))  
+    }
+
     async findAllCatalog(filters: any, page: number, limit: number): Promise<{ data: DogFindAllCatalog[], total: number }> {
         const andConditions: any[] = [];
 
