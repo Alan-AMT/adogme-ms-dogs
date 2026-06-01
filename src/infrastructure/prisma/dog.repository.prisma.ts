@@ -84,7 +84,9 @@ export class PrismaDogRepository implements DogRepository {
             andConditions.push({
                 OR: [
                     { name: { contains: filters.search, mode: 'insensitive' } },
-                    { breed: { contains: filters.search, mode: 'insensitive' } }
+                    { breed: { contains: filters.search, mode: 'insensitive' } },
+                    { breed2: { contains: filters.search, mode: 'insensitive' } },
+                    { shelterName: { contains: filters.search, mode: 'insensitive' } }
                 ]
             });
         }
